@@ -1,0 +1,154 @@
+[
+ {
+  "input": "Berri–UQAM",
+  "key": "berriuqam"
+ },
+ {
+  "input": "berri uqam",
+  "key": "berriuqam"
+ },
+ {
+  "input": "BERRI-UQÀM",
+  "key": "berriuqam"
+ },
+ {
+  "input": "Lucien-L'Allier",
+  "key": "lucienlallier"
+ },
+ {
+  "input": "Lucien L’Allier",
+  "key": "lucienlallier"
+ },
+ {
+  "input": "Côte-Sainte-Catherine",
+  "key": "cotestecatherine"
+ },
+ {
+  "input": "Saint-Laurent",
+  "key": "stlaurent"
+ },
+ {
+  "input": "Sainte-Anne-de-Bellevue",
+  "key": "steannedebellevue"
+ },
+ {
+  "input": "Mount Royal",
+  "key": "montroyal"
+ },
+ {
+  "input": "Mont-Royal",
+  "key": "montroyal"
+ },
+ {
+  "input": "Station Crémazie",
+  "key": "cremazie"
+ },
+ {
+  "input": "Crémazie station",
+  "key": "cremazie"
+ },
+ {
+  "input": "Parc La Fontaine",
+  "key": "fontaine"
+ },
+ {
+  "input": "La Fontaine Park",
+  "key": "fontaine"
+ },
+ {
+  "input": "the Plateau",
+  "key": "plateau"
+ },
+ {
+  "input": "Le Plateau-Mont-Royal",
+  "key": "plateaumontroyal"
+ },
+ {
+  "input": "L'Île-Dorval",
+  "key": "iledorval"
+ },
+ {
+  "input": "Pie-IX",
+  "key": "pieix"
+ },
+ {
+  "input": "Jolicœur",
+  "key": "jolicoeur"
+ },
+ {
+  "input": "Œuvre & co",
+  "key": "oeuvreandco"
+ },
+ {
+  "input": "Square-Victoria–OACI",
+  "key": "squarevictoriaoaci"
+ },
+ {
+  "input": "  spaced   out  ",
+  "key": "spacedout"
+ },
+ {
+  "input": "!!!",
+  "key": ""
+ },
+ {
+  "input": "",
+  "key": ""
+ },
+ {
+  "input": "Pont Jacques-Cartier",
+  "key": "jacquescartier"
+ },
+ {
+  "input": "Jacques Cartier Bridge",
+  "key": "jacquescartier"
+ },
+ {
+  "input": "Ville de Montréal",
+  "key": "montreal"
+ },
+ {
+  "input": "City of Montreal",
+  "key": "montreal"
+ },
+ {
+  "input": "Montréal-Nord",
+  "key": "montrealnord"
+ },
+ {
+  "input": "Parc-nature du Bois-de-Liesse",
+  "key": "natureduboisdeliesse"
+ },
+ {
+  "input": "Île-des-Soeurs",
+  "key": "iledessoeurs"
+ },
+ {
+  "input": "Île-des-Sœurs",
+  "key": "iledessoeurs"
+ },
+ {
+  "input": "D'Iberville",
+  "key": "diberville"
+ },
+ {
+  "input": "Guy–Concordia",
+  "key": "guyconcordia"
+ },
+ {
+  "input": "école",
+  "key": "ecole"
+ },
+ {
+  "input": "ÉTS",
+  "key": "ets"
+ },
+ {
+  "input": "metro metro",
+  "key": "metro"
+ },
+ {
+  "input": "Parc parc",
+  "key": "parc"
+ }
+]

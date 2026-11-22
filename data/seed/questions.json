@@ -1,0 +1,414 @@
+{
+  "version": "seed-2026-11-21",
+  "rarityModel": "estimated-v1",
+  "notes": "Hand-built seed bank for the MVP. 'est' values are editor ESTIMATES of how often players would give each answer (relative weight 1-100), not measured data. 'source-checked' lists were compared against the cited page on 2026-11-21; 'editor-curated' lists are well-known but non-exhaustive and rely on appeals for missing answers.",
+  "questions": [
+    {
+      "id": "stm-orange-line-station",
+      "category": "transit",
+      "scope": "agglomeration",
+      "prompt": { "en": "Name a station on the STM Orange Line.", "fr": "Nommez une station de la ligne orange du métro de la STM." },
+      "eligibility": { "en": "Any of the 31 stations on Line 2 (Orange).", "fr": "N'importe laquelle des 31 stations de la ligne 2 (orange)." },
+      "verification": "source-checked",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "List of Montreal Metro stations (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_Montreal_Metro_stations", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" },
+        { "title": "STM network map", "url": "https://www.stm.info/en/info/networks/metro", "license": "Reference only", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "cote-vertu", "en": "Côte-Vertu", "aliases": [], "est": 40 },
+        { "id": "du-college", "en": "Du Collège", "aliases": ["college"], "est": 10 },
+        { "id": "de-la-savane", "en": "De la Savane", "aliases": ["savane"], "est": 8 },
+        { "id": "namur", "en": "Namur", "aliases": [], "est": 12 },
+        { "id": "plamondon", "en": "Plamondon", "aliases": [], "est": 10 },
+        { "id": "cote-sainte-catherine", "en": "Côte-Sainte-Catherine", "aliases": [], "est": 12 },
+        { "id": "snowdon", "en": "Snowdon", "aliases": [], "est": 35 },
+        { "id": "villa-maria", "en": "Villa-Maria", "aliases": [], "est": 15 },
+        { "id": "vendome", "en": "Vendôme", "aliases": [], "est": 30 },
+        { "id": "place-saint-henri", "en": "Place-Saint-Henri", "aliases": ["Saint-Henri"], "est": 20 },
+        { "id": "lionel-groulx", "en": "Lionel-Groulx", "aliases": ["Lionel Groulx"], "est": 55 },
+        { "id": "georges-vanier", "en": "Georges-Vanier", "aliases": ["George Vanier"], "est": 10 },
+        { "id": "lucien-lallier", "en": "Lucien-L'Allier", "aliases": ["Lucien Allier"], "est": 25 },
+        { "id": "bonaventure", "en": "Bonaventure", "aliases": [], "est": 45 },
+        { "id": "square-victoria-oaci", "en": "Square-Victoria–OACI", "aliases": ["Square-Victoria", "Square Victoria ICAO"], "est": 30 },
+        { "id": "place-darmes", "en": "Place-d'Armes", "aliases": [], "est": 40 },
+        { "id": "champ-de-mars", "en": "Champ-de-Mars", "aliases": [], "est": 35 },
+        { "id": "berri-uqam", "en": "Berri–UQAM", "aliases": ["Berri"], "est": 90 },
+        { "id": "sherbrooke", "en": "Sherbrooke", "aliases": [], "est": 45 },
+        { "id": "mont-royal", "en": "Mont-Royal", "aliases": ["Mount Royal"], "est": 70 },
+        { "id": "laurier", "en": "Laurier", "aliases": [], "est": 40 },
+        { "id": "rosemont", "en": "Rosemont", "aliases": [], "est": 35 },
+        { "id": "beaubien", "en": "Beaubien", "aliases": [], "est": 30 },
+        { "id": "jean-talon", "en": "Jean-Talon", "aliases": [], "est": 60 },
+        { "id": "jarry", "en": "Jarry", "aliases": [], "est": 30 },
+        { "id": "cremazie", "en": "Crémazie", "aliases": [], "est": 20 },
+        { "id": "sauve", "en": "Sauvé", "aliases": [], "est": 20 },
+        { "id": "henri-bourassa", "en": "Henri-Bourassa", "aliases": [], "est": 35 },
+        { "id": "cartier", "en": "Cartier", "aliases": [], "est": 20 },
+        { "id": "de-la-concorde", "en": "De la Concorde", "aliases": ["Concorde"], "est": 15 },
+        { "id": "montmorency", "en": "Montmorency", "aliases": [], "est": 40 }
+      ]
+    },
+    {
+      "id": "stm-green-line-station",
+      "category": "transit",
+      "scope": "city",
+      "prompt": { "en": "Name a station on the STM Green Line.", "fr": "Nommez une station de la ligne verte du métro de la STM." },
+      "eligibility": { "en": "Any of the 27 stations on Line 1 (Green).", "fr": "N'importe laquelle des 27 stations de la ligne 1 (verte)." },
+      "verification": "source-checked",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "List of Montreal Metro stations (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_Montreal_Metro_stations", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "angrignon", "en": "Angrignon", "aliases": [], "est": 40 },
+        { "id": "monk", "en": "Monk", "aliases": [], "est": 15 },
+        { "id": "jolicoeur", "en": "Jolicoeur", "aliases": ["Jolicœur"], "est": 12 },
+        { "id": "verdun", "en": "Verdun", "aliases": [], "est": 35 },
+        { "id": "de-leglise", "en": "De l'Église", "aliases": ["Eglise"], "est": 15 },
+        { "id": "lasalle", "en": "LaSalle", "aliases": [], "est": 20 },
+        { "id": "charlevoix", "en": "Charlevoix", "aliases": [], "est": 15 },
+        { "id": "lionel-groulx", "en": "Lionel-Groulx", "aliases": [], "est": 50 },
+        { "id": "atwater", "en": "Atwater", "aliases": [], "est": 55 },
+        { "id": "guy-concordia", "en": "Guy–Concordia", "aliases": ["Guy", "Concordia"], "est": 55 },
+        { "id": "peel", "en": "Peel", "aliases": [], "est": 60 },
+        { "id": "mcgill", "en": "McGill", "aliases": [], "est": 75 },
+        { "id": "place-des-arts", "en": "Place-des-Arts", "aliases": [], "est": 50 },
+        { "id": "saint-laurent", "en": "Saint-Laurent", "aliases": [], "est": 30 },
+        { "id": "berri-uqam", "en": "Berri–UQAM", "aliases": ["Berri"], "est": 85 },
+        { "id": "beaudry", "en": "Beaudry", "aliases": [], "est": 25 },
+        { "id": "papineau", "en": "Papineau", "aliases": [], "est": 25 },
+        { "id": "frontenac", "en": "Frontenac", "aliases": [], "est": 20 },
+        { "id": "prefontaine", "en": "Préfontaine", "aliases": [], "est": 10 },
+        { "id": "joliette", "en": "Joliette", "aliases": [], "est": 12 },
+        { "id": "pie-ix", "en": "Pie-IX", "aliases": ["Pie 9", "Pie Neuf"], "est": 30 },
+        { "id": "viau", "en": "Viau", "aliases": [], "est": 15 },
+        { "id": "assomption", "en": "Assomption", "aliases": ["L'Assomption"], "est": 10 },
+        { "id": "cadillac", "en": "Cadillac", "aliases": [], "est": 12 },
+        { "id": "langelier", "en": "Langelier", "aliases": [], "est": 10 },
+        { "id": "radisson", "en": "Radisson", "aliases": [], "est": 15 },
+        { "id": "honore-beaugrand", "en": "Honoré-Beaugrand", "aliases": [], "est": 35 }
+      ]
+    },
+    {
+      "id": "stm-blue-line-station",
+      "category": "transit",
+      "scope": "city",
+      "prompt": { "en": "Name a station on the STM Blue Line.", "fr": "Nommez une station de la ligne bleue du métro de la STM." },
+      "eligibility": { "en": "Any of the 12 stations on Line 5 (Blue).", "fr": "N'importe laquelle des 12 stations de la ligne 5 (bleue)." },
+      "verification": "source-checked",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "List of Montreal Metro stations (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_Montreal_Metro_stations", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "snowdon", "en": "Snowdon", "aliases": [], "est": 40 },
+        { "id": "cote-des-neiges", "en": "Côte-des-Neiges", "aliases": [], "est": 50 },
+        { "id": "universite-de-montreal", "en": "Université-de-Montréal", "aliases": ["UdeM", "University of Montreal"], "est": 55 },
+        { "id": "edouard-montpetit", "en": "Édouard-Montpetit", "aliases": [], "est": 40 },
+        { "id": "outremont", "en": "Outremont", "aliases": [], "est": 30 },
+        { "id": "acadie", "en": "Acadie", "aliases": ["L'Acadie"], "est": 15 },
+        { "id": "parc", "en": "Parc", "aliases": ["Park"], "est": 25 },
+        { "id": "de-castelnau", "en": "De Castelnau", "aliases": ["Castelnau"], "est": 20 },
+        { "id": "jean-talon", "en": "Jean-Talon", "aliases": [], "est": 60 },
+        { "id": "fabre", "en": "Fabre", "aliases": [], "est": 15 },
+        { "id": "diberville", "en": "D'Iberville", "aliases": ["Iberville"], "est": 15 },
+        { "id": "saint-michel", "en": "Saint-Michel", "aliases": [], "est": 35 }
+      ]
+    },
+    {
+      "id": "stm-transfer-station",
+      "category": "transit",
+      "scope": "city",
+      "prompt": { "en": "Name a métro station where you can transfer between two STM lines.", "fr": "Nommez une station de métro où l'on peut passer d'une ligne de la STM à une autre." },
+      "eligibility": { "en": "Stations served by two or more STM métro lines.", "fr": "Stations desservies par au moins deux lignes de métro de la STM." },
+      "verification": "source-checked",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "List of Montreal Metro stations (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_Montreal_Metro_stations", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "berri-uqam", "en": "Berri–UQAM", "aliases": ["Berri"], "est": 90 },
+        { "id": "lionel-groulx", "en": "Lionel-Groulx", "aliases": [], "est": 60 },
+        { "id": "jean-talon", "en": "Jean-Talon", "aliases": [], "est": 50 },
+        { "id": "snowdon", "en": "Snowdon", "aliases": [], "est": 25 }
+      ]
+    },
+    {
+      "id": "stm-metro-line-colour",
+      "category": "transit",
+      "scope": "agglomeration",
+      "prompt": { "en": "Name the colour of an STM métro line.", "fr": "Nommez la couleur d'une ligne de métro de la STM." },
+      "eligibility": { "en": "Green (1), Orange (2), Yellow (4) or Blue (5).", "fr": "Verte (1), orange (2), jaune (4) ou bleue (5)." },
+      "verification": "source-checked",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "List of Montreal Metro stations (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_Montreal_Metro_stations", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "green", "en": "Green", "fr": "Verte", "aliases": ["Vert", "Green Line", "Ligne verte", "Line 1", "Ligne 1"], "est": 75 },
+        { "id": "orange", "en": "Orange", "fr": "Orange", "aliases": ["Orange Line", "Ligne orange", "Line 2", "Ligne 2"], "est": 80 },
+        { "id": "yellow", "en": "Yellow", "fr": "Jaune", "aliases": ["Yellow Line", "Ligne jaune", "Line 4", "Ligne 4"], "est": 35 },
+        { "id": "blue", "en": "Blue", "fr": "Bleue", "aliases": ["Bleu", "Blue Line", "Ligne bleue", "Line 5", "Ligne 5"], "est": 50 }
+      ]
+    },
+    {
+      "id": "city-borough",
+      "category": "boroughs",
+      "scope": "city",
+      "prompt": { "en": "Name one of the 19 boroughs of the City of Montréal.", "fr": "Nommez l'un des 19 arrondissements de la Ville de Montréal." },
+      "eligibility": { "en": "Official boroughs (arrondissements) of the City of Montréal only — not demerged municipalities like Westmount.", "fr": "Arrondissements officiels de la Ville de Montréal seulement — pas les villes reconstituées comme Westmount." },
+      "verification": "source-checked",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "Boroughs of Montreal (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Boroughs_of_Montreal", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" },
+        { "title": "Ville de Montréal — arrondissements", "url": "https://montreal.ca/en/boroughs", "license": "Reference only", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "ahuntsic-cartierville", "en": "Ahuntsic-Cartierville", "aliases": ["Ahuntsic", "Cartierville"], "est": 35 },
+        { "id": "anjou", "en": "Anjou", "aliases": [], "est": 25 },
+        { "id": "cdn-ndg", "en": "Côte-des-Neiges–Notre-Dame-de-Grâce", "aliases": ["NDG", "CDN-NDG", "Notre-Dame-de-Grâce", "Côte-des-Neiges"], "est": 50 },
+        { "id": "lachine", "en": "Lachine", "aliases": [], "est": 35 },
+        { "id": "lasalle", "en": "LaSalle", "aliases": [], "est": 35 },
+        { "id": "plateau", "en": "Le Plateau-Mont-Royal", "aliases": ["Plateau", "The Plateau", "Plateau Mont-Royal"], "est": 85 },
+        { "id": "sud-ouest", "en": "Le Sud-Ouest", "aliases": ["Sud-Ouest", "South West", "Southwest"], "est": 35 },
+        { "id": "ile-bizard-sainte-genevieve", "en": "L'Île-Bizard–Sainte-Geneviève", "aliases": ["Île-Bizard", "Ile Bizard", "Sainte-Geneviève"], "est": 10 },
+        { "id": "mercier-hochelaga-maisonneuve", "en": "Mercier–Hochelaga-Maisonneuve", "aliases": ["Hochelaga", "Hochelaga-Maisonneuve", "HoMa", "MHM", "Mercier"], "est": 45 },
+        { "id": "montreal-nord", "en": "Montréal-Nord", "aliases": ["Montreal North"], "est": 30 },
+        { "id": "outremont", "en": "Outremont", "aliases": [], "est": 50 },
+        { "id": "pierrefonds-roxboro", "en": "Pierrefonds-Roxboro", "aliases": ["Pierrefonds", "Roxboro"], "est": 20 },
+        { "id": "rdp-pat", "en": "Rivière-des-Prairies–Pointe-aux-Trembles", "aliases": ["RDP", "Rivière-des-Prairies", "Pointe-aux-Trembles", "RDP-PAT"], "est": 15 },
+        { "id": "rosemont-petite-patrie", "en": "Rosemont–La Petite-Patrie", "aliases": ["Rosemont", "La Petite-Patrie", "Petite-Patrie"], "est": 60 },
+        { "id": "saint-laurent", "en": "Saint-Laurent", "aliases": ["Ville Saint-Laurent"], "est": 40 },
+        { "id": "saint-leonard", "en": "Saint-Léonard", "aliases": [], "est": 30 },
+        { "id": "verdun", "en": "Verdun", "aliases": [], "est": 55 },
+        { "id": "ville-marie", "en": "Ville-Marie", "aliases": [], "est": 70 },
+        { "id": "villeray-saint-michel-parc-extension", "en": "Villeray–Saint-Michel–Parc-Extension", "aliases": ["Villeray", "Parc-Extension", "Parc-Ex", "VSP", "Saint-Michel"], "est": 40 }
+      ]
+    },
+    {
+      "id": "island-reconstituted-municipality",
+      "category": "boroughs",
+      "scope": "island",
+      "prompt": { "en": "Name a municipality on the Island of Montréal that is NOT part of the City of Montréal.", "fr": "Nommez une municipalité de l'île de Montréal qui ne fait PAS partie de la Ville de Montréal." },
+      "eligibility": { "en": "The 15 reconstituted (demerged) municipalities of the Montréal agglomeration.", "fr": "Les 15 municipalités reconstituées (défusionnées) de l'agglomération de Montréal." },
+      "verification": "source-checked",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "Urban agglomeration of Montreal (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Urban_agglomeration_of_Montreal", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "baie-durfe", "en": "Baie-D'Urfé", "aliases": ["Baie d'Urfé"], "est": 20 },
+        { "id": "beaconsfield", "en": "Beaconsfield", "aliases": [], "est": 35 },
+        { "id": "cote-saint-luc", "en": "Côte Saint-Luc", "aliases": ["CSL"], "est": 50 },
+        { "id": "dollard-des-ormeaux", "en": "Dollard-des-Ormeaux", "aliases": ["DDO", "Dollard"], "est": 40 },
+        { "id": "dorval", "en": "Dorval", "aliases": [], "est": 50 },
+        { "id": "hampstead", "en": "Hampstead", "aliases": [], "est": 35 },
+        { "id": "kirkland", "en": "Kirkland", "aliases": [], "est": 30 },
+        { "id": "ile-dorval", "en": "L'Île-Dorval", "aliases": ["Dorval Island", "Île Dorval"], "est": 3 },
+        { "id": "montreal-est", "en": "Montréal-Est", "aliases": ["Montreal East"], "est": 20 },
+        { "id": "montreal-ouest", "en": "Montréal-Ouest", "aliases": ["Montreal West"], "est": 30 },
+        { "id": "mont-royal", "en": "Mont-Royal", "aliases": ["Town of Mount Royal", "TMR", "Ville Mont-Royal", "VMR", "Mount Royal"], "est": 55 },
+        { "id": "pointe-claire", "en": "Pointe-Claire", "aliases": [], "est": 50 },
+        { "id": "sainte-anne-de-bellevue", "en": "Sainte-Anne-de-Bellevue", "aliases": ["Sainte-Anne", "Ste-Anne"], "est": 30 },
+        { "id": "senneville", "en": "Senneville", "aliases": [], "est": 10 },
+        { "id": "westmount", "en": "Westmount", "aliases": [], "est": 80 }
+      ]
+    },
+    {
+      "id": "mount-royal-summit",
+      "category": "parks",
+      "scope": "island",
+      "prompt": { "en": "Name one of the three summits of Mount Royal.", "fr": "Nommez l'un des trois sommets du mont Royal." },
+      "eligibility": { "en": "Colline de la Croix, Colline d'Outremont or Westmount Summit.", "fr": "Colline de la Croix, colline d'Outremont ou sommet Westmount." },
+      "verification": "source-checked",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "Mount Royal (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Mount_Royal", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "colline-de-la-croix", "en": "Colline de la Croix (Mont Royal)", "fr": "Colline de la Croix (mont Royal)", "aliases": ["Colline de la Croix", "Mont Royal", "Mount Royal", "The Cross", "La Croix", "Cross summit"], "est": 70 },
+        { "id": "colline-doutremont", "en": "Colline d'Outremont (Mount Murray)", "fr": "Colline d'Outremont", "aliases": ["Colline d'Outremont", "Outremont", "Outremont Summit", "Mount Murray", "Sommet Outremont"], "est": 25 },
+        { "id": "westmount-summit", "en": "Westmount Summit", "fr": "Sommet Westmount", "aliases": ["Westmount", "Sommet de Westmount"], "est": 30 }
+      ]
+    },
+    {
+      "id": "south-shore-road-crossing",
+      "category": "parks",
+      "scope": "greater",
+      "prompt": { "en": "Name a road bridge or tunnel linking the Island of Montréal directly to the South Shore.", "fr": "Nommez un pont ou tunnel routier reliant directement l'île de Montréal à la Rive-Sud." },
+      "eligibility": { "en": "Road crossings of the St. Lawrence between the island and the South Shore (rail and métro excluded).", "fr": "Traversées routières du Saint-Laurent entre l'île et la Rive-Sud (ferroviaire et métro exclus)." },
+      "verification": "source-checked",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "List of crossings of the St. Lawrence River and the Great Lakes (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_crossings_of_the_St._Lawrence_River_and_the_Great_Lakes", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "jacques-cartier", "en": "Jacques Cartier Bridge", "fr": "Pont Jacques-Cartier", "aliases": ["Jacques Cartier", "Jacques-Cartier"], "est": 80 },
+        { "id": "samuel-de-champlain", "en": "Samuel de Champlain Bridge", "fr": "Pont Samuel-De Champlain", "aliases": ["Champlain", "Champlain Bridge", "Pont Champlain", "Samuel de Champlain", "New Champlain Bridge"], "est": 75 },
+        { "id": "victoria", "en": "Victoria Bridge", "fr": "Pont Victoria", "aliases": ["Victoria"], "est": 35 },
+        { "id": "honore-mercier", "en": "Honoré Mercier Bridge", "fr": "Pont Honoré-Mercier", "aliases": ["Mercier", "Mercier Bridge", "Pont Mercier", "Honoré-Mercier"], "est": 35 },
+        { "id": "lafontaine", "en": "Louis-Hippolyte-La Fontaine Bridge–Tunnel", "fr": "Pont-tunnel Louis-Hippolyte-La Fontaine", "aliases": ["LaFontaine", "La Fontaine", "LaFontaine Tunnel", "Tunnel La Fontaine", "Louis-H.-La Fontaine", "Louis Hippolyte Lafontaine"], "est": 40 }
+      ]
+    },
+    {
+      "id": "habs-retired-number",
+      "category": "sports",
+      "scope": "city",
+      "prompt": { "en": "Name a Montréal Canadiens player whose jersey number is retired by the club.", "fr": "Nommez un joueur des Canadiens de Montréal dont le numéro a été retiré par le club." },
+      "eligibility": { "en": "The 18 players honoured across the Canadiens' 15 retired numbers.", "fr": "Les 18 joueurs honorés par les 15 numéros retirés des Canadiens." },
+      "verification": "source-checked",
+      "reviewStatus": "approved",
+      "ambiguous": ["Richard"],
+      "sources": [
+        { "title": "Montreal Canadiens — retired numbers (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Montreal_Canadiens", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "jacques-plante", "en": "Jacques Plante", "aliases": ["Plante"], "est": 35 },
+        { "id": "doug-harvey", "en": "Doug Harvey", "aliases": ["Harvey"], "est": 20 },
+        { "id": "emile-bouchard", "en": "Émile Bouchard", "aliases": ["Butch Bouchard", "Bouchard"], "est": 12 },
+        { "id": "jean-beliveau", "en": "Jean Béliveau", "aliases": ["Béliveau", "Le Gros Bill"], "est": 70 },
+        { "id": "bernie-geoffrion", "en": "Bernie Geoffrion", "aliases": ["Boom Boom Geoffrion", "Boom Boom", "Geoffrion"], "est": 25 },
+        { "id": "guy-lapointe", "en": "Guy Lapointe", "aliases": ["Lapointe"], "est": 15 },
+        { "id": "howie-morenz", "en": "Howie Morenz", "aliases": ["Morenz"], "est": 25 },
+        { "id": "maurice-richard", "en": "Maurice Richard", "aliases": ["Rocket Richard", "The Rocket", "Rocket", "Maurice Rocket Richard"], "est": 90 },
+        { "id": "guy-lafleur", "en": "Guy Lafleur", "aliases": ["Lafleur", "The Flower", "Le Démon blond"], "est": 75 },
+        { "id": "dickie-moore", "en": "Dickie Moore", "aliases": ["Moore"], "est": 15 },
+        { "id": "yvan-cournoyer", "en": "Yvan Cournoyer", "aliases": ["Cournoyer", "The Roadrunner"], "est": 30 },
+        { "id": "henri-richard", "en": "Henri Richard", "aliases": ["Pocket Rocket", "The Pocket Rocket"], "est": 35 },
+        { "id": "elmer-lach", "en": "Elmer Lach", "aliases": ["Lach"], "est": 10 },
+        { "id": "serge-savard", "en": "Serge Savard", "aliases": ["Savard"], "est": 30 },
+        { "id": "larry-robinson", "en": "Larry Robinson", "aliases": ["Robinson", "Big Bird"], "est": 40 },
+        { "id": "bob-gainey", "en": "Bob Gainey", "aliases": ["Gainey"], "est": 30 },
+        { "id": "ken-dryden", "en": "Ken Dryden", "aliases": ["Dryden"], "est": 45 },
+        { "id": "patrick-roy", "en": "Patrick Roy", "aliases": ["Roy", "Casseau"], "est": 70 }
+      ]
+    },
+    {
+      "id": "mayor-1960-2020",
+      "category": "history",
+      "scope": "city",
+      "prompt": { "en": "Name a person who served as mayor of Montréal at any point between 1960 and 2020.", "fr": "Nommez une personne qui a été mairesse ou maire de Montréal entre 1960 et 2020." },
+      "eligibility": { "en": "Mayors whose term overlapped 1960–2020, from Jean Drapeau to Valérie Plante (Sarto Fournier's term ended in 1960 and is excluded).", "fr": "Mairesses et maires en poste entre 1960 et 2020, de Jean Drapeau à Valérie Plante (le mandat de Sarto Fournier, terminé en 1960, est exclu)." },
+      "verification": "source-checked",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "List of mayors of Montreal (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_mayors_of_Montreal", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "jean-drapeau", "en": "Jean Drapeau", "aliases": ["Drapeau"], "est": 80 },
+        { "id": "jean-dore", "en": "Jean Doré", "aliases": ["Doré"], "est": 35 },
+        { "id": "pierre-bourque", "en": "Pierre Bourque", "aliases": ["Bourque"], "est": 35 },
+        { "id": "gerald-tremblay", "en": "Gérald Tremblay", "aliases": ["Tremblay"], "est": 45 },
+        { "id": "michael-applebaum", "en": "Michael Applebaum", "aliases": ["Applebaum"], "est": 25 },
+        { "id": "laurent-blanchard", "en": "Laurent Blanchard", "aliases": ["Blanchard"], "est": 8 },
+        { "id": "denis-coderre", "en": "Denis Coderre", "aliases": ["Coderre"], "est": 70 },
+        { "id": "valerie-plante", "en": "Valérie Plante", "aliases": ["Plante"], "est": 75 }
+      ]
+    },
+    {
+      "id": "university-in-montreal",
+      "category": "universities",
+      "scope": "city",
+      "prompt": { "en": "Name a university or university-level school with a campus in the City of Montréal.", "fr": "Nommez une université ou un établissement universitaire ayant un campus dans la Ville de Montréal." },
+      "eligibility": { "en": "Degree-granting university institutions with a Montréal campus. Curated list — appeal if yours is missing.", "fr": "Établissements universitaires décernant des grades et ayant un campus à Montréal. Liste éditoriale — faites appel s'il en manque un." },
+      "verification": "editor-curated",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "Bureau de coopération interuniversitaire — member institutions", "url": "https://www.bci-qc.ca/", "license": "Reference only", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "mcgill", "en": "McGill University", "fr": "Université McGill", "aliases": ["McGill"], "est": 85 },
+        { "id": "concordia", "en": "Concordia University", "fr": "Université Concordia", "aliases": ["Concordia"], "est": 70 },
+        { "id": "udem", "en": "Université de Montréal", "aliases": ["UdeM", "University of Montreal", "U de M"], "est": 70 },
+        { "id": "uqam", "en": "Université du Québec à Montréal (UQAM)", "aliases": ["UQAM", "Université du Québec à Montréal"], "est": 60 },
+        { "id": "polytechnique", "en": "Polytechnique Montréal", "aliases": ["Polytechnique", "Poly", "École Polytechnique"], "est": 30 },
+        { "id": "hec", "en": "HEC Montréal", "aliases": ["HEC"], "est": 35 },
+        { "id": "ets", "en": "École de technologie supérieure (ÉTS)", "aliases": ["ÉTS", "ETS", "École de technologie supérieure"], "est": 20 },
+        { "id": "inrs", "en": "Institut national de la recherche scientifique (INRS)", "aliases": ["INRS"], "est": 5 },
+        { "id": "enap", "en": "École nationale d'administration publique (ENAP)", "aliases": ["ENAP"], "est": 5 }
+      ]
+    },
+    {
+      "id": "montreal-festival",
+      "category": "festivals",
+      "scope": "city",
+      "prompt": { "en": "Name a major recurring festival that has been held in Montréal.", "fr": "Nommez un grand festival récurrent qui a eu lieu à Montréal." },
+      "eligibility": { "en": "Recurring, multi-day public festivals held in Montréal. Curated list — appeal if yours is missing.", "fr": "Festivals publics récurrents de plusieurs jours tenus à Montréal. Liste éditoriale — faites appel s'il en manque un." },
+      "verification": "editor-curated",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "Tourisme Montréal — festivals and events", "url": "https://www.mtl.org/en/what-to-do/festivals-and-events", "license": "Reference only", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "jazz", "en": "Festival International de Jazz de Montréal", "aliases": ["Jazz Fest", "Jazz Festival", "Montreal Jazz Festival", "Festival de jazz", "FIJM"], "est": 80 },
+        { "id": "jpr", "en": "Just for Laughs", "fr": "Juste pour rire", "aliases": ["Juste pour rire", "JFL", "JPR"], "est": 70 },
+        { "id": "osheaga", "en": "Osheaga", "aliases": [], "est": 75 },
+        { "id": "igloofest", "en": "Igloofest", "aliases": [], "est": 50 },
+        { "id": "montreal-en-lumiere", "en": "Montréal en Lumière", "aliases": ["MTL en Lumière", "Montreal High Lights", "High Lights Festival"], "est": 40 },
+        { "id": "francos", "en": "Les Francos de Montréal", "aliases": ["Francos", "Francofolies", "Les Francofolies de Montréal"], "est": 35 },
+        { "id": "piknic", "en": "Piknic Électronik", "aliases": ["Piknic"], "est": 30 },
+        { "id": "fantasia", "en": "Fantasia International Film Festival", "fr": "Festival international de films Fantasia", "aliases": ["Fantasia"], "est": 20 },
+        { "id": "nuits-dafrique", "en": "Festival International Nuits d'Afrique", "aliases": ["Nuits d'Afrique"], "est": 15 },
+        { "id": "mural", "en": "MURAL Festival", "fr": "Festival MURAL", "aliases": ["MURAL"], "est": 20 },
+        { "id": "pop-montreal", "en": "POP Montréal", "aliases": [], "est": 15 },
+        { "id": "fierte", "en": "Fierté Montréal (Montréal Pride)", "aliases": ["Fierté Montréal", "Montreal Pride", "Pride", "Fierté"], "est": 35 },
+        { "id": "feux", "en": "L'International des Feux Loto-Québec", "aliases": ["International des Feux", "Feux Loto-Québec", "Fireworks Festival", "Montreal Fireworks"], "est": 30 },
+        { "id": "fete-des-neiges", "en": "Fête des neiges de Montréal", "aliases": ["Fête des neiges", "Snow Festival"], "est": 20 },
+        { "id": "fta", "en": "Festival TransAmériques", "aliases": ["FTA"], "est": 10 },
+        { "id": "fringe", "en": "Montréal Fringe Festival", "fr": "Festival Fringe de Montréal", "aliases": ["Fringe", "St-Ambroise Fringe"], "est": 12 },
+        { "id": "fnc", "en": "Festival du nouveau cinéma", "aliases": ["FNC"], "est": 12 },
+        { "id": "ile-soniq", "en": "Île Soniq", "aliases": [], "est": 15 },
+        { "id": "heavy-montreal", "en": "Heavy Montréal", "aliases": ["Heavy MTL"], "est": 15 }
+      ]
+    },
+    {
+      "id": "winter-festival",
+      "category": "winter",
+      "scope": "city",
+      "prompt": { "en": "Name a festival or event that brings Montrealers outdoors in winter.", "fr": "Nommez un festival ou événement qui fait sortir les Montréalais dehors en hiver." },
+      "eligibility": { "en": "Recurring outdoor winter festivals or events in Montréal. Curated list — appeal if yours is missing.", "fr": "Festivals ou événements hivernaux extérieurs récurrents à Montréal. Liste éditoriale — faites appel s'il en manque un." },
+      "verification": "editor-curated",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "Tourisme Montréal — winter in Montréal", "url": "https://www.mtl.org/en/what-to-do/winter", "license": "Reference only", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "igloofest", "en": "Igloofest", "aliases": [], "est": 70 },
+        { "id": "montreal-en-lumiere", "en": "Montréal en Lumière", "aliases": ["MTL en Lumière", "Montreal High Lights", "High Lights Festival"], "est": 55 },
+        { "id": "nuit-blanche", "en": "Nuit blanche", "aliases": ["Nuit blanche à Montréal", "All-Nighter"], "est": 35 },
+        { "id": "fete-des-neiges", "en": "Fête des neiges de Montréal", "aliases": ["Fête des neiges", "Snow Festival"], "est": 45 }
+      ]
+    },
+    {
+      "id": "quebecois-dish",
+      "category": "food",
+      "scope": "province",
+      "prompt": { "en": "Name a traditional Québécois dish you can eat in Montréal.", "fr": "Nommez un plat traditionnel québécois qu'on peut manger à Montréal." },
+      "eligibility": { "en": "Dishes widely recognised as traditional Québécois cuisine. Curated list — appeal if yours is missing.", "fr": "Plats largement reconnus comme faisant partie de la cuisine traditionnelle québécoise. Liste éditoriale — faites appel s'il en manque un." },
+      "verification": "editor-curated",
+      "reviewStatus": "approved",
+      "sources": [
+        { "title": "Quebec cuisine (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Quebec_cuisine", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
+      ],
+      "answers": [
+        { "id": "poutine", "en": "Poutine", "aliases": [], "est": 95 },
+        { "id": "tourtiere", "en": "Tourtière", "aliases": ["Meat pie", "Tourtiere du Lac-Saint-Jean"], "est": 45 },
+        { "id": "pate-chinois", "en": "Pâté chinois", "aliases": ["Shepherd's pie", "Pate chinois"], "est": 40 },
+        { "id": "pouding-chomeur", "en": "Pouding chômeur", "aliases": ["Pudding chômeur", "Poor man's pudding"], "est": 30 },
+        { "id": "tarte-au-sucre", "en": "Tarte au sucre", "aliases": ["Sugar pie"], "est": 30 },
+        { "id": "feves-au-lard", "en": "Fèves au lard", "aliases": ["Baked beans", "Bines"], "est": 20 },
+        { "id": "cretons", "en": "Cretons", "aliases": [], "est": 15 },
+        { "id": "tire-erable", "en": "Tire d'érable sur la neige", "aliases": ["Tire d'érable", "Tire sur la neige", "Maple taffy", "Maple taffy on snow", "Tire"], "est": 30 },
+        { "id": "soupe-aux-pois", "en": "Soupe aux pois", "aliases": ["Pea soup", "Split pea soup"], "est": 15 },
+        { "id": "ragout-pattes", "en": "Ragoût de pattes de cochon", "aliases": ["Ragoût de pattes", "Pig's feet stew"], "est": 8 },
+        { "id": "grands-peres", "en": "Grands-pères dans le sirop", "aliases": ["Grands-pères", "Dumplings in maple syrup"], "est": 8 },
+        { "id": "sucre-a-la-creme", "en": "Sucre à la crème", "aliases": [], "est": 15 },
+        { "id": "oreilles-de-crisse", "en": "Oreilles de crisse", "aliases": ["Oreilles de Christ"], "est": 6 },
+        { "id": "montreal-smoked-meat", "en": "Montréal smoked meat", "fr": "Smoked meat", "aliases": ["Smoked meat", "Viande fumée"], "est": 40 },
+        { "id": "montreal-bagel", "en": "Montréal-style bagel", "fr": "Bagel de Montréal", "aliases": ["Bagel", "Bagels", "Montreal bagel"], "est": 35 },
+        { "id": "steamie", "en": "Steamé (steamie hot dog)", "aliases": ["Steamé", "Steamie", "Steamed hot dog", "Hot-dog steamé"], "est": 15 }
+      ]
+    }
+  ]
+}
