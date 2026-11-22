@@ -198,4 +198,4 @@ DATABASE_URL=postgres://localhost:5432/montreallion_dev npm run dev
 
 ## Blockers
 - Content: only 15 seed questions are approved (daily works but repeats); the 61 generated ones await the owner's review in /admin.
-- Repo note: this folder sits inside a parent git repo rooted above `~/Projects` with no commits; no separate repo was initialized here.
+- Repo: own git repo, remote https://github.com/SMLG120/montreallion (private, `main`). The Vercel project is Git-connected, so pushes to `main` deploy to production.
