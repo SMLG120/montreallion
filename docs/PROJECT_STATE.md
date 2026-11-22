@@ -168,7 +168,7 @@ DATABASE_URL=postgres://localhost:5432/montreallion_dev npm run dev
 - Migration `20261121000005_party_rooms.sql`.
 - **Polling cost note:** each client makes ~1 request/s while in a room. That's fine at small scale; with heavy use, move to Supabase Realtime broadcast with the same view payloads.
 
-## Phase 8: Tests + deploy readiness (2026-11-21; deploy NOT yet performed)
+## Phase 8: Tests + deploy (done 2026-11-21)
 - **`GET /api/health`:** reports store, DB ping, approved-question count, today's date key, commit SHA and config problem *names* (no values). Returns 503 if anything is wrong. Config rules are in `src/lib/server/env.ts`:
   - On Vercel, `DATABASE_URL` and a 16+ character `RATE_LIMIT_SALT` are required.
   - Pool size must be 1–3.
@@ -176,7 +176,7 @@ DATABASE_URL=postgres://localhost:5432/montreallion_dev npm run dev
   - Flags an `ADMIN_TOKEN` that is too short.
   - Locally, `REQUIRE_PROD_CONFIG=1` turns these checks on.
 - **`npm run smoke -- <url>`** (`scripts/smoke.ts`): checks health, EN/FR pages, headers, the leaderboard API, Unlimited start, and party create/view/404. It never writes rarity stats or leaderboard rows.
-- `npm run check` runs typecheck, lint, unit and ETL tests. A GitHub Actions workflow runs everything, including the DB tests and both E2E modes, on a Postgres service; it is inert until there is a git repo.
+- `npm run check` runs typecheck, lint, unit and ETL tests. A GitHub Actions workflow runs everything, including the DB tests and both E2E modes, on a Postgres service on every push and PR to GitHub.
 - `.vercelignore` added; deploy steps are in `docs/DEPLOY.md`.
 - **Verified locally:** production build, then `next start` on `montreallion_test` with production config. Smoke test: all checks pass.
 - **Final test pass:**
@@ -198,4 +198,4 @@ DATABASE_URL=postgres://localhost:5432/montreallion_dev npm run dev
 
 ## Blockers
 - Content: only 15 seed questions are approved (daily works but repeats); the 61 generated ones await the owner's review in /admin.
-- Repo: own git repo, remote https://github.com/SMLG120/montreallion (private, `main`). The Vercel project is Git-connected, so pushes to `main` deploy to production.
+- Repo: own git repo, remote https://github.com/SMLG120/montreallion (public, `main`). The Vercel project is Git-connected: pushes to `main` deploy to production, other branches get preview URLs.
