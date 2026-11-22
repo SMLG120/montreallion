@@ -1,5 +1,7 @@
 # Montréallion
 
+[![CI](https://github.com/SMLG120/montreallion/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/SMLG120/montreallion/actions/workflows/ci.yml)
+
 A bilingual (EN/FR) Montréal rarity trivia game. Seven stops, 25 seconds each: name a valid answer, and the rarer it is, the more it scores (10–100).
 
 ```bash

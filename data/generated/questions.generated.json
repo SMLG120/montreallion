@@ -35,7 +35,7 @@
    "generator": {
     "template": "metro-line",
     "concept": "metro-line:4",
-    "contentHash": "feabea2eb0eff166"
+    "contentHash": "d52ce440519a4f6a"
    },
    "answers": [
     {
@@ -54,19 +54,22 @@
      "id": "jean-drapeau",
      "en": "Jean-Drapeau",
      "aliases": [],
-     "est": 50,
+     "est": 5,
      "refs": [
       "gtfs:STATION_M452",
       "wikidata:Q1675164"
      ]
     },
     {
-     "id": "station-longueuil-u-de-sherbrooke",
-     "en": "STATION LONGUEUIL- U. de SHERBROOKE",
-     "aliases": [],
-     "est": 5,
+     "id": "longueuil-universite-de-sherbrooke",
+     "en": "Longueuil–Université-de-Sherbrooke",
+     "aliases": [
+      "Longueuil"
+     ],
+     "est": 50,
      "refs": [
-      "gtfs:STATION_M454"
+      "gtfs:STATION_M454",
+      "wikidata:Q1869604"
      ]
     }
    ]
@@ -103,7 +106,7 @@
    "generator": {
     "template": "metro-terminus",
     "concept": "metro-terminus",
-    "contentHash": "5e9bf92eb1323af1"
+    "contentHash": "1e1d333afd89651a"
    },
    "answers": [
     {
@@ -132,7 +135,7 @@
      "id": "cote-vertu",
      "en": "Côte-Vertu",
      "aliases": [],
-     "est": 50,
+     "est": 37,
      "refs": [
       "gtfs:STATION_M222",
       "wikidata:Q543270"
@@ -142,26 +145,29 @@
      "id": "honore-beaugrand",
      "en": "Honoré-Beaugrand",
      "aliases": [],
-     "est": 50,
+     "est": 37,
      "refs": [
       "gtfs:STATION_M170",
       "wikidata:Q1627267"
      ]
     },
     {
-     "id": "station-longueuil-u-de-sherbrooke",
-     "en": "STATION LONGUEUIL- U. de SHERBROOKE",
-     "aliases": [],
-     "est": 5,
+     "id": "longueuil-universite-de-sherbrooke",
+     "en": "Longueuil–Université-de-Sherbrooke",
+     "aliases": [
+      "Longueuil"
+     ],
+     "est": 56,
      "refs": [
-      "gtfs:STATION_M454"
+      "gtfs:STATION_M454",
+      "wikidata:Q1869604"
      ]
     },
     {
      "id": "montmorency",
      "en": "Montmorency",
      "aliases": [],
-     "est": 24,
+     "est": 11,
      "refs": [
       "gtfs:STATION_M288",
       "wikidata:Q1352971"
@@ -181,7 +187,7 @@
      "id": "saint-michel",
      "en": "Saint-Michel",
      "aliases": [],
-     "est": 24,
+     "est": 11,
      "refs": [
       "gtfs:STATION_M556",
       "wikidata:Q176603"
@@ -10796,7 +10802,7 @@
    "generator": {
     "template": "park-in-area",
     "concept": "park-in:Rosemont–La Petite-Patrie",
-    "contentHash": "576a7e911432eea3"
+    "contentHash": "63fbc5df1bd14d9d"
    },
    "answers": [
     {
@@ -11163,16 +11169,20 @@
      ]
     },
     {
-     "id": "parc-maisonneuve-golf-municipal-de-montreal",
-     "en": "Maisonneuve, Golf municipal de Montréal Park",
-     "fr": "Parc Maisonneuve, Golf municipal de Montréal",
+     "id": "parc-maisonneuve",
+     "en": "Maisonneuve Park",
+     "fr": "Parc Maisonneuve",
      "aliases": [
-      "Parc de Maisonneuve, Golf municipal de Montréal",
-      "Parc de la Maisonneuve, Golf municipal de Montréal",
-      "Parc des Maisonneuve, Golf municipal de Montréal",
-      "Parc du Maisonneuve, Golf municipal de Montréal"
+      "Parc Maisonneuve, Golf municipal de Montréal",
+      "Parc de Maisonneuve",
+      "Parc de la Maisonneuve",
+      "Parc des Maisonneuve",
+      "Parc du Maisonneuve"
      ],
-     "est": 95
+     "est": 95,
+     "refs": [
+      "wikidata:Q3363858"
+     ]
     },
     {
      "id": "parc-marian-dale-scott",
@@ -14570,8 +14580,8 @@
     "fr": "Nommez une bibliothèque du réseau des bibliothèques de Montréal."
    },
    "eligibility": {
-    "en": "Places listed under “Bibliothèque” in the City's municipal cultural places dataset (47).",
-    "fr": "Lieux classés « Bibliothèque » dans les lieux culturels municipaux de la Ville (47)."
+    "en": "Places listed under “Bibliothèque” in the City's municipal cultural places dataset (45).",
+    "fr": "Lieux classés « Bibliothèque » dans les lieux culturels municipaux de la Ville (45)."
    },
    "verification": "source-checked",
    "reviewStatus": "in_review",
@@ -14593,7 +14603,7 @@
    "generator": {
     "template": "culture-network",
     "concept": "culture:library",
-    "contentHash": "cf7d860bcc55360e"
+    "contentHash": "05d28aca42180f9b"
    },
    "answers": [
     {
@@ -14677,7 +14687,7 @@
      "aliases": [
       "de Notre-Dame-de-Grâce"
      ],
-     "est": 66,
+     "est": 64,
      "refs": [
       "wikidata:Q81843681"
      ]
@@ -14798,7 +14808,7 @@
      "aliases": [
       "Frontenac"
      ],
-     "est": 66,
+     "est": 64,
      "refs": [
       "wikidata:Q24932109"
      ]
@@ -14844,7 +14854,7 @@
      "aliases": [
       "Jean-Corbeil"
      ],
-     "est": 66,
+     "est": 64,
      "refs": [
       "wikidata:Q81843747"
      ]
@@ -14877,7 +14887,7 @@
      "aliases": [
       "L'Octogone"
      ],
-     "est": 66,
+     "est": 64,
      "refs": [
       "wikidata:Q81843748"
      ]
@@ -14930,7 +14940,7 @@
      "aliases": [
       "Père-Ambroise"
      ],
-     "est": 66,
+     "est": 64,
      "refs": [
       "wikidata:Q30740061"
      ]
@@ -14941,7 +14951,7 @@
      "aliases": [
       "Robert-Bourassa"
      ],
-     "est": 66,
+     "est": 64,
      "refs": [
       "wikidata:Q55595800"
      ]
@@ -14963,28 +14973,16 @@
      "est": 30
     },
     {
-     "id": "grande-bibliotheque-bibliotheque-et-archives-nationales-du-q",
-     "en": "Grande Bibliothèque - Bibliothèque et Archives nationales du Québec",
-     "aliases": [],
-     "est": 30
-    },
-    {
      "id": "bibliotheque-du-vieux-saint-laurent",
      "en": "Library of Vieux Saint-Laurent",
      "fr": "Bibliothèque du Vieux-Saint-Laurent",
      "aliases": [
       "du Vieux-Saint-Laurent"
      ],
-     "est": 66,
+     "est": 64,
      "refs": [
       "wikidata:Q81843734"
      ]
-    },
-    {
-     "id": "maison-culturelle-et-communautaire-de-montreal-nord",
-     "en": "Maison culturelle et communautaire de Montréal-Nord",
-     "aliases": [],
-     "est": 30
     },
     {
      "id": "bibliotheque-de-la-maison-culturelle-et-communautaire-de-mon",
@@ -14993,7 +14991,7 @@
      "aliases": [
       "de la Maison culturelle et communautaire de Montréal-Nord"
      ],
-     "est": 66,
+     "est": 64,
      "refs": [
       "wikidata:Q87410195"
      ]
@@ -15029,7 +15027,7 @@
      "aliases": [
       "de Saint-Michel"
      ],
-     "est": 66,
+     "est": 64,
      "refs": [
       "wikidata:Q60850029"
      ]
@@ -15325,8 +15323,8 @@
     "fr": "Nommez une bibliothèque publique dans l'arrondissement de Montréal-Nord."
    },
    "eligibility": {
-    "en": "Montréal network libraries the City lists in the borough of Montréal-Nord (5).",
-    "fr": "Bibliothèques du réseau montréalais que la Ville situe dans l'arrondissement de Montréal-Nord (5)."
+    "en": "Montréal network libraries the City lists in the borough of Montréal-Nord (4).",
+    "fr": "Bibliothèques du réseau montréalais que la Ville situe dans l'arrondissement de Montréal-Nord (4)."
    },
    "verification": "source-checked",
    "reviewStatus": "in_review",
@@ -15348,7 +15346,7 @@
    "generator": {
     "template": "library-in-area",
     "concept": "library-in:Montréal-Nord",
-    "contentHash": "cc73791b46a630c7"
+    "contentHash": "5130fbb7a812a58f"
    },
    "answers": [
     {
@@ -15357,7 +15355,7 @@
      "aliases": [
       "de Belleville"
      ],
-     "est": 39
+     "est": 35
     },
     {
      "id": "bibliotheque-henri-bourassa",
@@ -15365,7 +15363,7 @@
      "aliases": [
       "Henri-Bourassa"
      ],
-     "est": 39
+     "est": 35
     },
     {
      "id": "bibliotheque-yves-ryan",
@@ -15373,13 +15371,7 @@
      "aliases": [
       "Yves-Ryan"
      ],
-     "est": 39
-    },
-    {
-     "id": "maison-culturelle-et-communautaire-de-montreal-nord",
-     "en": "Maison culturelle et communautaire de Montréal-Nord",
-     "aliases": [],
-     "est": 39
+     "est": 35
     },
     {
      "id": "bibliotheque-de-la-maison-culturelle-et-communautaire-de-mon",
@@ -15456,71 +15448,6 @@
      "refs": [
       "wikidata:Q81843789"
      ]
-    }
-   ]
-  },
-  {
-   "id": "gen-library-in-ville-marie",
-   "category": "festivals",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a public library in the borough of Ville-Marie.",
-    "fr": "Nommez une bibliothèque publique dans l'arrondissement de Ville-Marie."
-   },
-   "eligibility": {
-    "en": "Montréal network libraries the City lists in the borough of Ville-Marie (3).",
-    "fr": "Bibliothèques du réseau montréalais que la Ville situe dans l'arrondissement de Ville-Marie (3)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Lieux culturels municipaux de Montréal (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/lieux-culturels",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "library-in-area",
-    "concept": "library-in:Ville-Marie",
-    "contentHash": "6572d149e25f93a6"
-   },
-   "answers": [
-    {
-     "id": "bibliotheque-frontenac",
-     "en": "Bibliothèque Frontenac",
-     "aliases": [
-      "Frontenac"
-     ],
-     "est": 72,
-     "refs": [
-      "wikidata:Q24932109"
-     ]
-    },
-    {
-     "id": "bibliotheque-pere-ambroise",
-     "en": "Bibliothèque Père-Ambroise",
-     "aliases": [
-      "Père-Ambroise"
-     ],
-     "est": 72,
-     "refs": [
-      "wikidata:Q30740061"
-     ]
-    },
-    {
-     "id": "grande-bibliotheque-bibliotheque-et-archives-nationales-du-q",
-     "en": "Grande Bibliothèque - Bibliothèque et Archives nationales du Québec",
-     "aliases": [],
-     "est": 5
     }
    ]
   },
@@ -15904,13 +15831,18 @@
    "generator": {
     "template": "culture-network",
     "concept": "culture:museum",
-    "contentHash": "3ed3dc578318e842"
+    "contentHash": "c2e5a130d909816e"
    },
    "answers": [
     {
      "id": "centre-d-histoire-de-montreal",
      "en": "Centre d'histoire de Montréal",
-     "aliases": [],
+     "aliases": [
+      "Centre d'histoire",
+      "Centre des mémoires montréalaises",
+      "MEM",
+      "MEM - Centre des mémoires montréalaises"
+     ],
      "est": 37,
      "refs": [
       "wikidata:Q2945106"
@@ -15940,7 +15872,10 @@
      "id": "biodome-de-montreal",
      "en": "Montreal Biodome",
      "fr": "Biodôme de Montréal",
-     "aliases": [],
+     "aliases": [
+      "Biodome",
+      "Biodôme"
+     ],
      "est": 69,
      "refs": [
       "wikidata:Q2904080"
@@ -15950,7 +15885,11 @@
      "id": "jardin-botanique-de-montreal",
      "en": "Montreal Botanical Garden",
      "fr": "Jardin botanique de Montréal",
-     "aliases": [],
+     "aliases": [
+      "Botanical Garden",
+      "Botanical Gardens",
+      "Jardin botanique"
+     ],
      "est": 95,
      "refs": [
       "wikidata:Q894652"
@@ -15960,7 +15899,9 @@
      "id": "insectarium-de-montreal",
      "en": "Montréal Insectarium",
      "fr": "Insectarium de Montréal",
-     "aliases": [],
+     "aliases": [
+      "Insectarium"
+     ],
      "est": 82,
      "refs": [
       "wikidata:Q3151521"
@@ -15970,7 +15911,10 @@
      "id": "pointe-a-calliere-cite-d-archeologie-et-d-histoire-de-montre",
      "en": "Pointe-à-Callière Museum",
      "fr": "Pointe-à-Callière, cité d'archéologie et d'histoire de Montréal",
-     "aliases": [],
+     "aliases": [
+      "Musée Pointe-à-Callière",
+      "Pointe-à-Callière"
+     ],
      "est": 56,
      "refs": [
       "wikidata:Q1496027"
@@ -15980,7 +15924,12 @@
      "id": "planetarium-rio-tinto-alcan",
      "en": "Rio Tinto Alcan Planetarium",
      "fr": "Planétarium Rio Tinto Alcan",
-     "aliases": [],
+     "aliases": [
+      "Montreal Planetarium",
+      "Planetarium",
+      "Planétarium",
+      "Planétarium de Montréal"
+     ],
      "est": 37,
      "refs": [
       "wikidata:Q15961512"
@@ -16020,14 +15969,17 @@
    "generator": {
     "template": "culture-network",
     "concept": "culture:espace-pour-la-vie",
-    "contentHash": "acc149d7c82499b1"
+    "contentHash": "7794bba79361d18b"
    },
    "answers": [
     {
      "id": "biodome-de-montreal",
      "en": "Montreal Biodome",
      "fr": "Biodôme de Montréal",
-     "aliases": [],
+     "aliases": [
+      "Biodome",
+      "Biodôme"
+     ],
      "est": 35,
      "refs": [
       "wikidata:Q2904080"
@@ -16037,7 +15989,11 @@
      "id": "jardin-botanique-de-montreal",
      "en": "Montreal Botanical Garden",
      "fr": "Jardin botanique de Montréal",
-     "aliases": [],
+     "aliases": [
+      "Botanical Garden",
+      "Botanical Gardens",
+      "Jardin botanique"
+     ],
      "est": 95,
      "refs": [
       "wikidata:Q894652"
@@ -16047,7 +16003,9 @@
      "id": "insectarium-de-montreal",
      "en": "Montréal Insectarium",
      "fr": "Insectarium de Montréal",
-     "aliases": [],
+     "aliases": [
+      "Insectarium"
+     ],
      "est": 65,
      "refs": [
       "wikidata:Q3151521"
@@ -16057,7 +16015,12 @@
      "id": "planetarium-rio-tinto-alcan",
      "en": "Rio Tinto Alcan Planetarium",
      "fr": "Planétarium Rio Tinto Alcan",
-     "aliases": [],
+     "aliases": [
+      "Montreal Planetarium",
+      "Planetarium",
+      "Planétarium",
+      "Planétarium de Montréal"
+     ],
      "est": 5,
      "refs": [
       "wikidata:Q15961512"

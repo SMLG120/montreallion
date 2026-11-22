@@ -281,6 +281,8 @@ def park_templates(ctx: Context) -> list[Candidate]:
             aliases = [p["specific"], *(f"{p['type']} {art} {p['specific']}" for art in ("du", "de", "de la", "des"))]
             if p["type"] == "Parc":
                 aliases.append(f"Parc-{p['specific']}")
+            if p.get("alt"):
+                aliases.append(f"{p['type']} {p['alt']}")
             sig, refs, _ = place_signal(ctx, full_fr, f"parc {p['specific']}")
             # Familiarity: park size (ha) and Wikipedia coverage.
             answers.append(Answer(en=full_en, fr=full_fr, aliases=aliases, signal=math.log1p(p["ha"]) + math.log1p(sig), refs=refs))
@@ -312,11 +314,33 @@ NETWORKS = {
 }
 
 
+# Everyday short forms for well-known places (matched on the official French name).
+CULTURE_ALIASES = {
+    "Biodôme": ["Biodôme", "Biodome"],
+    "Insectarium": ["Insectarium"],
+    "Planétarium": ["Planétarium", "Planetarium", "Planétarium de Montréal", "Montreal Planetarium"],
+    "Jardin botanique": ["Jardin botanique", "Botanical Garden", "Botanical Gardens", "Montreal Botanical Garden"],
+    "Pointe-à-Callière": ["Pointe-à-Callière", "Musée Pointe-à-Callière"],
+    "Centre d'histoire": ["Centre d'histoire", "MEM", "MEM - Centre des mémoires montréalaises", "Centre des mémoires montréalaises"],
+    "Centre d’histoire": ["Centre d'histoire", "MEM", "MEM - Centre des mémoires montréalaises", "Centre des mémoires montréalaises"],
+}
+
+
+def _in_network(c: dict, net: str) -> bool:
+    if net not in c["networks"]:
+        return False
+    # The library network lists BAnQ's Grande Bibliothèque (provincial, not a City library) and a cultural
+    # centre whose library is listed separately; keep only the City's own "Bibliothèque …" branches.
+    if net == "Bibliothèque":
+        return c["name"].startswith("Bibliothèque ") and not c["name"].startswith("Grande Bibliothèque")
+    return True
+
+
 def culture_templates(ctx: Context) -> list[Candidate]:
     out = []
     areas = {a.name: a for a in ctx.areas}
     for net, (slug, en_desc, fr_desc) in NETWORKS.items():
-        places = [c for c in ctx.culture if net in c["networks"]]
+        places = [c for c in ctx.culture if _in_network(c, net)]
         if len(places) < MIN_ANSWERS:
             continue
 
@@ -325,6 +349,9 @@ def culture_templates(ctx: Context) -> list[Candidate]:
             for prefix in ("Bibliothèque ", "Maison de la culture ", "Salle "):
                 if c["name"].startswith(prefix):
                     aliases.append(c["name"][len(prefix):])
+            for key, extra in CULTURE_ALIASES.items():
+                if key in c["name"]:
+                    aliases += extra
             sig, refs, en = place_signal(ctx, c["name"])
             return Answer(en=en or c["name"], fr=c["name"], aliases=aliases, signal=math.log1p(sig), refs=refs)
 

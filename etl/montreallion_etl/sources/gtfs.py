@@ -43,12 +43,17 @@ class MetroData:
     retrieved: str
 
 
+# Feed names that no cleanup rule can turn into the official station name.
+NAME_FIXES = {"LONGUEUIL- U. de SHERBROOKE": "Longueuil–Université-de-Sherbrooke"}
+
+
 def _clean(stop_name: str) -> str:
     """'Station Cartier -Zone B' → 'Cartier'; bus stops may add a street in parentheses."""
-    s = stop_name.removeprefix("Station ")
+    s = re.sub(r"^station\s+", "", stop_name, flags=re.IGNORECASE)
     s = re.sub(r"\s*\(.*\)$", "", s)
     s = re.sub(r"\s*-?\s*[Qq]uai \d+$", "", s)
-    return re.sub(r"\s*-\s*Zone [A-Z]$", "", s).strip()
+    s = re.sub(r"\s*-\s*Zone [A-Z]$", "", s).strip()
+    return NAME_FIXES.get(s, s)
 
 
 def _rows(z: zipfile.ZipFile, name: str):

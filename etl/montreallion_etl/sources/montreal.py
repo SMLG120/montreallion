@@ -63,7 +63,11 @@ def parks(index: geo.AreaIndex, refresh: bool = False) -> tuple[list[dict], dict
             ha = float(str(p.get("SUPERFICIE") or 0).replace(",", "."))
         except ValueError:
             ha = 0.0
-        cur = agg.setdefault((ptype, specific, area), {"type": ptype, "specific": specific, "area": area, "ha": 0.0})
+        # "Maisonneuve, Golf municipal de Montréal" → name "Maisonneuve"; the full form stays an accepted alias.
+        alt = None
+        if ", " in specific:
+            specific, alt = specific.split(", ", 1)[0].strip(), specific
+        cur = agg.setdefault((ptype, specific, area), {"type": ptype, "specific": specific, "area": area, "ha": 0.0, "alt": alt})
         cur["ha"] += ha
     return list(agg.values()), info
 

@@ -193,5 +193,26 @@ class CachedData(unittest.TestCase):
             self.assertGreaterEqual(len(c.answers), 3, c.id)
 
 
+
+class ReviewFixesTest(unittest.TestCase):
+    """Regressions found in the first human review (2026-11-21)."""
+
+    def test_gtfs_station_names(self):
+        from montreallion_etl.sources.gtfs import _clean
+
+        self.assertEqual(_clean("STATION LONGUEUIL- U. de SHERBROOKE"), "Longueuil–Université-de-Sherbrooke")
+        self.assertEqual(_clean("Station Cartier -Zone B"), "Cartier")
+        self.assertEqual(_clean("Station Berri-UQAM - Quai 1"), "Berri-UQAM")
+
+    def test_library_network_keeps_only_city_branches(self):
+        from montreallion_etl.templates import _in_network
+
+        lib = lambda name: {"name": name, "networks": ["Bibliothèque"]}  # noqa: E731
+        self.assertTrue(_in_network(lib("Bibliothèque Frontenac"), "Bibliothèque"))
+        self.assertFalse(_in_network(lib("Grande Bibliothèque - Bibliothèque et Archives nationales du Québec"), "Bibliothèque"))
+        self.assertFalse(_in_network(lib("Maison culturelle et communautaire de Montréal-Nord"), "Bibliothèque"))
+        self.assertTrue(_in_network({"name": "Maison culturelle et communautaire de Montréal-Nord", "networks": ["Salle de spectacle"]}, "Salle de spectacle"))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,1 +1,9 @@
-{}
+{
+  "gen-culture-venue": {
+    "contentHash": "702599f5a623374a",
+    "date": "2026-11-21",
+    "note": "Dataset's 'Salle de spectacle' list includes art galleries; mostly obscure; prompt doesn't match the list.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  }
+}
