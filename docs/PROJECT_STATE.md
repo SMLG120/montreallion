@@ -284,12 +284,14 @@ The category mix differs from the spec, as requested ("keep going on food and fe
   - Vitest: 387. The content suite runs per question: provenance, licences, bilingual text, at least 5 unique answers, each answer matching itself, `in_review` only, and every food answer backed by the registry.
   - DB: 18. Typecheck and lint are clean.
   - Seeding `montreallion_test` twice gave 263 questions and 7,259 answers both times.
-- **Not done:** not reviewed, not committed, not imported into Neon, not deployed.
+- **Deployed:**
+  - Commits 8fc56b0 (7 review approvals) and 8c3b83a (Phase C) were pushed to main. Vercel built them, and health reports 8c3b83a with postgres ok.
+  - Neon was seeded with `DATABASE_URL_UNPOOLED`. Before: 76 questions and 1,516 answers. After: 277 questions and 7,358 answers (56 approved, 207 in review, 14 rejected). The seed takes over 10 minutes over the network; each file goes in one transaction.
+  - The prod smoke test passed 16/16.
+  - The 201 Phase C questions are in review and not served yet.
 - **Next:**
   1. Human review: `npm run etl:review -- --reviewer NAME` or `/admin`. Food questions only stay accurate while the registry and OSM snapshots are fresh, so re-run `etl:build` with `--refresh` before each release.
-  2. Commit.
-  3. `db:seed` against Neon.
-  4. Deploy.
+  2. Approved questions go live after `db:seed` against Neon. Admin-console approvals apply directly.
 
 ## Blockers
 - Content: 49 playable questions; 13 generated ones await review (7 fixed, 6 need borough checks); neighbourhood template needs a new source.
