@@ -120,3 +120,41 @@ SELECT ?item ?sl ?fr ?en WHERE {{
     for b in _bindings(data):
         idx.add(b["item"]["value"].rsplit("/", 1)[-1], int(b["sl"]["value"]), b.get("fr", {}).get("value"), b.get("en", {}).get("value"))
     return idx, f.retrieved
+
+
+def by_enwiki(titles: list[str], refresh: bool = False) -> tuple[dict[str, dict], str]:
+    return by_wiki(titles, "en", refresh)
+
+
+def by_wiki(titles: list[str], lang: str = "en", refresh: bool = False) -> tuple[dict[str, dict], str]:
+    """English Wikipedia titles → {qid, fr, en, sl}. One cached query per distinct title set.
+
+    Gives each Wikipedia-listed answer a canonical id (QID), its French label and a
+    sitelink count (familiarity proxy). Missing titles simply get no entry."""
+    import hashlib
+
+    clean = sorted({t.replace("_", " ").strip() for t in titles if t.strip()})
+    if not clean:
+        return {}, ""
+    key = f"wd-{lang}wiki-" + hashlib.sha256("\n".join(clean).encode()).hexdigest()[:12]
+    if lang == "en":
+        key = "wd-enwiki-" + hashlib.sha256("\n".join(clean).encode()).hexdigest()[:12]
+    values = " ".join('"%s"@%s' % (t.replace('"', '\\"'), lang) for t in clean)
+    q = f"""
+SELECT ?title ?item ?sl ?fr ?en WHERE {{
+  VALUES ?title {{ {values} }}
+  ?article schema:about ?item ; schema:isPartOf <https://{lang}.wikipedia.org/> ; schema:name ?title .
+  ?item wikibase:sitelinks ?sl .
+  OPTIONAL {{ ?item rdfs:label ?fr FILTER(LANG(?fr) = "fr") }}
+  OPTIONAL {{ ?item rdfs:label ?en FILTER(LANG(?en) = "en") }}
+}}"""
+    data, f = fetch_json(key, ENDPOINT, post={"query": q, "format": "json"}, refresh=refresh, timeout=180)
+    out = {}
+    for b in _bindings(data):
+        out[b["title"]["value"]] = {
+            "qid": b["item"]["value"].rsplit("/", 1)[-1],
+            "sl": int(b["sl"]["value"]),
+            "fr": b.get("fr", {}).get("value"),
+            "en": b.get("en", {}).get("value"),
+        }
+    return out, f.retrieved

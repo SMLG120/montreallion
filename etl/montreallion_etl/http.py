@@ -43,7 +43,7 @@ def _save_manifest(m: dict) -> None:
 
 
 # Polite per-host minimum spacing between requests (WDQS currently allows ~1 req/min).
-MIN_INTERVAL = {"query.wikidata.org": 62.0}
+MIN_INTERVAL = {"query.wikidata.org": 62.0, "en.wikipedia.org": 3.0, "fr.wikipedia.org": 3.0, "overpass-api.de": 15.0}
 _last_request: dict[str, float] = {}
 
 

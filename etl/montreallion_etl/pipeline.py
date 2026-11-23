@@ -15,7 +15,13 @@ from .sources import gtfs, montreal, wikidata
 from .templates import ALL, Context
 
 MAX_ANSWERS = 400
-LICENCE_ALLOW = ("CC BY 4.0", "Creative Commons Attribution 4.0", "CC0")
+# Phase C templates: open-ended questions must keep at least 5 valid answers after deduplication.
+MIN5_TEMPLATES = {
+    "heritage-in-area", "heritage-kind", "community-garden-in-area", "museum-list", "national-historic-site", "exo-line", "exo-island",
+    "stm-bus-network", "park-kind", "neighbourhood-in-borough", "metro-opened", "wikipedia-list", "wiki-restaurant-open",
+    "food-open-place", "wikipedia-event",
+}
+LICENCE_ALLOW = ("CC BY 4.0", "Creative Commons Attribution 4.0", "CC0", "CC BY-SA 4.0 (facts only reused)", "ODbL 1.0 (© OpenStreetMap contributors)")
 
 # Seed questions that cover the same concept as a template: we verify them instead of duplicating.
 SEED_CONCEPTS = {
@@ -88,7 +94,8 @@ def clean_label(s: str) -> str:
 
 
 def dedupe(c: Candidate) -> None:
-    """Merge answers that normalize to the same key (e.g. a park split into several polygons)."""
+    """Merge answers that normalize to the same key (e.g. a park split into several polygons); one entry per source URL."""
+    c.sources = list({s["url"]: s for s in c.sources}.values())
     merged: dict[str, Answer] = {}
     for a in c.answers:
         a.en = clean_label(a.en)
@@ -122,6 +129,8 @@ def validate(c: Candidate) -> None:
     for s in c.sources:
         if not any(s["license"].startswith(x) for x in LICENCE_ALLOW):
             c.issues.append(f"licence not allow-listed: {s['license']}")
+    if c.template in MIN5_TEMPLATES and len(c.answers) < 5:
+        c.issues.append(f"only {len(c.answers)} answers (phase C templates need 5+)")
     if len(c.answers) < 3:
         c.issues.append(f"only {len(c.answers)} answers (min 3)")
     if len(c.answers) > MAX_ANSWERS:

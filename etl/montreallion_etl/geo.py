@@ -84,3 +84,31 @@ class AreaIndex:
             if self.locate(lon + dx, lat + dy * 0.7) != here:
                 return True
         return False
+
+
+def mtm8_to_lonlat(x: float, y: float) -> tuple[float, float]:
+    """EPSG:2950 (NAD83(CSRS) / MTM zone 8) → WGS84-ish lon/lat (sub-metre; NAD83≈WGS84 here).
+
+    Inverse transverse Mercator (Snyder 1987, eq. 8-12…8-25): GRS80, lon0 −73.5°, k0 0.9999, FE 304800.
+    """
+    import math
+
+    a, f = 6378137.0, 1 / 298.257222101
+    e2 = f * (2 - f)
+    ep2 = e2 / (1 - e2)
+    k0, lon0, fe = 0.9999, math.radians(-73.5), 304800.0
+    m = y / k0
+    mu = m / (a * (1 - e2 / 4 - 3 * e2**2 / 64 - 5 * e2**3 / 256))
+    e1 = (1 - math.sqrt(1 - e2)) / (1 + math.sqrt(1 - e2))
+    p1 = mu + (3 * e1 / 2 - 27 * e1**3 / 32) * math.sin(2 * mu) + (21 * e1**2 / 16 - 55 * e1**4 / 32) * math.sin(4 * mu)
+    p1 += (151 * e1**3 / 96) * math.sin(6 * mu) + (1097 * e1**4 / 512) * math.sin(8 * mu)
+    c1 = ep2 * math.cos(p1) ** 2
+    t1 = math.tan(p1) ** 2
+    n1 = a / math.sqrt(1 - e2 * math.sin(p1) ** 2)
+    r1 = a * (1 - e2) / (1 - e2 * math.sin(p1) ** 2) ** 1.5
+    d = (x - fe) / (n1 * k0)
+    lat = p1 - (n1 * math.tan(p1) / r1) * (
+        d**2 / 2 - (5 + 3 * t1 + 10 * c1 - 4 * c1**2 - 9 * ep2) * d**4 / 24 + (61 + 90 * t1 + 298 * c1 + 45 * t1**2 - 252 * ep2 - 3 * c1**2) * d**6 / 720
+    )
+    lon = lon0 + (d - (1 + 2 * t1 + c1) * d**3 / 6 + (5 - 2 * c1 + 28 * t1 - 3 * c1**2 + 8 * ep2 + 24 * t1**2) * d**5 / 120) / math.cos(p1)
+    return math.degrees(lon), math.degrees(lat)

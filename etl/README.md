@@ -31,7 +31,12 @@ npm run etl:test
 | donnees.montreal.ca: grands parcs / parcs / espaces publics | CC BY 4.0 | named parks per borough, park area |
 | donnees.montreal.ca: lieux culturels | CC BY 4.0 | libraries, venues, municipal museums, Espace pour la vie |
 | donnees.montreal.ca: art public | CC BY 4.0 | public-art artists |
-| Wikidata | CC0 | EN labels and sitelink counts (familiarity signal only, never eligibility) |
+| Wikidata | CC0 | EN/FR labels, QIDs and sitelink counts (familiarity signal); neighbourhood items per borough |
+| donnees.montreal.ca: sites et immeubles protégés (LPC), jardins communautaires | CC BY 4.0 | heritage sites per area/kind (MTM-8 → WGS84 in `geo.py`), community gardens per borough |
+| donnees.montreal.ca: établissements alimentaires | CC BY 4.0 | **open-status check** for restaurants (statut = Ouvert; event permits ignored) |
+| exo trains GTFS (exo.quebec) | CC BY 4.0 | commuter-train lines and stations |
+| OpenStreetMap via Overpass (© OpenStreetMap contributors) | ODbL 1.0 | food/drink places: names, cuisine/shop tags, location. **Eligible only when matched (same cleaned name, ≤150 m) to an establishment listed `Ouvert` in the City food registry** |
+| Wikipedia (fr/en), revision-pinned `oldid` URLs | CC BY-SA 4.0 — **facts only reused** (names in lists/categories, no prose) | festivals, event winners/line-ups (fireworks, Francouvertes, FFM, RIDM, Fantasia, Heavy Montréal, Igloofest, F1, cycling, marathon), Expo 67 pavilions, 1976 Olympic venues, theatres, skyscrapers, malls, bridges, museums, national historic sites, métro opening dates, Québec cuisine/cheeses, microbreweries, famous restaurants |
 
 ## Rules
 - **Eligibility comes only from the datasets.** Prompts state the dataset's definition, for example "termini = ends of the longest scheduled trips".

@@ -500,3 +500,13 @@ def slugify_name(n: str) -> str:
 
 
 ALL = [metro_templates, rem_templates, area_templates, park_templates, culture_templates, art_templates]
+
+
+from .expansion import ALL_EXPANSION  # noqa: E402  (phase C templates; imports helpers above)
+
+from .wikilists import wikilist_templates  # noqa: E402
+
+from .events import event_templates  # noqa: E402
+from .food import food_templates  # noqa: E402
+
+ALL = ALL + ALL_EXPANSION + [wikilist_templates, food_templates, event_templates]

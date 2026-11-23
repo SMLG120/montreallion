@@ -83,7 +83,7 @@ def load_rail(key: str, url: str, route_types: set[str], refresh: bool = False) 
 
     def station_for(stop_id: str) -> Station:
         s = stops[stop_id]
-        pid = s["parent_station"] or stop_id
+        pid = s.get("parent_station") or stop_id
         if pid not in stations:
             p = stops.get(pid, s)
             # Prefer the parent's name unless it's upper-case (STM), then the child's.
@@ -117,4 +117,4 @@ def load_rail(key: str, url: str, route_types: set[str], refresh: bool = False) 
             first.termini_of.add(trip_route[trip])
             last.termini_of.add(trip_route[trip])
 
-    return MetroData(stations, feed["feed_version"], (feed["feed_start_date"], feed["feed_end_date"]), f.retrieved)
+    return MetroData(stations, feed.get("feed_version", ""), (feed.get("feed_start_date", ""), feed.get("feed_end_date", "")), f.retrieved)
