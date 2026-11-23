@@ -141,6 +141,25 @@ export function MapView({ game }: { game: string | null }) {
         setStyleTick((n) => n + 1);
         setReady(true);
       });
+      // Render summary for the post-deploy smoke test (scripts/smoke-map.ts): what actually got drawn.
+      map.on("idle", () => {
+        const el = box.current;
+        if (!el) return;
+        const count = (ids: string[]) => {
+          const layers = ids.filter((l) => map.getLayer(l));
+          return layers.length ? map.queryRenderedFeatures({ layers }).length : 0;
+        };
+        const c = map.getCenter();
+        el.dataset.rendered = JSON.stringify({
+          base: map.queryRenderedFeatures().filter((f) => f.source === "openmaptiles").length,
+          rail: count(["rail-line"]),
+          stations: count(["stations-pt"]),
+          clusters: count(["parks-cluster", "food-cluster", "heritage-cluster", "gardens-cluster"]),
+          food: count(["food-cluster", "food-pt"]),
+          zoom: +map.getZoom().toFixed(3),
+          center: [+c.lng.toFixed(5), +c.lat.toFixed(5)],
+        });
+      });
     })();
     return () => {
       disposed = true;
