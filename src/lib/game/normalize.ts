@@ -6,6 +6,11 @@ const FILLER_PREFIX = /^(the|le|la|les|l|station|metro|pont|parc|park|ville de|c
 const FILLER_SUFFIX = /\s+(station|metro|bridge|park)$/;
 
 export function normalizeAnswer(raw: string): string {
+  return normalizeWords(raw).replace(/\s+/g, "");
+}
+
+/** Same pipeline as `normalizeAnswer` but keeps word boundaries (single spaces). */
+export function normalizeWords(raw: string): string {
   let s = raw
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -24,7 +29,7 @@ export function normalizeAnswer(raw: string): string {
     s = s.replace(FILLER_PREFIX, "").replace(FILLER_SUFFIX, "");
     if (s === before) break;
   }
-  return s.replace(/\s+/g, "");
+  return s.replace(/\s+/g, " ");
 }
 
 /** Optimal string alignment (Damerau-Levenshtein with adjacent transpositions), early-exit at `max`. */

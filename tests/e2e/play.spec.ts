@@ -1,16 +1,16 @@
 import { expect, test, type Page } from "@playwright/test";
 import { answerFor } from "./oracle";
+import { checkAndConfirm } from "./answer";
 
 async function answerCurrent(page: Page, mode: "right" | "wrong") {
   const prompt = (await page.getByTestId("prompt").textContent())!.trim();
   const value = mode === "right" ? answerFor.get(prompt) : "definitely not a real answer";
   expect(value, `no oracle answer for "${prompt}"`).toBeTruthy();
-  await page.getByTestId("answer-input").fill(value!);
-  await page.getByTestId("answer-input").press("Enter");
-  await expect(page.getByTestId("reveal")).toBeVisible();
+  await checkAndConfirm(page, value!);
 }
 
 test("plays a full daily game: 7 stops, server scoring, results and resume lock", async ({ page }) => {
+  test.setTimeout(60_000); // 7 × (check + confirm)
   await page.goto("/");
   await page.getByTestId("play-daily").click();
   for (let i = 0; i < 7; i++) {
@@ -31,6 +31,7 @@ test("plays a full daily game: 7 stops, server scoring, results and resume lock"
 });
 
 test("daily results link to the leaderboard, where a player can set a name", async ({ page }) => {
+  test.setTimeout(60_000);
   await page.goto("/play/daily");
   for (let i = 0; i < 7; i++) {
     await expect(page.getByTestId("prompt")).toBeVisible();
@@ -80,7 +81,50 @@ test("accent-insensitive and typo-tolerant matching through the UI", async ({ pa
   const plain = answerFor.get(prompt)!.normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase();
   await page.getByTestId("answer-input").fill(plain);
   await page.getByTestId("submit-answer").click();
+  await expect(page.getByTestId("check-panel")).toHaveAttribute("data-status", "match");
+  await page.getByTestId("confirm-answer").click();
   await expect(page.getByTestId("reveal")).toHaveAttribute("data-status", "correct");
+});
+
+test("double-check: typo → POSSIBLE MATCH → confirm; nothing counts until confirmed", async ({ page }) => {
+  await page.goto("/play/unlimited");
+  const prompt = (await page.getByTestId("prompt").textContent())!.trim();
+  const answer = answerFor.get(prompt)!;
+  // Swap two adjacent letters in the middle of a long-enough word (1 transposition).
+  let i = -1;
+  for (let k = 0; k + 2 < answer.length; k++) {
+    if (/[A-Za-z]{3}/.test(answer.slice(k, k + 3)) && answer[k + 1].toLowerCase() !== answer[k + 2].toLowerCase()) {
+      i = k;
+      break;
+    }
+  }
+  test.skip(answer.replace(/[^A-Za-z]/g, "").length < 6 || i < 0, `answer too short for a typo test: ${answer}`);
+  const typo = answer.slice(0, i + 1) + answer[i + 2] + answer[i + 1] + answer.slice(i + 3);
+  const input = page.getByTestId("answer-input");
+  await input.fill(typo);
+  await input.press("Enter");
+  const panel = page.getByTestId("check-panel");
+  await expect(panel).toHaveAttribute("data-status", "possible");
+  await expect(panel).toContainText(answer);
+  await expect(panel).not.toContainText(/pts|\d+%/); // no points or rarity before submission
+  await expect(page.getByTestId("running-score")).toHaveText("0");
+  // Editing invalidates the check; re-check with the corrected spelling.
+  await page.getByTestId("edit-answer").click();
+  await expect(panel).toBeHidden();
+  await expect(input).toBeFocused();
+  await input.fill(typo);
+  await input.press("Enter");
+  await page.getByTestId("confirm-answer").click();
+  await expect(page.getByTestId("reveal")).toHaveAttribute("data-status", "correct");
+});
+
+test("double-check: NOT RECOGNIZED → submit as typed → incorrect", async ({ page }) => {
+  await page.goto("/play/unlimited");
+  await page.getByTestId("answer-input").fill("Zzyzx Qwerty Plonk");
+  await page.getByTestId("answer-input").press("Enter");
+  await expect(page.getByTestId("check-panel")).toHaveAttribute("data-status", "none");
+  await page.getByTestId("submit-typed").click();
+  await expect(page.getByTestId("reveal")).toHaveAttribute("data-status", "incorrect");
 });
 
 test("static pages render in both languages", async ({ page }) => {

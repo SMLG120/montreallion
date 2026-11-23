@@ -1,6 +1,6 @@
 import type { Sql } from "@/lib/server/db";
 import type { Bank } from "./bank";
-import type { Session, Submission } from "./engine";
+import type { Precheck, Session, Submission } from "./engine";
 import { anonTag, type Board, type DailyChallenge, type DayCounts, type FrozenScores, type SessionStore } from "./store";
 import type { Tier } from "./types";
 
@@ -18,6 +18,7 @@ type SessionRow = {
   created_at: Date;
   finished_at: Date | null;
   score_snapshot: FrozenScores | null;
+  precheck: Precheck | null;
 };
 
 type SubRow = {
@@ -49,6 +50,7 @@ function toSession(r: SessionRow, subs: SubRow[]): Session {
     createdAt: r.created_at.getTime(),
     finishedAt: ms(r.finished_at),
     frozenScores: r.score_snapshot,
+    precheck: r.precheck,
     submissions: subs.map((x) => ({
       questionId: x.question_id,
       input: x.input,
@@ -76,12 +78,12 @@ export function createPostgresStore(sql: Sql, getBank: () => Promise<Bank>): Ses
     const rows = lock
       ? await q<SessionRow[]>`
           select s.id, s.player_id, s.mode, s.date_key::text as date_key, s.rarity_model_id, s.question_ids, s.current_index,
-                 s.served_at, s.created_at, s.finished_at, d.score_snapshot
+                 s.served_at, s.created_at, s.finished_at, d.score_snapshot, s.precheck
           from sessions s left join daily_challenges d on d.date_key = s.date_key
           where s.id = ${id} for update of s`
       : await q<SessionRow[]>`
           select s.id, s.player_id, s.mode, s.date_key::text as date_key, s.rarity_model_id, s.question_ids, s.current_index,
-                 s.served_at, s.created_at, s.finished_at, d.score_snapshot
+                 s.served_at, s.created_at, s.finished_at, d.score_snapshot, s.precheck
           from sessions s left join daily_challenges d on d.date_key = s.date_key
           where s.id = ${id}`;
     if (!rows.length) return null;
@@ -150,7 +152,8 @@ export function createPostgresStore(sql: Sql, getBank: () => Promise<Bank>): Ses
         const total = s.submissions.reduce((t, x) => t + x.score, 0);
         const elapsed = s.submissions.reduce((t, x) => t + Math.round(x.elapsedMs), 0);
         await tx`update sessions set current_index = ${s.index}, served_at = ${s.servedAt === null ? null : new Date(s.servedAt)},
-                   total_score = ${total}, total_elapsed_ms = ${elapsed}, finished_at = ${s.finishedAt === null ? null : new Date(s.finishedAt)}
+                   total_score = ${total}, total_elapsed_ms = ${elapsed}, finished_at = ${s.finishedAt === null ? null : new Date(s.finishedAt)},
+                   precheck = ${s.precheck ? tx.json(s.precheck as never) : null}
                  where id = ${id}`;
         for (const [i, sub] of s.submissions.slice(before).entries()) {
           const answerDbId = sub.answerId ? bank.answerDbId(sub.questionId, sub.answerId) : null;

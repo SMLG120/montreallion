@@ -1,6 +1,6 @@
 # Montréallion — Project State
 
-_Last updated: 2026-11-22 · Phases 1–8 complete · 49 approved questions live (15 seed + 34 from review #1) · LIVE at https://montreallion.vercel.app (Vercel + Neon Postgres); smoke test passed against production — see docs/DEPLOY.md_
+_Last updated: 2026-11-23 · Phases 1–8 complete · **Expansion phase B (answer double-check) done locally, NOT deployed — needs migration 20261123000001 on Neon first** · 49 approved questions live · LIVE at https://montreallion.vercel.app (Vercel + Neon Postgres) — see docs/DEPLOY.md_
 
 ## What it is
 Original, bilingual (EN/FR) Montréal rarity trivia game. 7 open-ended questions per ride, 25 s each, rarer valid answers score more (10–100). It borrows the general rarity-quiz idea only; no Krillion branding, code, art or content.
@@ -217,6 +217,31 @@ The first human review of the 61 generated questions; decisions are in `etl/revi
   - Fabre station (Rosemont vs Villeray) and Crémazie (Ahuntsic vs Villeray): affects 3 métro questions.
   - REM inside/outside the City (Canora, Côte-de-Liesse, Sunnybrooke).
   - Public-art artists: Riopelle missing, an architecture firm listed, unreliable estimates.
+
+## Expansion B: answer double-check (done 2026-11-23, not deployed)
+Flow: type → **Check** (Enter) → MATCH FOUND / POSSIBLE MATCH / NOT RECOGNIZED panel → pick entity → **Confirm** (Enter) → reveal.
+- `match.ts › checkAnswer`: same deterministic keys and conservative typo budget as `matchAnswer`.
+  - Exact single entity ⇒ `match`. Typo or several entities ⇒ `possible`, and the player picks one.
+  - A listed ambiguous input (e.g. "Richard") ⇒ the answers that contain it as whole words.
+  - More than 4 candidates ⇒ `vague` (nothing listed). No prefix/autocomplete results, ever.
+- `engine.check()` + `POST /api/game/:id/check`:
+  - Never consumes the question. Returns labels only (no ids, scores, rarity or `est`).
+  - State lives server-side in `sessions.precheck` (jsonb, migration `20261123000001`): key, candidate slugs, `at`, count.
+  - `MAX_CHECKS = 3` distinct inputs per question (enumeration bound); re-checking the same input is free. Rate limit 120/min/IP (flood only).
+- Final submit accepts `choice` (an index into the server's own candidate list).
+  - It is refused (`bad_choice`, 409) unless the normalized input equals the checked key.
+  - Declining every suggestion scores the input as typed (never swaps in another entity).
+  - Unchecked submits (the timer ran out first) keep the old `matchAnswer` path.
+- **Timer:** a check is accepted only before 25 s + 1.5 s. A timely check can be confirmed until `check.at + 6 s` (`CONFIRM_GRACE_MS`), and only for that same input. `serve()` doesn't auto-expire during the grace. Stored `elapsedMs` is capped at 26.5 s.
+- Unknown-but-valid answers: the NOT RECOGNIZED panel points to the existing appeal flow on results.
+- UI: `CheckPanel` in `game-client.tsx`. Radio group for disambiguation; buttons are at least 44 px; `aria-live` status; Edit refocuses the input; grace countdown shown. EN/FR strings added; how-to-play updated.
+- **Party mode still uses one-shot submit** (retry on ambiguity). Follow-up if wanted.
+- Tests:
+  - Unit 181 (+17 in `tests/unit/precheck.test.ts`: accents/aliases/FR, typo, disambiguation, no-autocomplete, candidate cap, no leakage, forged/edited choices, check limit, duplicates, grace bounds, serve during grace).
+  - DB 18 (+4 in `tests/integration/precheck.test.ts`: cross-instance confirm, concurrent checks ≤ MAX under row lock, 4 concurrent confirms ⇒ 1 row, grace across instances).
+  - E2E memory: 22 passed, 2 skipped. E2E Postgres: 23 passed, 1 skipped. That includes 2 new double-check specs; full-daily specs got 60–90 s timeouts.
+  - ETL 21 OK, typecheck/lint clean, `next build` OK.
+- **Before deploying:** `DATABASE_URL=<Neon unpooled> npm run db:migrate`, then push. The new code selects `sessions.precheck`, so deploying before the migration breaks gameplay.
 
 ## Blockers
 - Content: 49 playable questions; 13 generated ones await review (7 fixed, 6 need borough checks); neighbourhood template needs a new source.

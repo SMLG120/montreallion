@@ -1,15 +1,14 @@
 import { expect, test, type Page } from "@playwright/test";
 import { E2E_ADMIN_TOKEN } from "../../playwright.config";
 import { answerFor, bankQuestions } from "./oracle";
+import { checkAndConfirm } from "./answer";
 
 const transitPrompts = new Set(bankQuestions.filter((q) => q.category === "transit").map((q) => q.prompt.en));
 
 async function answer(page: Page, right: boolean) {
   await expect(page.getByTestId("prompt")).toBeVisible();
   const prompt = (await page.getByTestId("prompt").textContent())!.trim();
-  await page.getByTestId("answer-input").fill(right ? answerFor.get(prompt)! : "Zzyzx Qwerty Plonk");
-  await page.getByTestId("answer-input").press("Enter");
-  await expect(page.getByTestId("reveal")).toBeVisible();
+  await checkAndConfirm(page, right ? answerFor.get(prompt)! : "Zzyzx Qwerty Plonk");
   await page.getByTestId("next-stop").click();
   return prompt;
 }
@@ -45,6 +44,7 @@ test.describe("admin console (Postgres only)", () => {
   test.beforeEach(({}, info) => test.skip(info.project.name !== "desktop", "shared DB state: desktop only"));
 
   test("login, review a queued question, appeal a rejected answer and resolve it", async ({ page, browser }) => {
+    test.setTimeout(90_000); // admin steps + a full daily (7 × check + confirm)
     await page.goto("/admin/questions");
     await expect(page).toHaveURL(/\/admin\/login/);
     await page.getByTestId("admin-reviewer").fill("E2E");

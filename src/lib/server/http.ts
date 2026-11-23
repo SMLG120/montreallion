@@ -63,7 +63,7 @@ export function json(data: unknown, status = 200) {
 
 export function errorResponse(e: unknown) {
   if (e instanceof GameError) {
-    const status = { not_found: 404, forbidden: 403, out_of_order: 409, not_served: 409, finished: 409, unavailable: 422 }[e.code];
+    const status = { not_found: 404, forbidden: 403, out_of_order: 409, not_served: 409, finished: 409, unavailable: 422, bad_choice: 409 }[e.code];
     return json({ error: e.code }, status);
   }
   console.error(e);

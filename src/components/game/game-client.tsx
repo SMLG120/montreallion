@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, animate, motion, useMotionValue, useTransform } from "motion/react";
-import { ArrowRight, CornerDownLeft, Loader2 } from "lucide-react";
+import { ArrowRight, Check, CornerDownLeft, Loader2, Pencil, SearchCheck } from "lucide-react";
 import { useApp } from "@/components/providers";
 import { Button } from "@/components/ui/button";
 import { MetroLine, type StopState } from "./metro-line";
@@ -25,6 +25,11 @@ type AnswerResult = {
   runningScore: number;
   finished: boolean;
 };
+
+type CheckStatus = "match" | "possible" | "vague" | "none" | "limit" | "expired";
+type CheckView = { status: CheckStatus; candidates: Localized[]; checksLeft: number; confirmBy: number | null };
+/** Latest double-check; only valid while the input is unchanged. */
+type CheckState = { input: string; view: CheckView; selected: number | null };
 
 type Phase =
   | { kind: "loading" }
@@ -55,6 +60,9 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
   const [submitting, setSubmitting] = useState(false);
   const [remaining, setRemaining] = useState(ANSWER_SECONDS);
   const [resumed, setResumed] = useState(false);
+  const [check, setCheck] = useState<CheckState | null>(null);
+  const [checking, setChecking] = useState(false);
+  const [graceLeft, setGraceLeft] = useState<number | null>(null);
   const offset = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const nextBtnRef = useRef<HTMLButtonElement>(null);
@@ -88,6 +96,8 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
       if (r.data.finished || !r.data.question) return finish(s.id, s.dateKey);
       setInput("");
       setNotice(null);
+      setCheck(null);
+      setGraceLeft(null);
       setPhase({ kind: "question", q: r.data.question, deadline: r.data.deadline! });
     },
     [finish, t.game.error, t.game.rateLimited],
@@ -109,10 +119,10 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
   }, [mode, category, loadNext, finish, t.game.error, t.game.rateLimited, t.game.unavailable]);
 
   const submit = useCallback(
-    async (value: string) => {
+    async (value: string, choice?: number) => {
       if (phase.kind !== "question" || !session || submitting) return;
       setSubmitting(true);
-      const r = await post<AnswerResult | { status: "retry" }>(`/api/game/${session.id}/answer`, { index: phase.q.index, answer: value });
+      const r = await post<AnswerResult | { status: "retry" }>(`/api/game/${session.id}/answer`, { index: phase.q.index, answer: value, choice });
       setSubmitting(false);
       if (!r.ok) {
         // 409 = already answered / out of sync: resync with the server.
@@ -120,6 +130,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
         return setNotice(r.status === 429 ? t.game.rateLimited : t.game.error);
       }
       if (r.data.status === "retry") {
+        setCheck(null);
         setNotice(t.game.retry);
         inputRef.current?.focus();
         return;
@@ -133,11 +144,43 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
     [phase, session, submitting, sound, loadNext, t.game.error, t.game.rateLimited, t.game.retry],
   );
 
-  // Server-anchored countdown; auto-submits what's typed when time runs out.
+  /** Double-check: never consumes the question and never shows points or rarity. */
+  const runCheck = useCallback(
+    async (value: string) => {
+      if (phase.kind !== "question" || !session || checking || submitting) return;
+      setChecking(true);
+      const r = await post<CheckView & { serverNow: number }>(`/api/game/${session.id}/check`, { index: phase.q.index, answer: value });
+      setChecking(false);
+      if (!r.ok) {
+        if (r.status === 409) return loadNext(session);
+        return setNotice(r.status === 429 ? t.game.rateLimited : t.game.error);
+      }
+      offset.current = r.data.serverNow - Date.now();
+      const view: CheckView = { status: r.data.status, candidates: r.data.candidates, checksLeft: r.data.checksLeft, confirmBy: r.data.confirmBy };
+      if (view.status === "expired") return void submit(value);
+      // A single candidate is pre-selected; several require an explicit pick.
+      setCheck({ input: value, view, selected: view.candidates.length === 1 ? 0 : null });
+    },
+    [phase, session, checking, submitting, submit, loadNext, t.game.error, t.game.rateLimited],
+  );
+
+  const current = check && check.input === input ? check : null;
+  /** Primary action: check first; confirm once the current input has been checked. */
+  const primary = useCallback(() => {
+    if (!input.trim()) return;
+    if (!current) return void runCheck(input);
+    const { view, selected } = current;
+    if ((view.status === "match" || view.status === "possible") && selected !== null) return void submit(input, selected);
+    if (view.status === "none" || view.status === "limit") return void submit(input);
+  }, [input, current, runCheck, submit]);
+
+  // Server-anchored countdown; auto-submits when time runs out, after a bounded grace if the answer was checked in time.
   const inputLatest = useRef(input);
+  const checkLatest = useRef(current);
   useEffect(() => {
     inputLatest.current = input;
-  }, [input]);
+    checkLatest.current = current;
+  }, [input, current]);
   useEffect(() => {
     if (phase.kind !== "question") return;
     inputRef.current?.focus();
@@ -149,10 +192,18 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
       const whole = Math.ceil(left);
       if (sound && whole <= 5 && whole > 0 && whole !== lastTick) chime("tick");
       lastTick = whole;
-      if (left <= 0 && !fired) {
-        fired = true;
-        void submit(inputLatest.current);
+      if (left > 0 || fired) return;
+      const c = checkLatest.current;
+      const graceEnd = c?.view.confirmBy ?? null;
+      const nowServer = Date.now() + offset.current;
+      if (graceEnd !== null && graceEnd > phase.deadline && nowServer < graceEnd) {
+        setGraceLeft(Math.ceil((graceEnd - nowServer) / 1000));
+        return;
       }
+      fired = true;
+      setGraceLeft(null);
+      // The server only honours a choice that matches its own record of the check.
+      void submit(inputLatest.current, c && c.selected !== null && (c.view.status === "match" || c.view.status === "possible") ? c.selected : undefined);
     }, 100);
     return () => clearInterval(id);
   }, [phase, submit, sound]);
@@ -213,7 +264,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                if (input.trim()) void submit(input);
+                primary();
               }}
               className="flex gap-2"
             >
@@ -232,17 +283,44 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck={false}
-                enterKeyHint="send"
+                enterKeyHint={current ? "send" : "go"}
                 maxLength={120}
                 disabled={submitting}
+                aria-describedby="answer-hint"
                 className="h-14 min-w-0 flex-1 rounded-xl border-2 border-input bg-card px-4 text-lg outline-none transition-colors placeholder:text-muted-foreground focus:border-ring"
                 data-testid="answer-input"
               />
-              <Button type="submit" disabled={submitting || !input.trim()} className="h-14 rounded-xl px-5 text-base font-bold" data-testid="submit-answer">
-                {submitting ? <Loader2 className="animate-spin" /> : <CornerDownLeft />}
-                <span className="hidden sm:inline">{t.game.submit}</span>
+              <Button
+                type="submit"
+                disabled={submitting || checking || !input.trim() || (!!current && !canConfirm(current))}
+                className="h-14 min-w-28 rounded-xl px-5 text-base font-bold"
+                data-testid="submit-answer"
+                data-action={current ? "confirm" : "check"}
+              >
+                {submitting || checking ? <Loader2 className="animate-spin" /> : current ? <Check /> : <SearchCheck />}
+                <span className="hidden sm:inline">{current ? (current.view.status === "none" || current.view.status === "limit" ? t.game.submitTyped : t.game.confirm) : t.game.check}</span>
               </Button>
             </form>
+            <p id="answer-hint" className="-mt-3 min-h-5 text-xs text-muted-foreground">
+              {graceLeft !== null ? <span className="font-bold text-line-yellow" role="status">{t.game.grace(graceLeft)}</span> : !current ? t.game.checkHint : null}
+            </p>
+            <AnimatePresence initial={false}>
+              {current && (
+                <CheckPanel
+                  key={current.input}
+                  state={current}
+                  disabled={submitting}
+                  onSelect={(i) => setCheck({ ...current, selected: i })}
+                  onConfirm={(i) => void submit(input, i)}
+                  onSubmitTyped={() => void submit(input)}
+                  onEdit={() => {
+                    setCheck(null);
+                    inputRef.current?.focus();
+                    inputRef.current?.select();
+                  }}
+                />
+              )}
+            </AnimatePresence>
             <AnimatePresence>
               {notice && (
                 <motion.p
@@ -278,6 +356,114 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
         {phase.kind === "question" ? `${Math.ceil(remaining)} ${t.game.seconds}` : ""}
       </span>
     </div>
+  );
+}
+
+function canConfirm(c: CheckState): boolean {
+  const st = c.view.status;
+  return st === "none" || st === "limit" || ((st === "match" || st === "possible") && c.selected !== null);
+}
+
+const CHECK_TONE: Record<CheckStatus, string> = {
+  match: "var(--line-green)",
+  possible: "var(--line-yellow)",
+  vague: "var(--line-yellow)",
+  none: "var(--line-orange)",
+  limit: "var(--line-orange)",
+  expired: "var(--destructive)",
+};
+
+/** MATCH FOUND / POSSIBLE MATCH / NOT RECOGNIZED, with entity selection. Labels only: no points or rarity. */
+function CheckPanel({
+  state,
+  disabled,
+  onSelect,
+  onConfirm,
+  onSubmitTyped,
+  onEdit,
+}: {
+  state: CheckState;
+  disabled: boolean;
+  onSelect: (i: number) => void;
+  onConfirm: (i: number) => void;
+  onSubmitTyped: () => void;
+  onEdit: () => void;
+}) {
+  const { t, locale } = useApp();
+  const { view, selected, input } = state;
+  const tone = CHECK_TONE[view.status];
+  const title =
+    view.status === "match" ? t.game.matchFound : view.status === "possible" || view.status === "vague" ? t.game.possibleMatch : view.status === "limit" ? t.game.checksLeft(0) : t.game.notRecognized;
+  const sameAsTyped = (c: Localized) => c.en.localeCompare(input.trim(), undefined, { sensitivity: "base" }) === 0 || c.fr.localeCompare(input.trim(), undefined, { sensitivity: "base" }) === 0;
+  const one = view.candidates.length === 1 ? view.candidates[0] : null;
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -4 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      className="space-y-3 rounded-xl border-2 bg-card p-4"
+      style={{ borderColor: `color-mix(in oklch, ${tone} 60%, transparent)` }}
+      data-testid="check-panel"
+      data-status={view.status}
+    >
+      <div className="flex items-center justify-between gap-2" role="status" aria-live="polite">
+        <span className="rounded-full px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wider" style={{ background: tone, color: "oklch(0.18 0.03 262)" }}>
+          {title}
+        </span>
+        {view.status !== "limit" && <span className="text-xs text-muted-foreground">{t.game.checksLeft(view.checksLeft)}</span>}
+      </div>
+
+      {one && (
+        <p className="text-base">
+          {view.status === "possible" || !sameAsTyped(one) ? `${t.game.didYouMean} ` : `${t.game.countsAs} `}
+          <strong className="font-heading text-lg" data-testid="candidate-label">
+            {one[locale]}
+          </strong>
+          {view.status === "possible" || !sameAsTyped(one) ? (locale === "fr" ? " ?" : "?") : ""}
+        </p>
+      )}
+
+      {view.candidates.length > 1 && (
+        <fieldset className="space-y-2">
+          <legend className="mb-2 text-sm">{t.game.pickOne}</legend>
+          {view.candidates.map((c, i) => (
+            <label
+              key={`${c.en}-${i}`}
+              className="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg border border-border px-3 py-2 has-[:checked]:border-ring has-[:checked]:bg-muted has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring"
+              data-testid={`candidate-${i}`}
+            >
+              <input type="radio" name="candidate" className="size-4 accent-[var(--line-green)]" checked={selected === i} onChange={() => onSelect(i)} disabled={disabled} />
+              <span className="font-bold">{c[locale]}</span>
+            </label>
+          ))}
+        </fieldset>
+      )}
+
+      {view.status === "none" && <p className="text-sm text-muted-foreground">{t.game.notRecognizedHelp}</p>}
+      {view.status === "vague" && <p className="text-sm text-muted-foreground">{t.game.retry}</p>}
+      {view.status === "limit" && <p className="text-sm text-muted-foreground">{t.game.limitReached}</p>}
+
+      <div className="flex flex-wrap gap-2">
+        {(view.status === "match" || view.status === "possible") && (
+          <Button type="button" className="min-h-11 flex-1 font-bold" disabled={disabled || selected === null} onClick={() => selected !== null && onConfirm(selected)} data-testid="confirm-answer">
+            <Check /> {t.game.confirm}
+          </Button>
+        )}
+        {(view.status === "none" || view.status === "limit") && (
+          <Button type="button" className="min-h-11 flex-1 font-bold" disabled={disabled} onClick={onSubmitTyped} data-testid="submit-typed">
+            <CornerDownLeft /> {t.game.submitTyped}
+          </Button>
+        )}
+        <Button type="button" variant="outline" className="min-h-11" disabled={disabled} onClick={onEdit} data-testid="edit-answer">
+          <Pencil /> {t.game.edit}
+        </Button>
+        {view.status === "possible" && (
+          <Button type="button" variant="ghost" className="min-h-11 w-full text-muted-foreground" disabled={disabled} onClick={onSubmitTyped} data-testid="submit-typed">
+            {t.game.noneOfThese}
+          </Button>
+        )}
+      </div>
+    </motion.div>
   );
 }
 

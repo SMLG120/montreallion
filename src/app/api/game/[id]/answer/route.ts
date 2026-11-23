@@ -3,7 +3,7 @@ import { getBank } from "@/lib/game/bank";
 import { engine, revealFor } from "@/lib/game/engine";
 import { errorResponse, getPlayerId, json, rateLimit, tooMany } from "@/lib/server/http";
 
-const body = z.object({ index: z.number().int().min(0).max(50), answer: z.string().max(200) });
+const body = z.object({ index: z.number().int().min(0).max(50), answer: z.string().max(200), choice: z.number().int().min(0).max(9).optional() });
 
 /** POST /api/game/:id/answer — validate and score one answer server-side. */
 export async function POST(req: Request, ctx: RouteContext<"/api/game/[id]/answer">) {
@@ -14,7 +14,7 @@ export async function POST(req: Request, ctx: RouteContext<"/api/game/[id]/answe
   const parsed = body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return json({ error: "bad_request" }, 400);
   try {
-    const { session, result } = await engine.submit(id, playerId, parsed.data.index, parsed.data.answer);
+    const { session, result } = await engine.submit(id, playerId, parsed.data.index, parsed.data.answer, parsed.data.choice);
     if (result.status === "retry") return json({ status: "retry" });
     return json({
       status: result.status,
