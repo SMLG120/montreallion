@@ -1,6 +1,8 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { Sql } from "@/lib/server/db";
 import { answerKeys } from "@/lib/game/match";
+import { QUESTIONS_PER_GAME } from "@/lib/game/daily";
+import type { CategoryId } from "@/lib/game/types";
 
 const URL = process.env.TEST_DATABASE_URL;
 const P1 = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
@@ -21,6 +23,13 @@ describe.skipIf(!URL)("Postgres store (integration)", () => {
 
   const g = globalThis as unknown as { __mlBank?: unknown; __mlSql?: unknown; __mlStore?: unknown };
   const answerFor = (qid: string) => m.bank.seedBank().get(qid).answers[0].en;
+  const smallCategory = () => {
+    const sizes = new Map<CategoryId, number>();
+    for (const q of m.bank.seedBank().questions) sizes.set(q.category, (sizes.get(q.category) ?? 0) + 1);
+    const fits = [...sizes].filter(([, n]) => n >= m.engine.MIN_CATEGORY_QUESTIONS && n <= QUESTIONS_PER_GAME);
+    if (!fits.length) throw new Error("no category small enough to force a repeat");
+    return fits.sort((x, y) => x[1] - y[1])[0][0];
+  };
 
   beforeAll(async () => {
     process.env.DATABASE_URL = URL;
@@ -51,7 +60,8 @@ describe.skipIf(!URL)("Postgres store (integration)", () => {
   it("loads the same approved bank from the database as the seed file", async () => {
     const db = await m.bank.getBank();
     const seed = m.bank.seedBank();
-    expect(db.version).toBe("db:seed-2026-11-21");
+    // The DB version lists every bank file that contributed an approved question, the same files the bundled bank lists.
+    expect(db.version.replace(/^db:/, "").split("+").sort()).toEqual(seed.version.split("+").sort());
     expect(db.questions.map((q) => q.id).sort()).toEqual(seed.questions.map((q) => q.id).sort());
     for (const q of seed.questions) {
       const dq = db.get(q.id);
@@ -169,8 +179,8 @@ describe.skipIf(!URL)("Postgres store (integration)", () => {
     const P3 = "c3c3c3c3-c3c3-4c3c-8c3c-c3c3c3c3c3c3";
     const played: { qid: string; slug: string }[] = [];
     for (let game = 0; game < 2; game++) {
-      // A small category forces a repeat even with no-repeat picking (every transit question fits in one ride).
-      const s = await unlimited.start(P3, "unlimited", { category: "transit" });
+      // A category small enough to fit in one game forces a repeat even with no-repeat picking.
+      const s = await unlimited.start(P3, "unlimited", { category: smallCategory() });
       const { question } = await unlimited.serve(s.id, P3);
       t += 2000;
       const { result } = await unlimited.submit(s.id, P3, 0, answerFor(question!.id));
