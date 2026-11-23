@@ -293,6 +293,30 @@ The category mix differs from the spec, as requested ("keep going on food and fe
   1. Human review: `npm run etl:review -- --reviewer NAME` or `/admin`. Food questions only stay accurate while the registry and OSM snapshots are fresh, so re-run `etl:build` with `--refresh` before each release.
   2. Approved questions go live after `db:seed` against Neon. Admin-console approvals apply directly.
 
+## Expansion D: map (2026-11-23)
+- **`/map`** (`src/components/map/map-view.tsx`):
+  - MapLibre GL 6.17.0 (pinned) on the OpenFreeMap `dark` basemap (OSM data, ODbL, no key). If the basemap fails, the page falls back to a plain local style.
+  - 15 filterable layers in 7 groups. Clustering covers food, parks, heritage and gardens. Layers lazy-load: a layer's GeoJSON is fetched only when it's switched on (food is off by default).
+  - Accent-insensitive search across the point layers. Popups show name, kind, area and size. The panel is responsive (overlay on mobile, side panel on desktop) and there's no sideways scroll.
+- **Layers** (`python3 -m montreallion_etl map` → `public/map/*.geojson` + `index.json`, about 875 KB):
+  - Boroughs and towns (34), neighbourhoods (91).
+  - Autoroutes and numbered routes from OSM: refs ≤99 or ≥400 are A-, 100–399 are R-. Lines are merged and simplified.
+  - Interchanges (OSM), bridges and tunnels (Wikipedia list → Wikidata P625).
+  - Métro, REM and exo lines and 191 stations (GTFS).
+  - Parks (815, centroid of the largest polygon), community gardens.
+  - Heritage (City LPC sites plus national historic sites).
+  - Museums, theatres, festivals (P625, or the P276 location's P625), skyscrapers.
+  - 2,062 open food places. Each shows a generic kind only; no cuisine, which would reproduce food-question catalogs.
+  - No layer carries question IDs, rarity or scores.
+- **Gameplay link:**
+  - `GET /api/game/:id/map` serves finished rides only, the same visibility as public results. For each stop it returns only the answers the results page reveals (match, 3 most common, 2 rarest) that have a position. Labels and coordinates only.
+  - Positions come from the server-only `data/generated/answer-geo.json`, written by `etl:build`. 4,919 of 7,065 answers have one, each from its own source record: registry, GTFS, LPC, park, OSM or Wikidata P625. Nothing comes from name geocoding.
+  - The results page has a "See this ride on the map" link, and there's a Map link in the header.
+- **Tests:**
+  - Unit 400 (+16): layer integrity, licences and bbox; no question-linked fields; all 19+15 areas; A-10/13/15/20/25/40/520 plus routes; landmark accuracy for 7 places; Berri inside Ville-Marie; answer-geo never imported by client code; pins ⊆ the revealed set, nothing for unfinished rides, no IDs or scores.
+  - ETL 36 (+3). E2E 26 passed, 2 skipped (+4: map load, lazy layer, search popup, ride pins and 404, desktop and mobile). DB 18.
+- **Refresh:** `npm run etl:build` (answer positions), then `cd etl && python3 -m montreallion_etl map` (layers; about 10 Wikidata queries at 1 per minute when not cached).
+
 ## Blockers
 - Content: 49 playable questions; 13 generated ones await review (7 fixed, 6 need borough checks); neighbourhood template needs a new source.
 - Repo: own git repo, remote https://github.com/SMLG120/montreallion (public, `main`). The Vercel project is Git-connected: pushes to `main` deploy to production, other branches get preview URLs.

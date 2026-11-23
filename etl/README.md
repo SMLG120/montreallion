@@ -21,6 +21,9 @@ npm run etl:test
 - `etl/out/candidates.json`: all candidates, including rejected ones, with their issues.
 - `etl/.cache/`: raw downloads plus `manifest.json` (URL, sha256, retrieval date). It is not committed.
 
+## Map layers (phase D)
+`python3 -m montreallion_etl map` writes `public/map/*.geojson` and `index.json`. These are public and carry no question linkage. `build` also writes the server-only `data/generated/answer-geo.json`; never copy it to `public/`.
+
 ## Sources (all licences checked)
 | Source | Licence | Used for |
 |---|---|---|

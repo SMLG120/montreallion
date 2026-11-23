@@ -67,8 +67,10 @@ def parks(index: geo.AreaIndex, refresh: bool = False) -> tuple[list[dict], dict
         alt = None
         if ", " in specific:
             specific, alt = specific.split(", ", 1)[0].strip(), specific
-        cur = agg.setdefault((ptype, specific, area), {"type": ptype, "specific": specific, "area": area, "ha": 0.0, "alt": alt})
+        cur = agg.setdefault((ptype, specific, area), {"type": ptype, "specific": specific, "area": area, "ha": 0.0, "alt": alt, "lonlat": c, "_part_ha": -1.0})
         cur["ha"] += ha
+        if ha > cur["_part_ha"]:  # map position: centroid of the park's largest polygon
+            cur["lonlat"], cur["_part_ha"] = c, ha
     return list(agg.values()), info
 
 

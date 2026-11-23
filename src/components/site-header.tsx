@@ -31,6 +31,7 @@ export function SiteHeader() {
     { href: "/play/unlimited", label: t.nav.unlimited },
     { href: "/party", label: t.nav.party },
     { href: "/leaderboard", label: t.nav.leaderboard },
+    { href: "/map", label: t.nav.map },
     { href: "/how-to-play", label: t.nav.how },
   ];
   return (

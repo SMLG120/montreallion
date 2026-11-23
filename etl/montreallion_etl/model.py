@@ -18,6 +18,10 @@ class Answer:
     refs: list[str] = field(default_factory=list)  # provenance ids, e.g. "wikidata:Q123", "gtfs:STATION_M146"
     est: int = 50
     id: str = ""
+    # Map position from the answer's own source record (lon, lat) and what it came from. Not part of the
+    # question JSON or its content hash; written to the server-only answer-geo file.
+    geo: tuple[float, float] | None = None
+    geo_basis: str | None = None
 
     def key(self) -> str:
         return normalize_answer(self.en)

@@ -1,0 +1,341 @@
+{
+ "generated": "2026-11-23",
+ "bbox": [
+  -74.1,
+  45.3,
+  -73.3,
+  45.8
+ ],
+ "layers": [
+  {
+   "id": "areas",
+   "file": "/map/areas.geojson",
+   "geometry": "fill",
+   "group": "boundaries",
+   "count": 34,
+   "bytes": 37827,
+   "sources": [
+    {
+     "title": "Limites administratives de l'agglomération de Montréal (arrondissements et villes liées) (Ville de Montréal)",
+     "url": "https://donnees.montreal.ca/dataset/limites-administratives-agglomeration",
+     "license": "Creative Commons Attribution 4.0 International",
+     "retrieved": "2026-11-21"
+    }
+   ]
+  },
+  {
+   "id": "neighbourhoods",
+   "file": "/map/neighbourhoods.geojson",
+   "geometry": "fill",
+   "group": "boundaries",
+   "count": 91,
+   "bytes": 110815,
+   "sources": [
+    {
+     "title": "Quartiers de référence en habitation (Ville de Montréal)",
+     "url": "https://donnees.montreal.ca/dataset/quartiers",
+     "license": "Creative Commons Attribution 4.0 International",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "id": "roads",
+   "file": "/map/roads.geojson",
+   "geometry": "line",
+   "group": "roads",
+   "count": 43,
+   "bytes": 71908,
+   "sources": [
+    {
+     "title": "OpenStreetMap (Overpass API)",
+     "url": "https://www.openstreetmap.org/copyright",
+     "license": "ODbL 1.0 (© OpenStreetMap contributors)",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "id": "interchanges",
+   "file": "/map/interchanges.geojson",
+   "geometry": "circle",
+   "group": "roads",
+   "count": 10,
+   "bytes": 1532,
+   "sources": [
+    {
+     "title": "OpenStreetMap (Overpass API)",
+     "url": "https://www.openstreetmap.org/copyright",
+     "license": "ODbL 1.0 (© OpenStreetMap contributors)",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "id": "bridges",
+   "file": "/map/bridges.geojson",
+   "geometry": "circle",
+   "group": "roads",
+   "count": 18,
+   "bytes": 3748,
+   "sources": [
+    {
+     "title": "Wikipedia (fr): Liste des ponts de Montréal",
+     "url": "https://fr.wikipedia.org/w/index.php?oldid=229596349",
+     "license": "CC BY-SA 4.0 (facts only reused)",
+     "retrieved": "2026-11-23"
+    },
+    {
+     "title": "Wikidata (coordinate location P625)",
+     "url": "https://www.wikidata.org/",
+     "license": "CC0 1.0",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "id": "rail",
+   "file": "/map/rail.geojson",
+   "geometry": "line",
+   "group": "transit",
+   "count": 12,
+   "bytes": 22393,
+   "sources": [
+    {
+     "title": "STM — GTFS static schedule data",
+     "url": "https://www.stm.info/en/about/developers",
+     "license": "CC BY 4.0 (STM open data)",
+     "retrieved": "2026-11-21"
+    },
+    {
+     "title": "REM — GTFS scheduled service (via ARTM open data)",
+     "url": "https://donnees.artm.quebec/catalogue/dataset/offres-de-service-planifie-du-reseau-express-metropolitain",
+     "license": "CC BY 4.0 (licence file in feed)",
+     "retrieved": "2026-11-21"
+    },
+    {
+     "title": "exo — GTFS scheduled train service (via ARTM open data)",
+     "url": "https://donnees.artm.quebec/catalogue/dataset/exo-trains-gtfs",
+     "license": "CC BY 4.0",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "id": "stations",
+   "file": "/map/stations.geojson",
+   "geometry": "circle",
+   "group": "transit",
+   "count": 191,
+   "bytes": 29699,
+   "sources": [
+    {
+     "title": "STM — GTFS static schedule data",
+     "url": "https://www.stm.info/en/about/developers",
+     "license": "CC BY 4.0 (STM open data)",
+     "retrieved": "2026-11-21"
+    },
+    {
+     "title": "REM — GTFS scheduled service (via ARTM open data)",
+     "url": "https://donnees.artm.quebec/catalogue/dataset/offres-de-service-planifie-du-reseau-express-metropolitain",
+     "license": "CC BY 4.0 (licence file in feed)",
+     "retrieved": "2026-11-21"
+    },
+    {
+     "title": "exo — GTFS scheduled train service (via ARTM open data)",
+     "url": "https://donnees.artm.quebec/catalogue/dataset/exo-trains-gtfs",
+     "license": "CC BY 4.0",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "id": "parks",
+   "file": "/map/parks.geojson",
+   "geometry": "circle",
+   "group": "parks",
+   "count": 815,
+   "bytes": 170597,
+   "sources": [
+    {
+     "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
+     "url": "https://donnees.montreal.ca/dataset/grands-parcs-parcs-d-arrondissements-et-espaces-publics",
+     "license": "Creative Commons Attribution 4.0 International",
+     "retrieved": "2026-11-21"
+    }
+   ]
+  },
+  {
+   "id": "gardens",
+   "file": "/map/gardens.geojson",
+   "geometry": "circle",
+   "group": "parks",
+   "count": 109,
+   "bytes": 21900,
+   "sources": [
+    {
+     "title": "Jardins communautaires (Ville de Montréal)",
+     "url": "https://donnees.montreal.ca/dataset/jardins-communautaires",
+     "license": "Creative Commons Attribution 4.0 International",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "id": "heritage",
+   "file": "/map/heritage.geojson",
+   "geometry": "circle",
+   "group": "history",
+   "count": 274,
+   "bytes": 57055,
+   "sources": [
+    {
+     "title": "Sites et immeubles protégés en vertu de la Loi sur le patrimoine culturel (Ville de Montréal)",
+     "url": "https://donnees.montreal.ca/dataset/sites-immeubles-proteges-lpc",
+     "license": "Creative Commons Attribution 4.0 International",
+     "retrieved": "2026-11-23"
+    },
+    {
+     "title": "Wikipedia (en): List of National Historic Sites of Canada in Montreal",
+     "url": "https://en.wikipedia.org/w/index.php?oldid=1367055091",
+     "license": "CC BY-SA 4.0 (facts only reused)",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "id": "museums",
+   "file": "/map/museums.geojson",
+   "geometry": "circle",
+   "group": "culture",
+   "count": 32,
+   "bytes": 7061,
+   "sources": [
+    {
+     "title": "Wikipedia (en): List of museums in Montreal",
+     "url": "https://en.wikipedia.org/w/index.php?oldid=1334669185",
+     "license": "CC BY-SA 4.0 (facts only reused)",
+     "retrieved": "2026-11-23"
+    },
+    {
+     "title": "Wikidata (coordinate location P625)",
+     "url": "https://www.wikidata.org/",
+     "license": "CC0 1.0",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "id": "theatres",
+   "file": "/map/theatres.geojson",
+   "geometry": "circle",
+   "group": "culture",
+   "count": 18,
+   "bytes": 3683,
+   "sources": [
+    {
+     "title": "Wikipedia (fr): Liste des théâtres de Montréal",
+     "url": "https://fr.wikipedia.org/w/index.php?oldid=236590257",
+     "license": "CC BY-SA 4.0 (facts only reused)",
+     "retrieved": "2026-11-23"
+    },
+    {
+     "title": "Wikidata (coordinate location P625)",
+     "url": "https://www.wikidata.org/",
+     "license": "CC0 1.0",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "id": "festivals",
+   "file": "/map/festivals.geojson",
+   "geometry": "circle",
+   "group": "culture",
+   "count": 32,
+   "bytes": 7051,
+   "sources": [
+    {
+     "title": "Wikipedia (fr): Catégorie:Festival à Montréal",
+     "url": "https://fr.wikipedia.org/wiki/Catégorie:Festival_à_Montréal",
+     "license": "CC BY-SA 4.0 (facts only reused)",
+     "retrieved": "2026-11-23"
+    },
+    {
+     "title": "Wikipedia (fr): Catégorie:Festival de cinéma à Montréal",
+     "url": "https://fr.wikipedia.org/wiki/Catégorie:Festival_de_cinéma_à_Montréal",
+     "license": "CC BY-SA 4.0 (facts only reused)",
+     "retrieved": "2026-11-23"
+    },
+    {
+     "title": "Wikipedia (fr): Catégorie:Festival des films du monde de Montréal",
+     "url": "https://fr.wikipedia.org/wiki/Catégorie:Festival_des_films_du_monde_de_Montréal",
+     "license": "CC BY-SA 4.0 (facts only reused)",
+     "retrieved": "2026-11-23"
+    },
+    {
+     "title": "Wikipedia (fr): Catégorie:Festival international du film sur l'art",
+     "url": "https://fr.wikipedia.org/wiki/Catégorie:Festival_international_du_film_sur_l'art",
+     "license": "CC BY-SA 4.0 (facts only reused)",
+     "retrieved": "2026-11-23"
+    },
+    {
+     "title": "Wikipedia (fr): Catégorie:Festival de musique à Montréal",
+     "url": "https://fr.wikipedia.org/wiki/Catégorie:Festival_de_musique_à_Montréal",
+     "license": "CC BY-SA 4.0 (facts only reused)",
+     "retrieved": "2026-11-23"
+    },
+    {
+     "title": "Wikidata (coordinate location P625)",
+     "url": "https://www.wikidata.org/",
+     "license": "CC0 1.0",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "id": "skyscrapers",
+   "file": "/map/skyscrapers.geojson",
+   "geometry": "circle",
+   "group": "history",
+   "count": 20,
+   "bytes": 4105,
+   "sources": [
+    {
+     "title": "Wikipedia (fr): Liste des plus hautes constructions de Montréal",
+     "url": "https://fr.wikipedia.org/w/index.php?oldid=236591177",
+     "license": "CC BY-SA 4.0 (facts only reused)",
+     "retrieved": "2026-11-23"
+    },
+    {
+     "title": "Wikidata (coordinate location P625)",
+     "url": "https://www.wikidata.org/",
+     "license": "CC0 1.0",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  },
+  {
+   "id": "food",
+   "file": "/map/food.geojson",
+   "geometry": "circle",
+   "group": "food",
+   "count": 2062,
+   "bytes": 346043,
+   "sources": [
+    {
+     "title": "OpenStreetMap (Overpass API): food and drink places on Montréal Island",
+     "url": "https://www.openstreetmap.org/copyright",
+     "license": "ODbL 1.0 (© OpenStreetMap contributors)",
+     "retrieved": "2026-11-23"
+    },
+    {
+     "title": "Établissements alimentaires (Ville de Montréal)",
+     "url": "https://donnees.montreal.ca/dataset/etablissements-alimentaires",
+     "license": "Creative Commons Attribution 4.0 International",
+     "retrieved": "2026-11-23"
+    }
+   ]
+  }
+ ]
+}

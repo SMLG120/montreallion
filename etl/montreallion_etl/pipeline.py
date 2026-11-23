@@ -109,6 +109,8 @@ def dedupe(c: Candidate) -> None:
             m.signal = max(m.signal, a.signal)
             m.refs = sorted(set(m.refs + a.refs))
             m.aliases = sorted(set(m.aliases + a.aliases))
+            if m.geo is None and a.geo is not None:
+                m.geo, m.geo_basis = a.geo, a.geo_basis
         else:
             merged[k] = a
     c.answers = sorted(merged.values(), key=lambda a: a.key())
@@ -249,8 +251,12 @@ def build(refresh: bool = False, log=print) -> dict:
     (OUT_DIR / "candidates.json").write_text(
         json.dumps([{**c.to_json(), "issues": c.issues, "warnings": c.warnings} for c in cands], ensure_ascii=False, indent=1), "utf-8"
     )
+    from .answer_geo import write_answer_geo
+
+    stats_geo = write_answer_geo(publishable, ctx, log)
     from .report import write_report
 
     stats = write_report(cands, seed_report, ctx, version)
     log(f"wrote {GENERATED_FILE.relative_to(GENERATED_FILE.parents[2])} ({len(publishable)} questions) and etl/out/report.md")
+    stats["geo"] = stats_geo
     return stats

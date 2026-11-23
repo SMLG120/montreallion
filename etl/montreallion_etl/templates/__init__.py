@@ -285,7 +285,8 @@ def park_templates(ctx: Context) -> list[Candidate]:
                 aliases.append(f"{p['type']} {p['alt']}")
             sig, refs, _ = place_signal(ctx, full_fr, f"parc {p['specific']}")
             # Familiarity: park size (ha) and Wikipedia coverage.
-            answers.append(Answer(en=full_en, fr=full_fr, aliases=aliases, signal=math.log1p(p["ha"]) + math.log1p(sig), refs=refs))
+            answers.append(Answer(en=full_en, fr=full_fr, aliases=aliases, signal=math.log1p(p["ha"]) + math.log1p(sig), refs=refs,
+                                  geo=p["lonlat"], geo_basis="mtl-park-centroid"))
         out.append(
             Candidate(
                 id=make_id("park-in", name),

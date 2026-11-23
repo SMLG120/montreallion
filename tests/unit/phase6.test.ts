@@ -52,7 +52,9 @@ describe("locale detection", () => {
 
 describe("dictionaries", () => {
   type Tree = { [k: string]: unknown };
-  const SAME_OK = new Set(["Admin", "Questions", "Sources", "Montréallion", "Total", "Terminus", "Notes", "Note"]);
+  const SAME_OK = new Set(["Admin", "Questions", "Sources", "Montréallion", "Total", "Terminus", "Notes", "Note", "Culture", "Autoroute", "Square", "Restaurant", "Café"]);
+  // Functions whose output is legitimately identical in both languages for the probe arguments ("2 ha").
+  const SAME_FN_OK = new Set(["t.map.hectares"]);
 
   function walk(en: unknown, fr: unknown, path: string, out: string[]) {
     if (typeof en === "string") {
@@ -64,7 +66,7 @@ describe("dictionaries", () => {
       const args = Array.from({ length: en.length }, (_, i) => (i === 0 ? 2 : 41));
       const a = (en as (...x: unknown[]) => unknown)(...args);
       const b = (fr as (...x: unknown[]) => unknown)(...args);
-      if (typeof b !== "string" || !b || a === b) out.push(`${path}(): bad FR output`);
+      if (typeof b !== "string" || !b || (a === b && !SAME_FN_OK.has(path))) out.push(`${path}(): bad FR output`);
     } else if (Array.isArray(en)) {
       if (!Array.isArray(fr) || fr.length !== en.length) return out.push(`${path}: array length`);
       en.forEach((x, i) => walk(x, fr[i], `${path}[${i}]`, out));

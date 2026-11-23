@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import math
+
 Ring = list[list[float]]
 
 
@@ -112,3 +114,60 @@ def mtm8_to_lonlat(x: float, y: float) -> tuple[float, float]:
     )
     lon = lon0 + (d - (1 + 2 * t1 + c1) * d**3 / 6 + (5 - 2 * c1 + 28 * t1 - 3 * c1**2 + 8 * ep2 + 24 * t1**2) * d**5 / 120) / math.cos(p1)
     return math.degrees(lon), math.degrees(lat)
+
+
+# ---------------------------------------------------------------- map output helpers (phase D)
+def _perp(p, a, b) -> float:
+    (x, y), (x1, y1), (x2, y2) = p, a, b
+    dx, dy = x2 - x1, y2 - y1
+    if dx == 0 and dy == 0:
+        return math.hypot(x - x1, y - y1)
+    t = max(0.0, min(1.0, ((x - x1) * dx + (y - y1) * dy) / (dx * dx + dy * dy)))
+    return math.hypot(x - (x1 + t * dx), y - (y1 + t * dy))
+
+
+def simplify(line: list, tol: float) -> list:
+    """Douglas–Peucker on [lon, lat] points (tol in degrees, iterative so long lines don't hit the recursion limit)."""
+    if len(line) < 3:
+        return [list(p) for p in line]
+    keep = [False] * len(line)
+    keep[0] = keep[-1] = True
+    stack = [(0, len(line) - 1)]
+    while stack:
+        i, j = stack.pop()
+        best, idx = -1.0, -1
+        for k in range(i + 1, j):
+            d = _perp(line[k], line[i], line[j])
+            if d > best:
+                best, idx = d, k
+        if best > tol:
+            keep[idx] = True
+            stack += [(i, idx), (idx, j)]
+    return [list(p) for p, k in zip(line, keep) if k]
+
+
+def round_coords(obj, nd: int = 5):
+    """Round nested coordinate arrays (5 decimals ≈ 1 m) to shrink GeoJSON."""
+    if isinstance(obj, (int, float)):
+        return round(obj, nd)
+    return [round_coords(x, nd) for x in obj]
+
+
+def simplify_geometry(geom: dict, tol: float) -> dict | None:
+    """Simplify (Multi)Polygon / (Multi)LineString; rings that collapse below 4 points are dropped."""
+    t = geom["type"]
+    if t == "Polygon":
+        rings = [r for r in (simplify(r, tol) for r in geom["coordinates"]) if len(r) >= 4]
+        return {"type": t, "coordinates": round_coords(rings)} if rings else None
+    if t == "MultiPolygon":
+        polys = []
+        for poly in geom["coordinates"]:
+            rings = [r for r in (simplify(r, tol) for r in poly) if len(r) >= 4]
+            if rings:
+                polys.append(rings)
+        return {"type": t, "coordinates": round_coords(polys)} if polys else None
+    if t == "LineString":
+        return {"type": t, "coordinates": round_coords(simplify(geom["coordinates"], tol))}
+    if t == "MultiLineString":
+        return {"type": t, "coordinates": round_coords([simplify(l, tol) for l in geom["coordinates"]])}
+    return geom

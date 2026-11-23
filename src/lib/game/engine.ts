@@ -349,18 +349,29 @@ export function createEngine(deps: Partial<Deps> = {}) {
 export const engine = createEngine();
 
 /** What players see after answering: the matched answer plus a few examples, never the whole catalog mid-game. */
-export function revealFor(bank: Bank, frozen: FrozenScores | null, questionId: string, answerId: string | null) {
+/** The answers a finished round reveals, as entities: the player's match, the 3 most common, the 2 rarest. */
+export function revealedAnswers(bank: Bank, frozen: FrozenScores | null, questionId: string, answerId: string | null) {
   const q = bank.get(questionId);
   const score = (slug: string) => scoreFor(bank, frozen, q.id, slug).score;
   // Most common = lowest score under the same model the player was scored with.
   const sorted = [...q.answers].sort((a, b) => score(a.id) - score(b.id) || b.est - a.est || a.id.localeCompare(b.id));
+  return {
+    q,
+    score,
+    matched: answerId ? q.answers.find((a) => a.id === answerId) : undefined,
+    popular: sorted.slice(0, 3),
+    rarest: sorted.slice(-2).reverse(),
+  };
+}
+
+export function revealFor(bank: Bank, frozen: FrozenScores | null, questionId: string, answerId: string | null) {
+  const { q, score, matched, popular, rarest } = revealedAnswers(bank, frozen, questionId, answerId);
   const label = (a: (typeof q.answers)[number]): Localized => ({ en: a.en, fr: a.fr ?? a.en });
   const entry = (a: (typeof q.answers)[number]) => ({ ...label(a), score: score(a.id) });
-  const matched = answerId ? q.answers.find((a) => a.id === answerId) : undefined;
   return {
     matched: matched ? label(matched) : null,
-    popular: sorted.slice(0, 3).map(entry),
-    rarest: sorted.slice(-2).reverse().map(entry),
+    popular: popular.map(entry),
+    rarest: rarest.map(entry),
     total: q.answers.length,
   };
 }

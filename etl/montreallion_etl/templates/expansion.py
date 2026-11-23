@@ -119,7 +119,8 @@ def heritage_templates(ctx: Context) -> list[Candidate]:
         sig, refs, _ = place_signal(ctx, it["name"], *aliases)
         refs = refs + ([f"rpcq:{it['rpcq']}"] if it["rpcq"] else [])
         # Familiarity: Wikipedia coverage; provincially classified places slightly above municipal citations.
-        return Answer(en=it["name"], aliases=aliases, signal=math.log1p(sig) + (0.3 if it["kind"] in ("IC", "SC", "SD") else 0), refs=refs)
+        return Answer(en=it["name"], aliases=aliases, signal=math.log1p(sig) + (0.3 if it["kind"] in ("IC", "SC", "SD") else 0), refs=refs,
+                      geo=it["lonlat"], geo_basis="mtl-lpc-centroid")
 
     sources = [src, ctx.src["limites"], ctx.src["wikidata"]]
     out = []
@@ -493,7 +494,8 @@ def park_extra_templates(ctx: Context) -> list[Candidate]:
         full_fr = f"{p['type']} {p['specific']}"
         sig, refs, _ = place_signal(ctx, full_fr, f"parc {p['specific']}")
         aliases = [p["specific"], *(f"{p['type']} {art} {p['specific']}" for art in ("du", "de", "de la", "des"))]
-        return Answer(en=f"{p['specific']} {PARK_TYPE_EN[p['type']]}", fr=full_fr, aliases=aliases, signal=math.log1p(p["ha"]) + math.log1p(sig), refs=refs)
+        return Answer(en=f"{p['specific']} {PARK_TYPE_EN[p['type']]}", fr=full_fr, aliases=aliases, signal=math.log1p(p["ha"]) + math.log1p(sig), refs=refs,
+                      geo=p["lonlat"], geo_basis="mtl-park-centroid")
 
     specs = [
         ("nature", lambda p: p["type"] == "Parc-nature", "a nature park (parc-nature) in Montréal", "un parc-nature de Montréal", "Parks of type Parc-nature", "Parcs de type parc-nature"),

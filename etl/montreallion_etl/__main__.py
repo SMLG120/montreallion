@@ -1,6 +1,7 @@
 """CLI.
 
   python3 -m montreallion_etl build [--refresh]          fetch → … → publish data/generated/questions.generated.json
+  python3 -m montreallion_etl map                         public/map/*.geojson layers (phase D)
   python3 -m montreallion_etl review list [--status S] [--template T]
   python3 -m montreallion_etl review show ID
   python3 -m montreallion_etl review approve|reject ID... --reviewer NAME [--note TEXT]
@@ -28,6 +29,7 @@ def main(argv: list[str] | None = None) -> None:
     sub = ap.add_subparsers(dest="cmd", required=True)
     b = sub.add_parser("build")
     b.add_argument("--refresh", action="store_true", help="re-download all sources (ignores cache)")
+    sub.add_parser("map")
     r = sub.add_parser("review")
     r.add_argument("action", choices=["list", "show", "approve", "reject"])
     r.add_argument("ids", nargs="*")
@@ -42,6 +44,13 @@ def main(argv: list[str] | None = None) -> None:
 
         stats = build(refresh=a.refresh)
         print(json.dumps({k: v for k, v in stats.items() if k != "seed_report"}))
+        return
+
+    if a.cmd == "map":
+        from .mapdata import build_map
+        from .pipeline import load_context
+
+        print(json.dumps(build_map(load_context(log=lambda *x: None))))
         return
 
     cands = _candidates()

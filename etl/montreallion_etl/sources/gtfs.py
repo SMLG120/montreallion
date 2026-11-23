@@ -118,3 +118,45 @@ def load_rail(key: str, url: str, route_types: set[str], refresh: bool = False) 
             last.termini_of.add(trip_route[trip])
 
     return MetroData(stations, feed.get("feed_version", ""), (feed.get("feed_start_date", ""), feed.get("feed_end_date", "")), f.retrieved)
+
+
+def rail_lines(key: str, url: str, route_types: set[str]) -> list[dict]:
+    """One drawable line per rail route: the longest GTFS shape, or (feeds without shapes.txt) the stop
+    sequence of the longest trip. Returns [{route_id, short, long, color, coords:[[lon,lat],…]}]."""
+    f = fetch(key, url, suffix=".zip", timeout=600)
+    z = zipfile.ZipFile(f.path)
+    routes = {r["route_id"]: r for r in _rows(z, "routes.txt") if r["route_type"] in route_types}
+    trips = [t for t in _rows(z, "trips.txt") if t["route_id"] in routes]
+    out = []
+    names = set(z.namelist())
+    if "shapes.txt" in names and any(t.get("shape_id") for t in trips):
+        wanted = {t["shape_id"]: t["route_id"] for t in trips if t.get("shape_id")}
+        pts: dict[str, list] = {}
+        for r in _rows(z, "shapes.txt"):
+            if r["shape_id"] in wanted:
+                pts.setdefault(r["shape_id"], []).append((int(r["shape_pt_sequence"]), float(r["shape_pt_lon"]), float(r["shape_pt_lat"])))
+        best: dict[str, list] = {}
+        for sid, p in pts.items():
+            rid = wanted[sid]
+            if len(p) > len(best.get(rid, [])):
+                best[rid] = p
+        lines = {rid: [[x, y] for _, x, y in sorted(p)] for rid, p in best.items()}
+    else:
+        stops = {s["stop_id"]: s for s in _rows(z, "stops.txt")}
+        trip_route = {t["trip_id"]: t["route_id"] for t in trips}
+        seqs: dict[str, list] = {}
+        for st in _rows(z, "stop_times.txt"):
+            if st["trip_id"] in trip_route:
+                s = stops[st["stop_id"]]
+                seqs.setdefault(st["trip_id"], []).append((int(st["stop_sequence"]), float(s["stop_lon"]), float(s["stop_lat"])))
+        lines = {}
+        for trip, p in seqs.items():
+            rid = trip_route[trip]
+            if len(p) > len(lines.get(rid, [])):
+                lines[rid] = [[x, y] for _, x, y in sorted(p)]
+    for rid, coords in lines.items():
+        r = routes[rid]
+        color = (r.get("route_color") or "").strip()
+        out.append({"route_id": rid, "short": r.get("route_short_name", ""), "long": r.get("route_long_name", ""),
+                    "color": f"#{color}" if color else None, "coords": coords})
+    return out

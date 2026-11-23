@@ -88,6 +88,9 @@ export function ResultsView({
           {copied ? <Check /> : <Share2 />}
           {copied ? t.results.copied : t.results.share}
         </Button>
+        <Link href={`/map?game=${summary.id}`} className="inline-flex h-11 flex-1 items-center justify-center rounded-xl border border-border font-bold hover:bg-muted" data-testid="results-map">
+          {t.map.seeOnMap}
+        </Link>
         <Link href="/play/unlimited" className="inline-flex h-11 flex-1 items-center justify-center rounded-xl border border-border font-bold hover:bg-muted">
           {t.results.playUnlimited}
         </Link>
