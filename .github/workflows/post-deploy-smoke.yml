@@ -1,0 +1,29 @@
+name: post-deploy smoke
+# After a push to main, wait until Vercel production serves this commit, then smoke-test it (API + /map in a browser).
+on:
+  push: { branches: [main] }
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SMOKE_URL: https://montreallion.vercel.app
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with: { node-version-file: .nvmrc, cache: npm }
+      - run: npm install -g npm@11.19.1
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: wait for production to serve this commit
+        run: |
+          want=$(git rev-parse --short=7 HEAD)
+          for i in $(seq 1 60); do
+            got=$(curl -s "$SMOKE_URL/api/health" | grep -o '"commit":"[0-9a-f]*"' | cut -d'"' -f4)
+            [ "$got" = "$want" ] && echo "production is on $got" && exit 0
+            sleep 10
+          done
+          echo "production never reached $want (still on ${got:-unknown})"; exit 1
+      - run: npm run smoke -- "$SMOKE_URL"
+      - run: npm run smoke:map -- "$SMOKE_URL"

@@ -2,6 +2,10 @@
   "name": "montreallion",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "packageManager": "npm@11.19.1",
   "scripts": {
     "predev": "node scripts/copy-maplibre-worker.mjs",
     "dev": "next dev",
@@ -21,6 +25,7 @@
     "etl:test": "cd etl && python3 -m unittest discover -s tests",
     "db:export-reviews": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/db.ts export-reviews",
     "smoke": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/smoke.ts",
+    "smoke:map": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/smoke-map.ts",
     "check": "npm run typecheck && npm run lint && npm test && npm run etl:test"
   },
   "dependencies": {
