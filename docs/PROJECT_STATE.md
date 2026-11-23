@@ -1,6 +1,6 @@
 # Montréallion — Project State
 
-_Last updated: 2026-11-21 · Phases 1–8 complete · LIVE at https://montreallion.vercel.app (Vercel + Neon Postgres); smoke test passed against production — see docs/DEPLOY.md_
+_Last updated: 2026-11-22 · Phases 1–8 complete · 49 approved questions live (15 seed + 34 from review #1) · LIVE at https://montreallion.vercel.app (Vercel + Neon Postgres); smoke test passed against production — see docs/DEPLOY.md_
 
 ## What it is
 Original, bilingual (EN/FR) Montréal rarity trivia game. 7 open-ended questions per ride, 25 s each, rarer valid answers score more (10–100). It borrows the general rarity-quiz idea only; no Krillion branding, code, art or content.
@@ -12,7 +12,7 @@ postgres.js 3 (server-only DB client). Python 3 ETL (stdlib only) in `etl/`. Not
 ## Architecture
 ```
 data/seed/questions.json      Hand-built seed bank (15 approved questions)
-data/generated/questions.generated.json  ETL output (61 candidates, all in_review); same schema + provenance
+data/generated/questions.generated.json  ETL output (47 questions: 34 approved, 13 in_review; rejected ones removed after review #1); same schema + provenance
 data/normalize-fixtures.json  Shared TS/Python normalizer parity fixtures (regenerate: node scripts/make-normalize-fixtures.ts)
 etl/                          Open-data ETL (see etl/README.md); review decisions in etl/review/decisions.json
 supabase/migrations/          SQL migrations (Supabase CLI layout; also applied by scripts/db.ts)
@@ -65,7 +65,7 @@ categories · sources · questions · question_sources · answers · answer_alia
 - Streaks are per-device (localStorage).
 - `scripts/db.ts` tracks migrations in `app_migrations`. If you use the Supabase CLI (`supabase db push`) instead, pick ONE tool per database so migrations aren't applied twice.
 - Display names: blocklist on write, plus manual reset in /admin/names (no automated moderation queue).
-- Only 15 questions (target 500+ via Phase 4 ETL).
+- Only 49 approved questions (15 seed + 34 generated), 13 more in review; target 500+.
 
 ## Commands
 ```
@@ -189,7 +189,7 @@ DATABASE_URL=postgres://localhost:5432/montreallion_dev npm run dev
 - **Deployed (2026-11-21):** https://montreallion.vercel.app, Vercel production.
   - Database: Neon Postgres (free plan, iad1) via the Vercel Marketplace, Production env only. Supabase was blocked by the account's 2-free-project limit, and the user chose Neon.
   - Migrated (5 migrations) and seeded with the unpooled URL.
-  - `npm run smoke -- https://montreallion.vercel.app`: all 16 checks passed. Health reports postgres/ok, 15 approved questions, no config problems.
+  - `npm run smoke -- https://montreallion.vercel.app`: all 16 checks passed. Health reports postgres/ok, 15 approved questions, no config problems. After review #1 (commit `2924eeb`, 2026-11-22), health reports 49.
   - `/admin/login` is enabled.
 - Code changes for hosting:
   - `POSTGRES_URL` fallback.
