@@ -52,7 +52,7 @@ describe("locale detection", () => {
 
 describe("dictionaries", () => {
   type Tree = { [k: string]: unknown };
-  const SAME_OK = new Set(["Admin", "Questions", "Sources", "Montréallion", "Total", "Terminus", "Notes", "Note", "Culture", "Autoroute", "Square", "Restaurant", "Café"]);
+  const SAME_OK = new Set(["Admin", "Questions", "Sources", "Montréallion", "Total", "Terminus", "Notes", "Note", "Culture", "Autoroute", "Square", "Restaurant", "Café", "Tuque"]);
   // Functions whose output is legitimately identical in both languages for the probe arguments ("2 ha").
   const SAME_FN_OK = new Set(["t.map.hectares"]);
 

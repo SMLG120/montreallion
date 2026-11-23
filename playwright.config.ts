@@ -11,8 +11,10 @@ export default defineConfig({
   reporter: "list",
   use: { baseURL: `http://localhost:${PORT}`, trace: "retain-on-failure" },
   projects: [
-    { name: "desktop", use: { ...devices["Desktop Chrome"] } },
-    { name: "mobile", use: { ...devices["Pixel 7"] } },
+    // Each project is a different "player" for the per-IP rate limits (20 game starts/min), as real players would be.
+    // Local `next start` trusts x-forwarded-for; on Vercel the platform sets it, so production limits are unaffected.
+    { name: "desktop", use: { ...devices["Desktop Chrome"], extraHTTPHeaders: { "x-forwarded-for": "198.51.100.1" } } },
+    { name: "mobile", use: { ...devices["Pixel 7"], extraHTTPHeaders: { "x-forwarded-for": "198.51.100.2" } } },
   ],
   webServer: {
     command: `npm run build && npx next start -p ${PORT}`,

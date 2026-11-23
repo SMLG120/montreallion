@@ -317,6 +317,26 @@ The category mix differs from the spec, as requested ("keep going on food and fe
   - ETL 36 (+3). E2E 26 passed, 2 skipped (+4: map load, lazy layer, search popup, ride pins and 404, desktop and mobile). DB 18.
 - **Refresh:** `npm run etl:build` (answer positions), then `cd etl && python3 -m montreallion_etl map` (layers; about 10 Wikidata queries at 1 per minute when not cached).
 
+## Expansion E: Mount Royal climber (2026-11-23)
+- **Model (`src/lib/game/climb.ts`, pure):**
+  - Each correct answer climbs exactly its score in "steps". A miss or timeout climbs 0 and never falls back.
+  - The lookout is at `SUMMIT_STEPS` = 350 (7 stops averaging 50 points). Position along the switchback staircase is proportional up to there.
+  - Move style by tier: tourist and regular are short, expert and gem big, legend a leap.
+  - Steps are labelled as gamified progress, not altitude.
+- **Scene (`src/components/game/mount-royal-climb.tsx`):**
+  - Original SVG art: mountain, switchback stairs, three parallax layers (stars and generic skyline, tree line, world), and a stylized lookout pavilion whose windows light up at the summit.
+  - The camera follows the climber. Walking bob and leg swing; a leap arc and particle burst for legend answers and the summit.
+  - With reduced motion, positions update instantly with no bob or burst.
+  - Fixed aspect ratio, so there's no layout shift or cropping on mobile.
+  - Shows steps out of 350, a progress bar and the best tier. It has a screen-reader description and a polite live region.
+- **Placement:** on the game page (under the métro line) and the results page.
+- **Persistence:**
+  - Appearance (5 skin tones, 6 jackets, tuque, cap or no hat) is saved in localStorage `ml_look` and parsed defensively.
+  - Climb progress comes from the server-side ride, so a reload restores it without replaying the animation.
+  - Account sync is phase F.
+- **Tests:** unit 405 (+5 climb: proportionality, no fall, move tiers, monotone staircase, look parsing). E2E 30 passed, 2 skipped (+4: steps == running score, a miss holds, look and progress survive reload, no sideways scroll, reduced-motion aria; desktop and mobile). DB 18.
+- **Test harness:** the Playwright projects send distinct `x-forwarded-for` client addresses. The suite now starts more than 20 games a minute, the per-IP start limit. Production limits are unchanged.
+
 ## Blockers
 - Content: 49 playable questions; 13 generated ones await review (7 fixed, 6 need borough checks); neighbourhood template needs a new source.
 - Repo: own git repo, remote https://github.com/SMLG120/montreallion (public, `main`). The Vercel project is Git-connected: pushes to `main` deploy to production, other branches get preview URLs.

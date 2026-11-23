@@ -5,6 +5,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { Check, Share2 } from "lucide-react";
 import { useApp } from "@/components/providers";
+import { MountRoyalClimb } from "@/components/game/mount-royal-climb";
 import { Button } from "@/components/ui/button";
 import { CATEGORY_LABELS, TIER_LABELS } from "@/lib/i18n/dict";
 import { TIER_COLOR, TIER_EMOJI } from "@/lib/client/fx";
@@ -82,6 +83,8 @@ export function ResultsView({
           </Link>
         )}
       </section>
+
+      <MountRoyalClimb stops={summary.rounds.map((r) => ({ status: r.status, tier: r.tier, score: r.score }))} />
 
       <div className="flex flex-wrap gap-2">
         <Button onClick={share} className="h-11 flex-1 rounded-xl font-bold" data-testid="share">

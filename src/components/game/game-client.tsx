@@ -7,6 +7,7 @@ import { ArrowRight, Check, CornerDownLeft, Loader2, Pencil, SearchCheck } from 
 import { useApp } from "@/components/providers";
 import { Button } from "@/components/ui/button";
 import { MetroLine, type StopState } from "./metro-line";
+import { MountRoyalClimb } from "./mount-royal-climb";
 import { CATEGORY_LABELS, SCOPE_LABELS, TIER_LABELS } from "@/lib/i18n/dict";
 import { chime, recordDailyStreak, TIER_COLOR } from "@/lib/client/fx";
 import type { CategoryId, Localized, PublicQuestion, Tier } from "@/lib/game/types";
@@ -231,6 +232,8 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
       </div>
 
       <MetroLine stops={stops} current={currentIndex} label={t.game.stop(Math.min(currentIndex + 1, total), total)} />
+
+      <MountRoyalClimb stops={stops} compact />
 
       {resumed && <p className="rounded-lg border border-border bg-card px-3 py-2 text-sm text-muted-foreground">{t.game.resumeNote}</p>}
 
