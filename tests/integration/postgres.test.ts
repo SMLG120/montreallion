@@ -1,7 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { Sql } from "@/lib/server/db";
 import { answerKeys } from "@/lib/game/match";
-import { QUESTIONS_PER_GAME } from "@/lib/game/daily";
 import type { CategoryId } from "@/lib/game/types";
 
 const URL = process.env.TEST_DATABASE_URL;
@@ -26,8 +25,7 @@ describe.skipIf(!URL)("Postgres store (integration)", () => {
   const smallCategory = () => {
     const sizes = new Map<CategoryId, number>();
     for (const q of m.bank.seedBank().questions) sizes.set(q.category, (sizes.get(q.category) ?? 0) + 1);
-    const fits = [...sizes].filter(([, n]) => n >= m.engine.MIN_CATEGORY_QUESTIONS && n <= QUESTIONS_PER_GAME);
-    if (!fits.length) throw new Error("no category small enough to force a repeat");
+    const fits = [...sizes].filter(([, n]) => n >= m.engine.MIN_CATEGORY_QUESTIONS);
     return fits.sort((x, y) => x[1] - y[1])[0][0];
   };
 
@@ -177,17 +175,26 @@ describe.skipIf(!URL)("Postgres store (integration)", () => {
     const st = m.store.createPostgresStore(sql, m.bank.getBank);
     const unlimited = m.engine.createEngine({ store: st, now, random: () => 0 });
     const P3 = "c3c3c3c3-c3c3-4c3c-8c3c-c3c3c3c3c3c3";
+    // Play whole games in the smallest category until no-repeat picking runs out and a question comes back.
+    const category = smallCategory();
+    const seen = new Map<string, string>();
     const played: { qid: string; slug: string }[] = [];
-    for (let game = 0; game < 2; game++) {
-      // A category small enough to fit in one game forces a repeat even with no-repeat picking.
-      const s = await unlimited.start(P3, "unlimited", { category: smallCategory() });
-      const { question } = await unlimited.serve(s.id, P3);
-      t += 2000;
-      const { result } = await unlimited.submit(s.id, P3, 0, answerFor(question!.id));
-      if (result.status !== "correct") throw new Error("expected correct");
-      played.push({ qid: question!.id, slug: result.answerId! });
+    for (let game = 0; game < 12 && !played.length; game++) {
+      const s = await unlimited.start(P3, "unlimited", { category });
+      for (let i = 0; i < s.questionIds.length; i++) {
+        const { question } = await unlimited.serve(s.id, P3);
+        t += 2000;
+        const { result } = await unlimited.submit(s.id, P3, i, answerFor(question!.id));
+        if (result.status !== "correct") throw new Error("expected correct");
+        const prev = seen.get(question!.id);
+        if (prev !== undefined && !played.length) {
+          expect(result.answerId).toBe(prev); // same question + same answer, by the same player
+          played.push({ qid: question!.id, slug: result.answerId! });
+        }
+        seen.set(question!.id, result.answerId!);
+      }
     }
-    expect(played[0]).toEqual(played[1]); // same deterministic question + answer twice
+    expect(played.length).toBe(1);
     const [row] = await sql<{ correct_count: number; players: number }[]>`
       select st.correct_count, st.players from answer_stats st join answers a on a.id = st.answer_id
       where a.question_id = ${played[0].qid} and a.slug = ${played[0].slug}`;

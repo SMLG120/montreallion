@@ -1,4 +1,22 @@
 {
+  "gen-culture-espace-pour-la-vie": {
+    "contentHash": "7794bba79361d18b",
+    "date": "2026-11-23",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-culture-library": {
+    "contentHash": "05d28aca42180f9b",
+    "date": "2026-11-23",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-culture-museum": {
+    "contentHash": "c2e5a130d909816e",
+    "date": "2026-11-23",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
   "gen-culture-venue": {
     "contentHash": "702599f5a623374a",
     "date": "2026-11-21",
@@ -27,6 +45,12 @@
   "gen-library-in-mercier-hochelaga-maisonneuve": {
     "contentHash": "1deed9098d2fa6ff",
     "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-library-in-montreal-nord": {
+    "contentHash": "5130fbb7a812a58f",
+    "date": "2026-11-23",
     "reviewer": "Samuel",
     "status": "approved"
   },
@@ -75,6 +99,18 @@
   "gen-metro-in-ville-marie": {
     "contentHash": "1826b48f281aa8b8",
     "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-metro-line-yellow": {
+    "contentHash": "d52ce440519a4f6a",
+    "date": "2026-11-23",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-metro-terminus": {
+    "contentHash": "1e1d333afd89651a",
+    "date": "2026-11-23",
     "reviewer": "Samuel",
     "status": "approved"
   },
@@ -237,6 +273,12 @@
   "gen-park-in-riviere-des-prairies-pointe-aux-trembles": {
     "contentHash": "fc3529bee31fb07e",
     "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-rosemont-la-petite-patrie": {
+    "contentHash": "63fbc5df1bd14d9d",
+    "date": "2026-11-23",
     "reviewer": "Samuel",
     "status": "approved"
   },
