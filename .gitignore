@@ -49,3 +49,6 @@ next-env.d.ts
 /etl/.cache/
 /etl/out/
 __pycache__/
+
+# copied from node_modules by scripts/copy-maplibre-worker.mjs
+/public/vendor/maplibre-gl-worker.mjs

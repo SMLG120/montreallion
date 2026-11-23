@@ -106,6 +106,8 @@ export function MapView({ game }: { game: string | null }) {
       const lib = await import("maplibre-gl");
       if (disposed || !box.current) return;
       libRef.current = lib;
+      // The bundled default worker URL 404s; serve the copy in public/vendor (scripts/copy-maplibre-worker.mjs).
+      lib.setWorkerUrl(`/vendor/maplibre-gl-worker.mjs?v=${lib.getVersion()}`);
       const map = new lib.Map({
         container: box.current,
         style: BASE_STYLE,
@@ -316,7 +318,9 @@ export function MapView({ game }: { game: string | null }) {
 
   return (
     <div className="relative -mx-4 h-[calc(100dvh-3.5rem)] overflow-hidden sm:mx-0 sm:h-[calc(100dvh-7rem)] sm:rounded-2xl sm:border sm:border-border">
-      <div ref={box} className="absolute inset-0" data-testid="map-canvas" data-ready={ready ? "1" : "0"} aria-label={tm.title} role="region" />
+      {/* size-full: maplibre-gl.css (unlayered) sets .maplibregl-map{position:relative}, which beats Tailwind's layered
+          `absolute`, so inset-0 alone collapses the map to 0px tall. */}
+      <div ref={box} className="absolute inset-0 size-full" data-testid="map-canvas" data-ready={ready ? "1" : "0"} aria-label={tm.title} role="region" />
       {!ready && <div className="pointer-events-none absolute inset-0 grid place-items-center text-sm opacity-70">{tm.loading}</div>}
 
       <button
