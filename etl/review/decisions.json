@@ -5,5 +5,293 @@
     "note": "Dataset's 'Salle de spectacle' list includes art galleries; mostly obscure; prompt doesn't match the list.",
     "reviewer": "Samuel",
     "status": "rejected"
+  },
+  "gen-library-in-ahuntsic-cartierville": {
+    "contentHash": "1af22fda84541725",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-library-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "2d2c81253b71ef00",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-library-in-le-sud-ouest": {
+    "contentHash": "54a60b66b602afdc",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-library-in-mercier-hochelaga-maisonneuve": {
+    "contentHash": "1deed9098d2fa6ff",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-library-in-rosemont-la-petite-patrie": {
+    "contentHash": "494e923d2879e30b",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-library-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "45eb53f417398ecd",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-metro-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "7cfb6ebd788d9c40",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-metro-in-le-plateau-mont-royal": {
+    "contentHash": "c011c7644fc24641",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-metro-in-le-sud-ouest": {
+    "contentHash": "7c67c462c7c06611",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-metro-in-mercier-hochelaga-maisonneuve": {
+    "contentHash": "a8f854a5f9e94448",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-metro-in-verdun": {
+    "contentHash": "acb9785d5508ca75",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-metro-in-ville-marie": {
+    "contentHash": "1826b48f281aa8b8",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-neighbourhood-in-ahuntsic-cartierville": {
+    "contentHash": "c191a2f0f8d52904",
+    "date": "2026-11-21",
+    "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  },
+  "gen-neighbourhood-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "8bacbaa47734f0c9",
+    "date": "2026-11-21",
+    "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  },
+  "gen-neighbourhood-in-le-plateau-mont-royal": {
+    "contentHash": "40a61982d6c1f615",
+    "date": "2026-11-21",
+    "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  },
+  "gen-neighbourhood-in-le-sud-ouest": {
+    "contentHash": "9d7ea0187e03b7c2",
+    "date": "2026-11-21",
+    "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  },
+  "gen-neighbourhood-in-mercier-hochelaga-maisonneuve": {
+    "contentHash": "91e314c35be081fc",
+    "date": "2026-11-21",
+    "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  },
+  "gen-neighbourhood-in-montreal-nord": {
+    "contentHash": "433e06847a57bfc2",
+    "date": "2026-11-21",
+    "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  },
+  "gen-neighbourhood-in-riviere-des-prairies-pointe-aux-trembles": {
+    "contentHash": "0f9cf1f90ca8af24",
+    "date": "2026-11-21",
+    "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  },
+  "gen-neighbourhood-in-rosemont-la-petite-patrie": {
+    "contentHash": "87e4110bb8a44e87",
+    "date": "2026-11-21",
+    "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  },
+  "gen-neighbourhood-in-saint-laurent": {
+    "contentHash": "0b93c3378b0c7c76",
+    "date": "2026-11-21",
+    "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  },
+  "gen-neighbourhood-in-verdun": {
+    "contentHash": "0e8b602b66338791",
+    "date": "2026-11-21",
+    "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  },
+  "gen-neighbourhood-in-ville-marie": {
+    "contentHash": "583d34a4a5cc09d5",
+    "date": "2026-11-21",
+    "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  },
+  "gen-neighbourhood-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "33b35fcf0e6ec8d9",
+    "date": "2026-11-21",
+    "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
+    "reviewer": "Samuel",
+    "status": "rejected"
+  },
+  "gen-park-in-ahuntsic-cartierville": {
+    "contentHash": "fcfafdf871b0a832",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-anjou": {
+    "contentHash": "c034678398998e2e",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "cd86591ffa1b9093",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-l-ile-bizard-sainte-genevieve": {
+    "contentHash": "329787df62a8be9b",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-lachine": {
+    "contentHash": "8331b07751a2f7d5",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-lasalle": {
+    "contentHash": "430d0cca69317c48",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-le-plateau-mont-royal": {
+    "contentHash": "3670e03b22fb95be",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-le-sud-ouest": {
+    "contentHash": "b86560200709c6bc",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-mercier-hochelaga-maisonneuve": {
+    "contentHash": "c03b87545f59f2d5",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-montreal-nord": {
+    "contentHash": "e58f7f091752dc19",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-outremont": {
+    "contentHash": "f1f4794890a384d5",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-pierrefonds-roxboro": {
+    "contentHash": "a4f45b9cf24d0b9a",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-riviere-des-prairies-pointe-aux-trembles": {
+    "contentHash": "fc3529bee31fb07e",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-saint-laurent": {
+    "contentHash": "3927115655cbc2d3",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-saint-leonard": {
+    "contentHash": "90ac86b6d4deac87",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-verdun": {
+    "contentHash": "cf73f9385742ea34",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-ville-marie": {
+    "contentHash": "fa4b96f801761490",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-park-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "ec11ffb9cd6dcd33",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-rem-branch-anse-a-l-orme": {
+    "contentHash": "87f3133bd062fafe",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-rem-branch-deux-montagnes": {
+    "contentHash": "2144e65c994fa002",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-rem-station": {
+    "contentHash": "2a3210b79635e57a",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-rem-terminus": {
+    "contentHash": "9a3be43f8ab1b63a",
+    "date": "2026-11-21",
+    "reviewer": "Samuel",
+    "status": "approved"
   }
 }

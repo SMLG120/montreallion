@@ -281,7 +281,7 @@
     "fr": "Stations de la STM situées à l'intérieur des limites officielles de Côte-des-Neiges–Notre-Dame-de-Grâce (9 stations)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "STM — GTFS static schedule data",
@@ -414,7 +414,7 @@
     "fr": "Stations de la STM situées à l'intérieur des limites officielles du Plateau-Mont-Royal (3 stations)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "STM — GTFS static schedule data",
@@ -487,7 +487,7 @@
     "fr": "Stations de la STM situées à l'intérieur des limites officielles du Sud-Ouest (7 stations)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "STM — GTFS static schedule data",
@@ -600,7 +600,7 @@
     "fr": "Stations de la STM situées à l'intérieur des limites officielles de Mercier–Hochelaga-Maisonneuve (9 stations)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "STM — GTFS static schedule data",
@@ -816,7 +816,7 @@
     "fr": "Stations de la STM situées à l'intérieur des limites officielles de Verdun (3 stations)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "STM — GTFS static schedule data",
@@ -889,7 +889,7 @@
     "fr": "Stations de la STM situées à l'intérieur des limites officielles de Ville-Marie (16 stations)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "STM — GTFS static schedule data",
@@ -1189,7 +1189,7 @@
     "fr": "Stations desservies selon l'horaire du REM (23 stations, GTFS du REM 20260520)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "REM — GTFS scheduled service (via ARTM open data)",
@@ -1454,7 +1454,7 @@
     "fr": "Premiers ou derniers arrêts des trajets complets de chaque route du REM (4 stations, GTFS du REM 20260520)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "REM — GTFS scheduled service (via ARTM open data)",
@@ -1530,7 +1530,7 @@
     "fr": "Stations desservies uniquement par la route S1 du REM (6 stations, GTFS du REM 20260520)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "REM — GTFS scheduled service (via ARTM open data)",
@@ -1627,7 +1627,7 @@
     "fr": "Stations desservies uniquement par la route S3 du REM (4 stations, GTFS du REM 20260520)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "REM — GTFS scheduled service (via ARTM open data)",
@@ -2006,939 +2006,6 @@
    ]
   },
   {
-   "id": "gen-neighbourhood-in-ahuntsic-cartierville",
-   "category": "boroughs",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a neighbourhood in the borough of Ahuntsic-Cartierville.",
-    "fr": "Nommez un quartier dans l'arrondissement d'Ahuntsic-Cartierville."
-   },
-   "eligibility": {
-    "en": "The City's reference neighbourhoods (quartiers de référence en habitation) for Ahuntsic-Cartierville (6).",
-    "fr": "Les quartiers de référence en habitation de la Ville pour Ahuntsic-Cartierville (6)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Quartiers de référence en habitation (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/quartiers",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "neighbourhood-in-area",
-    "concept": "neighbourhood-in:Ahuntsic-Cartierville",
-    "contentHash": "c191a2f0f8d52904"
-   },
-   "answers": [
-    {
-     "id": "cartierville",
-     "en": "Cartierville",
-     "aliases": [],
-     "est": 95,
-     "refs": [
-      "wikidata:Q2940595"
-     ]
-    },
-    {
-     "id": "nicolas-viel",
-     "en": "Nicolas-Viel",
-     "aliases": [],
-     "est": 23
-    },
-    {
-     "id": "nouveau-bordeaux",
-     "en": "Nouveau-Bordeaux",
-     "aliases": [],
-     "est": 68,
-     "refs": [
-      "wikidata:Q3345012"
-     ]
-    },
-    {
-     "id": "sault-au-recollet",
-     "en": "Sault-au-Récollet",
-     "aliases": [],
-     "est": 68,
-     "refs": [
-      "wikidata:Q3474213"
-     ]
-    },
-    {
-     "id": "saint-sulpice",
-     "en": "Saint-Sulpice",
-     "aliases": [],
-     "est": 23
-    },
-    {
-     "id": "la-visitation",
-     "en": "La Visitation",
-     "aliases": [],
-     "est": 23
-    }
-   ]
-  },
-  {
-   "id": "gen-neighbourhood-in-cote-des-neiges-notre-dame-de-grace",
-   "category": "boroughs",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a neighbourhood in the borough of Côte-des-Neiges–Notre-Dame-de-Grâce.",
-    "fr": "Nommez un quartier dans l'arrondissement de Côte-des-Neiges–Notre-Dame-de-Grâce."
-   },
-   "eligibility": {
-    "en": "The City's reference neighbourhoods (quartiers de référence en habitation) for Côte-des-Neiges–Notre-Dame-de-Grâce (7).",
-    "fr": "Les quartiers de référence en habitation de la Ville pour Côte-des-Neiges–Notre-Dame-de-Grâce (7)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Quartiers de référence en habitation (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/quartiers",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "neighbourhood-in-area",
-    "concept": "neighbourhood-in:Côte-des-Neiges–Notre-Dame-de-Grâce",
-    "contentHash": "8bacbaa47734f0c9"
-   },
-   "answers": [
-    {
-     "id": "cote-saint-antoine",
-     "en": "Côte-Saint-Antoine",
-     "aliases": [],
-     "est": 28
-    },
-    {
-     "id": "edouard-montpetit",
-     "en": "Édouard-Montpetit",
-     "aliases": [],
-     "est": 80,
-     "refs": [
-      "wikidata:Q273870"
-     ]
-    },
-    {
-     "id": "parc-kent",
-     "en": "Parc-Kent",
-     "aliases": [],
-     "est": 28
-    },
-    {
-     "id": "loyola",
-     "en": "Loyola",
-     "aliases": [],
-     "est": 65,
-     "refs": [
-      "wikidata:Q20657226"
-     ]
-    },
-    {
-     "id": "savane",
-     "en": "Savane",
-     "aliases": [],
-     "est": 28
-    },
-    {
-     "id": "snowdon",
-     "en": "Snowdon",
-     "aliases": [],
-     "est": 95,
-     "refs": [
-      "wikidata:Q179391"
-     ]
-    },
-    {
-     "id": "upper-lachine",
-     "en": "Upper Lachine",
-     "aliases": [],
-     "est": 28
-    }
-   ]
-  },
-  {
-   "id": "gen-neighbourhood-in-le-plateau-mont-royal",
-   "category": "boroughs",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a neighbourhood in the borough of Le Plateau-Mont-Royal.",
-    "fr": "Nommez un quartier dans l'arrondissement du Plateau-Mont-Royal."
-   },
-   "eligibility": {
-    "en": "The City's reference neighbourhoods (quartiers de référence en habitation) for Le Plateau-Mont-Royal (6).",
-    "fr": "Les quartiers de référence en habitation de la Ville pour Le Plateau-Mont-Royal (6)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Quartiers de référence en habitation (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/quartiers",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "neighbourhood-in-area",
-    "concept": "neighbourhood-in:Le Plateau-Mont-Royal",
-    "contentHash": "40a61982d6c1f615"
-   },
-   "answers": [
-    {
-     "id": "parc-lafontaine",
-     "en": "Parc-Lafontaine",
-     "aliases": [],
-     "est": 95,
-     "refs": [
-      "wikidata:Q3363848"
-     ]
-    },
-    {
-     "id": "parc-laurier",
-     "en": "Parc-Laurier",
-     "aliases": [],
-     "est": 14
-    },
-    {
-     "id": "lorimier",
-     "en": "Lorimier",
-     "aliases": [],
-     "est": 14
-    },
-    {
-     "id": "mile-end",
-     "en": "Mile End",
-     "aliases": [],
-     "est": 68,
-     "refs": [
-      "wikidata:Q3314040"
-     ]
-    },
-    {
-     "id": "milton-parc",
-     "en": "Milton-Parc",
-     "aliases": [],
-     "est": 68,
-     "refs": [
-      "wikidata:Q3104838"
-     ]
-    },
-    {
-     "id": "saint-louis",
-     "en": "Saint-Louis",
-     "aliases": [],
-     "est": 41,
-     "refs": [
-      "wikidata:Q3462767"
-     ]
-    }
-   ]
-  },
-  {
-   "id": "gen-neighbourhood-in-le-sud-ouest",
-   "category": "boroughs",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a neighbourhood in the borough of Le Sud-Ouest.",
-    "fr": "Nommez un quartier dans l'arrondissement du Sud-Ouest."
-   },
-   "eligibility": {
-    "en": "The City's reference neighbourhoods (quartiers de référence en habitation) for Le Sud-Ouest (5).",
-    "fr": "Les quartiers de référence en habitation de la Ville pour Le Sud-Ouest (5)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Quartiers de référence en habitation (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/quartiers",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "neighbourhood-in-area",
-    "concept": "neighbourhood-in:Le Sud-Ouest",
-    "contentHash": "9d7ea0187e03b7c2"
-   },
-   "answers": [
-    {
-     "id": "cote-saint-paul",
-     "en": "Côte-Saint-Paul",
-     "aliases": [],
-     "est": 39,
-     "refs": [
-      "wikidata:Q3010614"
-     ]
-    },
-    {
-     "id": "petite-bourgogne",
-     "en": "Petite-Bourgogne",
-     "aliases": [],
-     "est": 84,
-     "refs": [
-      "wikidata:Q3377317"
-     ]
-    },
-    {
-     "id": "pointe-saint-charles",
-     "en": "Pointe-Saint-Charles",
-     "aliases": [],
-     "est": 39,
-     "refs": [
-      "wikidata:Q3393563"
-     ]
-    },
-    {
-     "id": "saint-henri",
-     "en": "Saint-Henri",
-     "aliases": [],
-     "est": 5,
-     "refs": [
-      "wikidata:Q3462388"
-     ]
-    },
-    {
-     "id": "ville-emard",
-     "en": "Ville-Émard",
-     "aliases": [],
-     "est": 84,
-     "refs": [
-      "wikidata:Q3559086"
-     ]
-    }
-   ]
-  },
-  {
-   "id": "gen-neighbourhood-in-mercier-hochelaga-maisonneuve",
-   "category": "boroughs",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a neighbourhood in the borough of Mercier–Hochelaga-Maisonneuve.",
-    "fr": "Nommez un quartier dans l'arrondissement de Mercier–Hochelaga-Maisonneuve."
-   },
-   "eligibility": {
-    "en": "The City's reference neighbourhoods (quartiers de référence en habitation) for Mercier–Hochelaga-Maisonneuve (9).",
-    "fr": "Les quartiers de référence en habitation de la Ville pour Mercier–Hochelaga-Maisonneuve (9)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Quartiers de référence en habitation (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/quartiers",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "neighbourhood-in-area",
-    "concept": "neighbourhood-in:Mercier–Hochelaga-Maisonneuve",
-    "contentHash": "91e314c35be081fc"
-   },
-   "answers": [
-    {
-     "id": "beaurivage",
-     "en": "Beaurivage",
-     "aliases": [],
-     "est": 16
-    },
-    {
-     "id": "dupere",
-     "en": "Dupéré",
-     "aliases": [],
-     "est": 16
-    },
-    {
-     "id": "guybourg",
-     "en": "Guybourg",
-     "aliases": [],
-     "est": 16
-    },
-    {
-     "id": "hochelaga",
-     "en": "Hochelaga",
-     "aliases": [],
-     "est": 84,
-     "refs": [
-      "wikidata:Q544356"
-     ]
-    },
-    {
-     "id": "longue-pointe",
-     "en": "Longue-Pointe",
-     "aliases": [],
-     "est": 72,
-     "refs": [
-      "wikidata:Q6674375"
-     ]
-    },
-    {
-     "id": "louis-riel",
-     "en": "Louis-Riel",
-     "aliases": [],
-     "est": 39,
-     "refs": [
-      "wikidata:Q66496992"
-     ]
-    },
-    {
-     "id": "maisonneuve",
-     "en": "Maisonneuve",
-     "aliases": [],
-     "est": 56,
-     "refs": [
-      "wikidata:Q3280323"
-     ]
-    },
-    {
-     "id": "prefontaine",
-     "en": "Préfontaine",
-     "aliases": [],
-     "est": 95,
-     "refs": [
-      "wikidata:Q1827087"
-     ]
-    },
-    {
-     "id": "tetreaultville",
-     "en": "Tétreaultville",
-     "aliases": [],
-     "est": 56,
-     "refs": [
-      "wikidata:Q18534081"
-     ]
-    }
-   ]
-  },
-  {
-   "id": "gen-neighbourhood-in-montreal-nord",
-   "category": "boroughs",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a neighbourhood in the borough of Montréal-Nord.",
-    "fr": "Nommez un quartier dans l'arrondissement de Montréal-Nord."
-   },
-   "eligibility": {
-    "en": "The City's reference neighbourhoods (quartiers de référence en habitation) for Montréal-Nord (4).",
-    "fr": "Les quartiers de référence en habitation de la Ville pour Montréal-Nord (4)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Quartiers de référence en habitation (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/quartiers",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "neighbourhood-in-area",
-    "concept": "neighbourhood-in:Montréal-Nord",
-    "contentHash": "433e06847a57bfc2"
-   },
-   "answers": [
-    {
-     "id": "centre",
-     "en": "Centre",
-     "aliases": [],
-     "est": 50
-    },
-    {
-     "id": "centre-nord",
-     "en": "Centre-Nord",
-     "aliases": [],
-     "est": 50
-    },
-    {
-     "id": "est",
-     "en": "Est",
-     "aliases": [],
-     "est": 50
-    },
-    {
-     "id": "ouest",
-     "en": "Ouest",
-     "aliases": [],
-     "est": 50
-    }
-   ]
-  },
-  {
-   "id": "gen-neighbourhood-in-riviere-des-prairies-pointe-aux-trembles",
-   "category": "boroughs",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a neighbourhood in the borough of Rivière-des-Prairies–Pointe-aux-Trembles.",
-    "fr": "Nommez un quartier dans l'arrondissement de Rivière-des-Prairies–Pointe-aux-Trembles."
-   },
-   "eligibility": {
-    "en": "The City's reference neighbourhoods (quartiers de référence en habitation) for Rivière-des-Prairies–Pointe-aux-Trembles (3).",
-    "fr": "Les quartiers de référence en habitation de la Ville pour Rivière-des-Prairies–Pointe-aux-Trembles (3)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Quartiers de référence en habitation (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/quartiers",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "neighbourhood-in-area",
-    "concept": "neighbourhood-in:Rivière-des-Prairies–Pointe-aux-Trembles",
-    "contentHash": "0f9cf1f90ca8af24"
-   },
-   "answers": [
-    {
-     "id": "marc-aurele-fortin",
-     "en": "Marc-Aurèle-Fortin",
-     "aliases": [],
-     "est": 5,
-     "refs": [
-      "wikidata:Q3287683"
-     ]
-    },
-    {
-     "id": "pointe-aux-trembles",
-     "en": "Pointe-aux-Trembles",
-     "aliases": [],
-     "est": 50,
-     "refs": [
-      "wikidata:Q3097291"
-     ]
-    },
-    {
-     "id": "riviere-des-prairies",
-     "en": "Rivière-des-Prairies",
-     "aliases": [],
-     "est": 95,
-     "refs": [
-      "wikidata:Q1783795"
-     ]
-    }
-   ]
-  },
-  {
-   "id": "gen-neighbourhood-in-rosemont-la-petite-patrie",
-   "category": "boroughs",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a neighbourhood in the borough of Rosemont–La Petite-Patrie.",
-    "fr": "Nommez un quartier dans l'arrondissement de Rosemont–La Petite-Patrie."
-   },
-   "eligibility": {
-    "en": "The City's reference neighbourhoods (quartiers de référence en habitation) for Rosemont–La Petite-Patrie (7).",
-    "fr": "Les quartiers de référence en habitation de la Ville pour Rosemont–La Petite-Patrie (7)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Quartiers de référence en habitation (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/quartiers",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "neighbourhood-in-area",
-    "concept": "neighbourhood-in:Rosemont–La Petite-Patrie",
-    "contentHash": "87e4110bb8a44e87"
-   },
-   "answers": [
-    {
-     "id": "etienne-desmarteaux",
-     "en": "Étienne Desmarteaux",
-     "aliases": [],
-     "est": 42
-    },
-    {
-     "id": "louis-hebert",
-     "en": "Louis-Hébert",
-     "aliases": [],
-     "est": 42
-    },
-    {
-     "id": "marie-victorin",
-     "en": "Marie-Victorin",
-     "aliases": [],
-     "est": 95,
-     "refs": [
-      "wikidata:Q3292298"
-     ]
-    },
-    {
-     "id": "pere-marquette",
-     "en": "Père-Marquette",
-     "aliases": [],
-     "est": 42
-    },
-    {
-     "id": "petite-cote",
-     "en": "Petite-Côte",
-     "aliases": [],
-     "est": 42
-    },
-    {
-     "id": "saint-edouard",
-     "en": "Saint-Édouard",
-     "aliases": [],
-     "est": 42
-    },
-    {
-     "id": "vieux-rosemont",
-     "en": "Vieux-Rosemont",
-     "aliases": [],
-     "est": 42
-    }
-   ]
-  },
-  {
-   "id": "gen-neighbourhood-in-saint-laurent",
-   "category": "boroughs",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a neighbourhood in the borough of Saint-Laurent.",
-    "fr": "Nommez un quartier dans l'arrondissement de Saint-Laurent."
-   },
-   "eligibility": {
-    "en": "The City's reference neighbourhoods (quartiers de référence en habitation) for Saint-Laurent (5).",
-    "fr": "Les quartiers de référence en habitation de la Ville pour Saint-Laurent (5)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Quartiers de référence en habitation (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/quartiers",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "neighbourhood-in-area",
-    "concept": "neighbourhood-in:Saint-Laurent",
-    "contentHash": "0b93c3378b0c7c76"
-   },
-   "answers": [
-    {
-     "id": "bois-francs",
-     "en": "Bois-Francs",
-     "aliases": [],
-     "est": 50
-    },
-    {
-     "id": "chameran-montpellier",
-     "en": "Chameran/Montpellier",
-     "aliases": [],
-     "est": 50
-    },
-    {
-     "id": "du-college-hodge",
-     "en": "Du College/Hodge",
-     "aliases": [],
-     "est": 50
-    },
-    {
-     "id": "dutrisac",
-     "en": "Dutrisac",
-     "aliases": [],
-     "est": 50
-    },
-    {
-     "id": "grenet",
-     "en": "Grenet",
-     "aliases": [],
-     "est": 50
-    }
-   ]
-  },
-  {
-   "id": "gen-neighbourhood-in-verdun",
-   "category": "boroughs",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a neighbourhood in the borough of Verdun.",
-    "fr": "Nommez un quartier dans l'arrondissement de Verdun."
-   },
-   "eligibility": {
-    "en": "The City's reference neighbourhoods (quartiers de référence en habitation) for Verdun (3).",
-    "fr": "Les quartiers de référence en habitation de la Ville pour Verdun (3)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Quartiers de référence en habitation (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/quartiers",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "neighbourhood-in-area",
-    "concept": "neighbourhood-in:Verdun",
-    "contentHash": "0e8b602b66338791"
-   },
-   "answers": [
-    {
-     "id": "desmarchais-crawford",
-     "en": "Desmarchais-Crawford",
-     "aliases": [],
-     "est": 28
-    },
-    {
-     "id": "ile-des-soeurs",
-     "en": "Ile-des-Soeurs",
-     "aliases": [],
-     "est": 95,
-     "refs": [
-      "wikidata:Q292493"
-     ]
-    },
-    {
-     "id": "verdun-centre",
-     "en": "Verdun-Centre",
-     "aliases": [],
-     "est": 28
-    }
-   ]
-  },
-  {
-   "id": "gen-neighbourhood-in-ville-marie",
-   "category": "boroughs",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a neighbourhood in the borough of Ville-Marie.",
-    "fr": "Nommez un quartier dans l'arrondissement de Ville-Marie."
-   },
-   "eligibility": {
-    "en": "The City's reference neighbourhoods (quartiers de référence en habitation) for Ville-Marie (4).",
-    "fr": "Les quartiers de référence en habitation de la Ville pour Ville-Marie (4)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Quartiers de référence en habitation (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/quartiers",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "neighbourhood-in-area",
-    "concept": "neighbourhood-in:Ville-Marie",
-    "contentHash": "583d34a4a5cc09d5"
-   },
-   "answers": [
-    {
-     "id": "montagne",
-     "en": "Montagne",
-     "aliases": [],
-     "est": 20
-    },
-    {
-     "id": "rene-levesque",
-     "en": "René-Lévesque",
-     "aliases": [],
-     "est": 20
-    },
-    {
-     "id": "sainte-marie",
-     "en": "Sainte-Marie",
-     "aliases": [],
-     "est": 65,
-     "refs": [
-      "wikidata:Q3413137"
-     ]
-    },
-    {
-     "id": "vieux-montreal",
-     "en": "Vieux-Montréal",
-     "aliases": [],
-     "est": 95,
-     "refs": [
-      "wikidata:Q1529351"
-     ]
-    }
-   ]
-  },
-  {
-   "id": "gen-neighbourhood-in-villeray-saint-michel-parc-extension",
-   "category": "boroughs",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a neighbourhood in the borough of Villeray–Saint-Michel–Parc-Extension.",
-    "fr": "Nommez un quartier dans l'arrondissement de Villeray–Saint-Michel–Parc-Extension."
-   },
-   "eligibility": {
-    "en": "The City's reference neighbourhoods (quartiers de référence en habitation) for Villeray–Saint-Michel–Parc-Extension (7).",
-    "fr": "Les quartiers de référence en habitation de la Ville pour Villeray–Saint-Michel–Parc-Extension (7)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Quartiers de référence en habitation (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/quartiers",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "neighbourhood-in-area",
-    "concept": "neighbourhood-in:Villeray–Saint-Michel–Parc-Extension",
-    "contentHash": "33b35fcf0e6ec8d9"
-   },
-   "answers": [
-    {
-     "id": "cremazie",
-     "en": "Crémazie",
-     "aliases": [],
-     "est": 95,
-     "refs": [
-      "wikidata:Q1142496"
-     ]
-    },
-    {
-     "id": "parc-extension",
-     "en": "Parc-Extension",
-     "aliases": [],
-     "est": 65,
-     "refs": [
-      "wikidata:Q3363748"
-     ]
-    },
-    {
-     "id": "francois-perrault",
-     "en": "François-Perrault",
-     "aliases": [],
-     "est": 28
-    },
-    {
-     "id": "gabriel-sagard",
-     "en": "Gabriel-Sagard",
-     "aliases": [],
-     "est": 28
-    },
-    {
-     "id": "parc-jarry",
-     "en": "Parc-Jarry",
-     "aliases": [],
-     "est": 80,
-     "refs": [
-      "wikidata:Q3363835"
-     ]
-    },
-    {
-     "id": "rene-goupil",
-     "en": "René-Goupil",
-     "aliases": [],
-     "est": 28
-    },
-    {
-     "id": "sainte-lucie",
-     "en": "Sainte-Lucie",
-     "aliases": [],
-     "est": 28
-    }
-   ]
-  },
-  {
    "id": "gen-park-in-ahuntsic-cartierville",
    "category": "parks",
    "scope": "city",
@@ -2951,7 +2018,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement d'Ahuntsic-Cartierville (57)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -3763,7 +2830,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement d'Anjou (17)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -4029,7 +3096,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de Côte-des-Neiges–Notre-Dame-de-Grâce (35)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -4568,7 +3635,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de L'Île-Bizard–Sainte-Geneviève (29)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -4962,7 +4029,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de LaSalle (37)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -5473,7 +4540,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de Lachine (35)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -5960,7 +5027,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement du Plateau-Mont-Royal (34)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -6460,7 +5527,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement du Sud-Ouest (73)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -7466,7 +6533,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de Mercier–Hochelaga-Maisonneuve (61)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -8350,7 +7417,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de Montréal-Nord (15)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -8588,7 +7655,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement d'Outremont (15)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -8817,7 +7884,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de Pierrefonds-Roxboro (62)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -9719,7 +8786,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de Rivière-des-Prairies–Pointe-aux-Trembles (78)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -11505,7 +10572,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de Saint-Laurent (59)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -12305,7 +11372,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de Saint-Léonard (10)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -12477,7 +11544,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de Verdun (47)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -13093,7 +12160,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de Ville-Marie (59)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -13947,7 +13014,7 @@
     "fr": "Parcs, squares et parcs-nature nommés de l'inventaire des espaces verts de la Ville situés dans l'arrondissement de Villeray–Saint-Michel–Parc-Extension (43)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Grands parcs, parcs d'arrondissements et espaces publics (Ville de Montréal)",
@@ -15047,7 +14114,7 @@
     "fr": "Bibliothèques du réseau montréalais que la Ville situe dans l'arrondissement d'Ahuntsic-Cartierville (3)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Lieux culturels municipaux de Montréal (Ville de Montréal)",
@@ -15108,7 +14175,7 @@
     "fr": "Bibliothèques du réseau montréalais que la Ville situe dans l'arrondissement de Côte-des-Neiges–Notre-Dame-de-Grâce (4)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Lieux culturels municipaux de Montréal (Ville de Montréal)",
@@ -15183,7 +14250,7 @@
     "fr": "Bibliothèques du réseau montréalais que la Ville situe dans l'arrondissement du Sud-Ouest (4)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Lieux culturels municipaux de Montréal (Ville de Montréal)",
@@ -15252,7 +14319,7 @@
     "fr": "Bibliothèques du réseau montréalais que la Ville situe dans l'arrondissement de Mercier–Hochelaga-Maisonneuve (4)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Lieux culturels municipaux de Montréal (Ville de Montréal)",
@@ -15400,7 +14467,7 @@
     "fr": "Bibliothèques du réseau montréalais que la Ville situe dans l'arrondissement de Rosemont–La Petite-Patrie (3)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Lieux culturels municipaux de Montréal (Ville de Montréal)",
@@ -15464,7 +14531,7 @@
     "fr": "Bibliothèques du réseau montréalais que la Ville situe dans l'arrondissement de Villeray–Saint-Michel–Parc-Extension (3)."
    },
    "verification": "source-checked",
-   "reviewStatus": "in_review",
+   "reviewStatus": "approved",
    "sources": [
     {
      "title": "Lieux culturels municipaux de Montréal (Ville de Montréal)",
@@ -15516,286 +14583,6 @@
      "refs": [
       "wikidata:Q60850029"
      ]
-    }
-   ]
-  },
-  {
-   "id": "gen-culture-venue",
-   "category": "festivals",
-   "scope": "city",
-   "prompt": {
-    "en": "Name a municipal performance venue (salle de spectacle) in Montréal.",
-    "fr": "Nommez une salle de spectacle municipale de Montréal."
-   },
-   "eligibility": {
-    "en": "Places listed under “Salle de spectacle” in the City's municipal cultural places dataset (30).",
-    "fr": "Lieux classés « Salle de spectacle » dans les lieux culturels municipaux de la Ville (30)."
-   },
-   "verification": "source-checked",
-   "reviewStatus": "in_review",
-   "sources": [
-    {
-     "title": "Lieux culturels municipaux de Montréal (Ville de Montréal)",
-     "url": "https://donnees.montreal.ca/dataset/lieux-culturels",
-     "license": "Creative Commons Attribution 4.0 International",
-     "retrieved": "2026-11-21"
-    },
-    {
-     "title": "Wikidata (sitelink counts and labels)",
-     "url": "https://www.wikidata.org/",
-     "license": "CC0 1.0",
-     "retrieved": "2026-11-21"
-    }
-   ],
-   "estBasis": "wikidata-sitelinks",
-   "generator": {
-    "template": "culture-network",
-    "concept": "culture:venue",
-    "contentHash": "702599f5a623374a"
-   },
-   "answers": [
-    {
-     "id": "auditorium-le-prevost",
-     "en": "Auditorium Le Prévost",
-     "aliases": [],
-     "est": 34
-    },
-    {
-     "id": "cegep-marie-victorin-salle-desilets",
-     "en": "Cégep Marie-Victorin – Salle Désilets",
-     "aliases": [],
-     "est": 34
-    },
-    {
-     "id": "centre-culturel-de-pierrefonds",
-     "en": "Centre culturel de Pierrefonds",
-     "aliases": [],
-     "est": 34
-    },
-    {
-     "id": "centre-culturel-de-verdun",
-     "en": "Centre culturel de Verdun",
-     "aliases": [],
-     "est": 34
-    },
-    {
-     "id": "centre-culturel-et-communautaire-henri-lemieux",
-     "en": "Centre culturel et communautaire Henri-Lemieux",
-     "aliases": [],
-     "est": 34
-    },
-    {
-     "id": "centre-d-exposition-lethbridge-de-la-bibliotheque-du-boise",
-     "en": "Centre d'exposition Lethbridge de la bibliothèque du Boisé",
-     "aliases": [],
-     "est": 34
-    },
-    {
-     "id": "galerie-d-art-d-outremont",
-     "en": "Galerie d'art d'Outremont",
-     "aliases": [],
-     "est": 34
-    },
-    {
-     "id": "galerie-d-art-goncourt",
-     "en": "Galerie d'art Goncourt",
-     "aliases": [],
-     "est": 34
-    },
-    {
-     "id": "galerie-port-maurice",
-     "en": "Galerie Port-Maurice",
-     "aliases": [],
-     "est": 34
-    },
-    {
-     "id": "maison-antoine-beaudry",
-     "en": "Maison Antoine-Beaudry",
-     "aliases": [],
-     "est": 90,
-     "refs": [
-      "wikidata:Q3278610"
-     ]
-    },
-    {
-     "id": "maison-brignon-dit-lapierre",
-     "en": "Maison Brignon-Dit-Lapierre",
-     "fr": "Maison Brignon-dit-Lapierre",
-     "aliases": [],
-     "est": 75,
-     "refs": [
-      "wikidata:Q28649074"
-     ]
-    },
-    {
-     "id": "maison-culturelle-et-communautaire-de-montreal-nord",
-     "en": "Maison culturelle et communautaire de Montréal-Nord",
-     "aliases": [],
-     "est": 34
-    },
-    {
-     "id": "maison-de-la-culture-ahuntsic-cartierville",
-     "en": "Maison de la culture Ahuntsic-Cartierville",
-     "aliases": [
-      "Ahuntsic-Cartierville"
-     ],
-     "est": 34
-    },
-    {
-     "id": "maison-de-la-culture-de-cote-des-neiges",
-     "en": "Maison de la culture de Côte-des-Neiges",
-     "aliases": [
-      "de Côte-des-Neiges"
-     ],
-     "est": 75,
-     "refs": [
-      "wikidata:Q3279765"
-     ]
-    },
-    {
-     "id": "maison-de-la-culture-de-notre-dame-de-grace",
-     "en": "Maison de la culture de Notre-Dame-de-Grâce",
-     "aliases": [
-      "de Notre-Dame-de-Grâce"
-     ],
-     "est": 34
-    },
-    {
-     "id": "maison-de-la-culture-du-plateau-mont-royal",
-     "en": "Maison de la culture du Plateau-Mont-Royal",
-     "aliases": [
-      "du Plateau-Mont-Royal"
-     ],
-     "est": 75,
-     "refs": [
-      "wikidata:Q3279769"
-     ]
-    },
-    {
-     "id": "maison-de-la-culture-frontenac",
-     "en": "Maison de la culture Frontenac",
-     "aliases": [
-      "Frontenac"
-     ],
-     "est": 90,
-     "refs": [
-      "wikidata:Q3279752"
-     ]
-    },
-    {
-     "id": "maison-de-la-culture-maisonneuve",
-     "en": "Maison de la culture Maisonneuve",
-     "aliases": [
-      "Maisonneuve"
-     ],
-     "est": 75,
-     "refs": [
-      "wikidata:Q3279754"
-     ]
-    },
-    {
-     "id": "maison-de-la-culture-marie-uguay",
-     "en": "Maison de la culture Marie-Uguay",
-     "aliases": [
-      "Marie-Uguay"
-     ],
-     "est": 90,
-     "refs": [
-      "wikidata:Q3279755"
-     ]
-    },
-    {
-     "id": "maison-de-la-culture-mercier",
-     "en": "Maison de la culture Mercier",
-     "aliases": [
-      "Mercier"
-     ],
-     "est": 34
-    },
-    {
-     "id": "maison-de-la-culture-pointe-aux-trembles",
-     "en": "Maison de la culture Pointe-aux-Trembles",
-     "aliases": [
-      "Pointe-aux-Trembles"
-     ],
-     "est": 75,
-     "refs": [
-      "wikidata:Q3279760"
-     ]
-    },
-    {
-     "id": "maison-de-la-culture-rosemont-la-petite-patrie",
-     "en": "Maison de la culture Rosemont - La Petite-Patrie",
-     "fr": "Maison de la culture Rosemont—La Petite-Patrie",
-     "aliases": [
-      "Rosemont—La Petite-Patrie"
-     ],
-     "est": 90,
-     "refs": [
-      "wikidata:Q3279762"
-     ]
-    },
-    {
-     "id": "maison-de-la-culture-villeray-saint-michel-parc-extension-sa",
-     "en": "Maison de la culture Villeray–Saint-Michel–Parc-Extension - Salle de diffusion Parc-Extension",
-     "aliases": [
-      "Villeray–Saint-Michel–Parc-Extension - Salle de diffusion Parc-Extension"
-     ],
-     "est": 34
-    },
-    {
-     "id": "maison-nivard-de-saint-dizier",
-     "en": "Maison Étienne-Nivard-de Saint-Dizier",
-     "fr": "Maison Nivard-De Saint-Dizier",
-     "aliases": [],
-     "est": 75,
-     "refs": [
-      "wikidata:Q26434759"
-     ]
-    },
-    {
-     "id": "maison-pierre-chartrand",
-     "en": "Maison Pierre-Chartrand",
-     "aliases": [],
-     "est": 34
-    },
-    {
-     "id": "pavillon-de-l-entrepot-complexe-culturel-guy-descary",
-     "en": "Pavillon de l'Entrepôt - Complexe culturel Guy-Descary",
-     "aliases": [],
-     "est": 34
-    },
-    {
-     "id": "salle-d-activites-saint-leonard",
-     "en": "Salle d'activités - Saint-Léonard",
-     "aliases": [
-      "d'activités - Saint-Léonard"
-     ],
-     "est": 34
-    },
-    {
-     "id": "salle-emile-legault",
-     "en": "Salle Émile-Legault",
-     "aliases": [
-      "Émile-Legault"
-     ],
-     "est": 34
-    },
-    {
-     "id": "salle-jean-eudes",
-     "en": "Salle Jean-Eudes",
-     "aliases": [
-      "Jean-Eudes"
-     ],
-     "est": 34
-    },
-    {
-     "id": "salle-pauline-julien",
-     "en": "Salle Pauline-Julien",
-     "aliases": [
-      "Pauline-Julien"
-     ],
-     "est": 34
     }
    ]
   },

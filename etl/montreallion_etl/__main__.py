@@ -61,7 +61,7 @@ def main(argv: list[str] | None = None) -> None:
         from .review import decide
 
         done = decide(a.ids, "approved" if a.action == "approve" else "rejected", a.reviewer, a.note, cands)
-        print(f"{a.action}d {len(done)}; re-run `build` to publish")
+        print(f"{'approved' if a.action == 'approve' else 'rejected'} {len(done)}; re-run `build` to publish")
 
 
 if __name__ == "__main__":

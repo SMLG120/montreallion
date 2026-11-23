@@ -196,6 +196,28 @@ DATABASE_URL=postgres://localhost:5432/montreallion_dev npm run dev
   - `src/lib/server/db-url.ts` strips provider query params; used by both the app and `scripts/db.ts`.
   - `scripts/db.ts` falls back to `POSTGRES_URL_NON_POOLING`.
 
+## Content review #1 (2026-11-21, reviewer: Samuel)
+The first human review of the 61 generated questions; decisions are in `etl/review/decisions.json`, pinned to content hashes.
+- **Approved (34):**
+  - Métro by borough: CDN–NDG, Plateau, Sud-Ouest, MHM, Verdun, Ville-Marie.
+  - All 4 REM questions about stations, termini and branches.
+  - Parks in 18 boroughs (all but Rosemont).
+  - Libraries in 6 boroughs.
+  - Playable bank is now 49 (15 seed + 34).
+- **Rejected (13 + 1 dropped):**
+  - All 12 `neighbourhood-in-area` questions: the source is the City's housing-reference zones, not real neighbourhood names (rework needed).
+  - `gen-culture-venue`: galleries mixed into "performance venues".
+  - `gen-library-in-ville-marie` is no longer generated: it fell to 2 answers after BAnQ was excluded.
+- **ETL fixes (these 7 are back in review):**
+  - Longueuil station name from the feed (`gtfs.NAME_FIXES`, case-insensitive "Station" prefix): yellow line and terminus.
+  - Park names with ", suffix" (Parc Maisonneuve): Rosemont parks.
+  - The library network keeps only the City's "Bibliothèque …" branches (drops BAnQ and the duplicate Montréal-Nord entry): network and Montréal-Nord library questions.
+  - Everyday short forms for Espace pour la vie and the museums (Biodome, Insectarium, Planetarium, Botanical Garden, MEM…).
+- **Pending a borough-line check (6):**
+  - Fabre station (Rosemont vs Villeray) and Crémazie (Ahuntsic vs Villeray): affects 3 métro questions.
+  - REM inside/outside the City (Canora, Côte-de-Liesse, Sunnybrooke).
+  - Public-art artists: Riopelle missing, an architecture firm listed, unreliable estimates.
+
 ## Blockers
-- Content: only 15 seed questions are approved (daily works but repeats); the 61 generated ones await the owner's review in /admin.
+- Content: 49 playable questions; 13 generated ones await review (7 fixed, 6 need borough checks); neighbourhood template needs a new source.
 - Repo: own git repo, remote https://github.com/SMLG120/montreallion (public, `main`). The Vercel project is Git-connected: pushes to `main` deploy to production, other branches get preview URLs.
