@@ -1,6 +1,6 @@
 # Montréallion — Project State
 
-_Last updated: 2026-11-23 · Phases 1–8 complete · **Expansion phase B (answer double-check) done locally, NOT deployed — needs migration 20261123000001 on Neon first** · 49 approved questions live · LIVE at https://montreallion.vercel.app (Vercel + Neon Postgres) — see docs/DEPLOY.md_
+_Last updated: 2026-11-23 · Phases 1–8 complete · **Expansion phase B (answer double-check) deployed 2026-11-23 (a8b6928; Neon migrated first)** · 49 approved questions live · LIVE at https://montreallion.vercel.app (Vercel + Neon Postgres) — see docs/DEPLOY.md_
 
 ## What it is
 Original, bilingual (EN/FR) Montréal rarity trivia game. 7 open-ended questions per ride, 25 s each, rarer valid answers score more (10–100). It borrows the general rarity-quiz idea only; no Krillion branding, code, art or content.
@@ -218,7 +218,7 @@ The first human review of the 61 generated questions; decisions are in `etl/revi
   - REM inside/outside the City (Canora, Côte-de-Liesse, Sunnybrooke).
   - Public-art artists: Riopelle missing, an architecture firm listed, unreliable estimates.
 
-## Expansion B: answer double-check (done 2026-11-23, not deployed)
+## Expansion B: answer double-check (deployed 2026-11-23)
 Flow: type → **Check** (Enter) → MATCH FOUND / POSSIBLE MATCH / NOT RECOGNIZED panel → pick entity → **Confirm** (Enter) → reveal.
 - `match.ts › checkAnswer`: same deterministic keys and conservative typo budget as `matchAnswer`.
   - Exact single entity ⇒ `match`. Typo or several entities ⇒ `possible`, and the player picks one.
@@ -241,7 +241,7 @@ Flow: type → **Check** (Enter) → MATCH FOUND / POSSIBLE MATCH / NOT RECOGNIZ
   - DB 18 (+4 in `tests/integration/precheck.test.ts`: cross-instance confirm, concurrent checks ≤ MAX under row lock, 4 concurrent confirms ⇒ 1 row, grace across instances).
   - E2E memory: 22 passed, 2 skipped. E2E Postgres: 23 passed, 1 skipped. That includes 2 new double-check specs; full-daily specs got 60–90 s timeouts.
   - ETL 21 OK, typecheck/lint clean, `next build` OK.
-- **Before deploying:** `DATABASE_URL=<Neon unpooled> npm run db:migrate`, then push. The new code selects `sessions.precheck`, so deploying before the migration breaks gameplay.
+- **Deployed:** migration `20261123000001` applied to Neon (unpooled URL), then a8b6928 was pushed to main. Health reports commit a8b6928, postgres ok, 49 questions. The smoke test passed. A live `/check` returned `none` without consuming the question, and a forged `choice` got `bad_choice`.
 
 ## Blockers
 - Content: 49 playable questions; 13 generated ones await review (7 fixed, 6 need borough checks); neighbourhood template needs a new source.
