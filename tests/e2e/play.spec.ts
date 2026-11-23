@@ -1,12 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import seed from "../../data/seed/questions.json";
-
-/** Test oracle built from the seed file (the browser never receives answer lists). */
-const answerFor = new Map<string, string>();
-for (const q of seed.questions) {
-  answerFor.set(q.prompt.en, q.answers[0].en);
-  answerFor.set(q.prompt.fr, q.answers[0].en);
-}
+import { answerFor } from "./oracle";
 
 async function answerCurrent(page: Page, mode: "right" | "wrong") {
   const prompt = (await page.getByTestId("prompt").textContent())!.trim();

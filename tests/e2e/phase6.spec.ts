@@ -1,13 +1,8 @@
 import { expect, test, type Page } from "@playwright/test";
-import seed from "../../data/seed/questions.json";
 import { E2E_ADMIN_TOKEN } from "../../playwright.config";
+import { answerFor, bankQuestions } from "./oracle";
 
-const answerFor = new Map<string, string>();
-const transitPrompts = new Set<string>();
-for (const q of seed.questions) {
-  for (const p of [q.prompt.en, q.prompt.fr]) answerFor.set(p, q.answers[0].en);
-  if (q.category === "transit") transitPrompts.add(q.prompt.en);
-}
+const transitPrompts = new Set(bankQuestions.filter((q) => q.category === "transit").map((q) => q.prompt.en));
 
 async function answer(page: Page, right: boolean) {
   await expect(page.getByTestId("prompt")).toBeVisible();

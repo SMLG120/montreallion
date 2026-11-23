@@ -1,8 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import seed from "../../data/seed/questions.json";
-
-const answerFor = new Map<string, string>();
-for (const q of seed.questions) for (const p of [q.prompt.en, q.prompt.fr]) answerFor.set(p, q.answers[0].en);
+import { answerFor } from "./oracle";
 
 async function answer(page: Page, right: boolean) {
   await expect(page.getByTestId("prompt")).toBeVisible();
