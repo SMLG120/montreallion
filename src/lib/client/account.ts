@@ -108,8 +108,8 @@ export function useLook(): { look: Appearance; allowed: Set<Need>; signedIn: boo
       }
       const prev = state.me;
       setAccount({ status: "signed-in", me: { ...prev, appearance: l, fresh: false } }); // optimistic
-      const r = await fetch("/api/me", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ appearance: l }) });
-      if (!r.ok) {
+      const r = await fetch("/api/me", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ appearance: l }) }).catch(() => null);
+      if (!r?.ok) {
         setAccount({ status: "signed-in", me: prev });
         return false;
       }

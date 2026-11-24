@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, animate, motion, useMotionValue, useTransform } from "motion/react";
-import { ArrowRight, Check, CornerDownLeft, Loader2, Pencil, SearchCheck } from "lucide-react";
+import { ArrowRight, Check, CornerDownLeft, Loader2, Pencil, RotateCw, SearchCheck } from "lucide-react";
 import { useApp } from "@/components/providers";
 import { Button } from "@/components/ui/button";
 import { MetroLine, type StopState } from "./metro-line";
@@ -40,13 +40,18 @@ type Phase =
 
 const ANSWER_SECONDS = 25;
 
+/** POST JSON. A network failure resolves as status 0 instead of throwing, so busy states always clear. */
 async function post<T>(url: string, body?: unknown): Promise<{ ok: boolean; status: number; data: T }> {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
-  return { ok: res.ok, status: res.status, data: (await res.json().catch(() => ({}))) as T };
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+    return { ok: res.ok, status: res.status, data: (await res.json().catch(() => ({}))) as T };
+  } catch {
+    return { ok: false, status: 0, data: {} as T };
+  }
 }
 
 export function GameClient({ mode, category }: { mode: Mode; category?: CategoryId }) {
@@ -69,6 +74,11 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
   const nextBtnRef = useRef<HTMLButtonElement>(null);
   const started = useRef(false);
 
+  const failMsg = useCallback(
+    (status: number) => (status === 0 ? t.status.offline : status === 429 ? t.game.rateLimited : t.game.error),
+    [t],
+  );
+
   const finish = useCallback(
     (id: string, dateKey: string | null) => {
       if (mode === "daily" && dateKey) recordDailyStreak(dateKey);
@@ -90,7 +100,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
         deadline: number | null;
         serverNow: number;
       }>(`/api/game/${s.id}/next`);
-      if (!r.ok) return setPhase({ kind: "error", message: r.status === 429 ? t.game.rateLimited : t.game.error });
+      if (!r.ok) return setPhase({ kind: "error", message: failMsg(r.status) });
       offset.current = r.data.serverNow - Date.now();
       setRunning(r.data.runningScore);
       setStops(Array.from({ length: r.data.total }, (_, i) => r.data.history[i] ?? null));
@@ -101,7 +111,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
       setGraceLeft(null);
       setPhase({ kind: "question", q: r.data.question, deadline: r.data.deadline! });
     },
-    [finish, t.game.error, t.game.rateLimited],
+    [finish, failMsg],
   );
 
   // Start or resume a session once.
@@ -110,14 +120,14 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
     started.current = true;
     (async () => {
       const r = await post<{ sessionId: string; total: number; dateKey: string | null; index: number; finished: boolean }>("/api/game", { mode, category });
-      if (!r.ok) return setPhase({ kind: "error", message: r.status === 429 ? t.game.rateLimited : r.status === 422 ? t.game.unavailable : t.game.error });
+      if (!r.ok) return setPhase({ kind: "error", message: r.status === 422 ? t.game.unavailable : failMsg(r.status) });
       const s = { id: r.data.sessionId, total: r.data.total, dateKey: r.data.dateKey };
       setSession(s);
       if (r.data.finished) return finish(s.id, s.dateKey);
       if (mode === "daily" && r.data.index > 0) setResumed(true);
       await loadNext(s);
     })();
-  }, [mode, category, loadNext, finish, t.game.error, t.game.rateLimited, t.game.unavailable]);
+  }, [mode, category, loadNext, finish, failMsg, t.game.unavailable]);
 
   const submit = useCallback(
     async (value: string, choice?: number) => {
@@ -128,7 +138,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
       if (!r.ok) {
         // 409 = already answered / out of sync: resync with the server.
         if (r.status === 409) return loadNext(session);
-        return setNotice(r.status === 429 ? t.game.rateLimited : t.game.error);
+        return setNotice(failMsg(r.status));
       }
       if (r.data.status === "retry") {
         setCheck(null);
@@ -142,7 +152,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
       setRunning(result.runningScore);
       setPhase({ kind: "reveal", q: phase.q, input: value, result });
     },
-    [phase, session, submitting, sound, loadNext, t.game.error, t.game.rateLimited, t.game.retry],
+    [phase, session, submitting, sound, loadNext, failMsg, t.game.retry],
   );
 
   /** Double-check: never consumes the question and never shows points or rarity. */
@@ -154,7 +164,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
       setChecking(false);
       if (!r.ok) {
         if (r.status === 409) return loadNext(session);
-        return setNotice(r.status === 429 ? t.game.rateLimited : t.game.error);
+        return setNotice(failMsg(r.status));
       }
       offset.current = r.data.serverNow - Date.now();
       const view: CheckView = { status: r.data.status, candidates: r.data.candidates, checksLeft: r.data.checksLeft, confirmBy: r.data.confirmBy };
@@ -162,7 +172,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
       // A single candidate is pre-selected; several require an explicit pick.
       setCheck({ input: value, view, selected: view.candidates.length === 1 ? 0 : null });
     },
-    [phase, session, checking, submitting, submit, loadNext, t.game.error, t.game.rateLimited],
+    [phase, session, checking, submitting, submit, loadNext, failMsg],
   );
 
   const current = check && check.input === input ? check : null;
@@ -217,7 +227,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
   const currentIndex = phase.kind === "question" || phase.kind === "reveal" ? phase.q.index : stops.filter(Boolean).length;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4 sm:space-y-5">
       <div className="flex items-end justify-between gap-3">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{mode === "daily" ? t.nav.daily : t.nav.unlimited}</p>
@@ -247,8 +257,10 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
 
         {phase.kind === "error" && (
           <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4 py-16 text-center">
-            <p>{phase.message}</p>
-            <Button onClick={() => location.reload()}>↻</Button>
+            <p role="alert">{phase.message}</p>
+            <Button onClick={() => location.reload()} className="h-11 rounded-xl px-5 font-bold" data-testid="game-retry">
+              <RotateCw aria-hidden /> {t.status.retry}
+            </Button>
           </motion.div>
         )}
 
@@ -259,7 +271,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -40 }}
             transition={{ type: "spring", stiffness: 260, damping: 26 }}
-            className="space-y-5"
+            className="space-y-4 sm:space-y-5"
             aria-labelledby="prompt"
           >
             <QuestionCard q={phase.q} />
@@ -277,6 +289,8 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
               <input
                 id="answer"
                 ref={inputRef}
+                // The question mounts after the previous view's exit animation, so focus on mount, not in the phase effect.
+                autoFocus
                 value={input}
                 onChange={(e) => {
                   setInput(e.target.value);
@@ -328,6 +342,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
               {notice && (
                 <motion.p
                   role="status"
+                  data-testid="game-notice"
                   initial={{ opacity: 0, y: -6 }}
                   animate={{ opacity: 1, y: 0, x: [0, -6, 6, -3, 0] }}
                   exit={{ opacity: 0 }}
@@ -479,7 +494,7 @@ function QuestionCard({ q }: { q: PublicQuestion }) {
         {CATEGORY_LABELS[q.category][locale]}
         <span className="ml-auto font-normal normal-case tracking-normal opacity-80">{SCOPE_LABELS[q.scope][locale]}</span>
       </div>
-      <div className="space-y-3 px-5 py-6 sm:px-7">
+      <div className="space-y-2 px-5 py-4 sm:space-y-3 sm:px-7 sm:py-6">
         <h1 id="prompt" className="font-heading text-2xl font-extrabold leading-tight sm:text-3xl" data-testid="prompt">
           {q.prompt[locale]}
         </h1>
@@ -494,9 +509,17 @@ function QuestionCard({ q }: { q: PublicQuestion }) {
 }
 
 function Timer({ remaining }: { remaining: number }) {
+  const { t } = useApp();
   const pct = Math.max(0, Math.min(1, remaining / ANSWER_SECONDS));
   const urgent = remaining <= 5;
+  const secs = Math.ceil(remaining);
+  // Screen readers hear two checkpoints instead of every tick.
+  const spoken = secs <= 5 && secs > 0 ? 5 : secs <= 10 && secs > 0 ? 10 : null;
   return (
+    <>
+    <p className="sr-only" aria-live="assertive" data-testid="timer-sr">
+      {spoken ? t.game.timeLeft(spoken) : ""}
+    </p>
     <div className="flex items-center gap-3" aria-hidden>
       <div className="h-3 flex-1 overflow-hidden rounded-full bg-muted">
         <div
@@ -505,9 +528,10 @@ function Timer({ remaining }: { remaining: number }) {
         />
       </div>
       <span className={`w-12 text-right font-heading text-2xl font-extrabold tabular-nums ${urgent ? "text-destructive" : ""}`} data-testid="timer">
-        {Math.ceil(remaining)}
+        {secs}
       </span>
     </div>
+    </>
   );
 }
 

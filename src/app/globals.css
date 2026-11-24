@@ -32,6 +32,9 @@
   --color-line-blue: var(--line-blue);
   --color-line-grey: var(--line-grey);
   --color-tile: var(--tile);
+  --color-forest: var(--forest);
+  --color-forest-deep: var(--forest-deep);
+  --color-glow: var(--glow);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -69,6 +72,11 @@
   --line-yellow: oklch(0.89 0.18 100);
   --line-blue: oklch(0.62 0.15 245);
   --line-grey: oklch(0.6 0.02 262);
+
+  /* Mount Royal forest + warm city-light accents */
+  --forest: oklch(0.52 0.12 155);
+  --forest-deep: oklch(0.3 0.06 155);
+  --glow: oklch(0.82 0.14 75);
 }
 
 @layer base {
@@ -80,8 +88,11 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
+    /* Night sky over the mountain: a forest-green glow rising from below, warm city lights on the horizon. */
     background-image:
       radial-gradient(1200px 500px at 50% -200px, oklch(0.28 0.06 262 / 0.9), transparent 70%),
+      radial-gradient(900px 420px at 85% 105%, oklch(0.42 0.09 155 / 0.35), transparent 70%),
+      radial-gradient(700px 360px at 8% 100%, oklch(0.62 0.15 60 / 0.14), transparent 70%),
       repeating-linear-gradient(90deg, oklch(1 0 0 / 0.018) 0 1px, transparent 1px 48px);
     background-attachment: fixed;
   }
@@ -100,6 +111,18 @@
   box-shadow:
     0 1px 0 oklch(1 0 0 / 0.5) inset,
     0 10px 30px -12px oklch(0 0 0 / 0.6);
+}
+
+/* Interactive feedback: a consistent pressed state for links and buttons (no layout change). */
+@layer base {
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 2px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

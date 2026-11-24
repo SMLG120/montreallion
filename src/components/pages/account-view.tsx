@@ -102,7 +102,8 @@ function Profile({ me, welcome }: { me: Me; welcome: boolean }) {
   const saveName = async (e: React.FormEvent) => {
     e.preventDefault();
     setNameState("saving");
-    const r = await fetch("/api/me", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ displayName: name }) });
+    const r = await fetch("/api/me", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ displayName: name }) }).catch(() => null);
+    if (!r) return setNameState("offline");
     if (r.ok) {
       setAccount({ status: "signed-in", me: ((await r.json()) as { me: Me }).me });
       setNameState("saved");
@@ -110,8 +111,8 @@ function Profile({ me, welcome }: { me: Me; welcome: boolean }) {
   };
 
   const signOut = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    await refreshAccount();
+    const r = await fetch("/api/auth/logout", { method: "POST" }).catch(() => null);
+    if (r) await refreshAccount();
   };
 
   const s = me.stats;
@@ -150,15 +151,21 @@ function Profile({ me, welcome }: { me: Me; welcome: boolean }) {
           </div>
           <p id="name-hint" className="text-xs text-muted-foreground">{ta.displayNameHint}</p>
           <p id="name-msg" className="min-h-4 text-xs text-destructive" role="alert">
-            {nameState !== "idle" && nameState !== "saving" && nameState !== "saved" ? (ta.nameErrors[nameState] ?? ta.error) : ""}
+            {nameState === "offline" ? t.status.offline : nameState !== "idle" && nameState !== "saving" && nameState !== "saved" ? (ta.nameErrors[nameState] ?? ta.error) : ""}
           </p>
         </form>
       </section>
 
-      <section className="rounded-2xl border border-border bg-card text-card-foreground grid gap-4 px-5 py-5 sm:grid-cols-[10rem_1fr]">
+      <section className="rounded-2xl border border-border bg-card text-card-foreground grid gap-5 px-5 py-5 sm:grid-cols-[12rem_1fr]">
         <h2 className="text-lg font-bold sm:col-span-2">{ta.character}</h2>
-        <div className="grid place-items-center rounded-xl bg-[linear-gradient(#0d1530,#1e5a43)] py-4">
-          <svg viewBox="-24 -52 48 58" className="h-40 w-32" role="img" aria-label={ta.character} data-testid="avatar-preview" data-look={JSON.stringify(look)}>
+        <div className="relative self-start overflow-hidden rounded-xl bg-[linear-gradient(#0d1530,#1b3a52_60%,#1e5a43)] sm:sticky sm:top-20">
+          <svg viewBox="-40 -60 80 72" className="mx-auto block aspect-[80/72] w-full max-w-56" role="img" aria-label={ta.character} data-testid="avatar-preview" data-look={JSON.stringify(look)}>
+            {[[-30, -50], [-12, -44], [22, -52], [32, -36], [-34, -26]].map(([x, y], i) => (
+              <circle key={i} cx={x} cy={y} r={0.7} fill="#fff" opacity={0.6} />
+            ))}
+            <path d="M-44 12 L-44 2 Q-10 -6 0 -6 Q14 -6 44 0 L44 12Z" fill="#26734f" />
+            <path d="M-14 1 h28 l-3 -4 h-22z" fill="#c9b48a" opacity={0.9} />
+            <path d="M-32 -2 l5 -12 l5 12z M26 -1 l4 -10 l4 10z" fill="#2f8a5f" />
             <ClimberFigure look={look} />
           </svg>
         </div>

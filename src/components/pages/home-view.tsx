@@ -6,6 +6,7 @@ import { motion } from "motion/react";
 import { ArrowRight, Flame } from "lucide-react";
 import { useApp } from "@/components/providers";
 import { Wordmark } from "@/components/site-header";
+import { MountainBackdrop } from "@/components/mountain-backdrop";
 import { readStreak } from "@/lib/client/fx";
 import { CATEGORY_LABELS } from "@/lib/i18n/dict";
 import type { CategoryId } from "@/lib/game/types";
@@ -45,6 +46,7 @@ export function HomeView({
           ))}
         </div>
         <div className="mx-auto -mt-2.5 h-1 max-w-[19rem] rounded-full bg-line-orange/60" aria-hidden />
+        <MountainBackdrop className="-mb-6 mt-2 opacity-90" />
       </section>
 
       <div className="grid gap-4 sm:grid-cols-2">

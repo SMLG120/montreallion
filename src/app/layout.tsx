@@ -4,6 +4,7 @@ import { DICTS } from "@/lib/i18n/dict";
 import { getLocale } from "@/lib/server/locale";
 import { AppProviders } from "@/components/providers";
 import { SiteHeader } from "@/components/site-header";
+import { OfflineBanner } from "@/components/offline-banner";
 import type { Locale } from "@/lib/game/types";
 import "./globals.css";
 
@@ -19,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export const viewport: Viewport = { themeColor: "#151b2b", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#151b2b", width: "device-width", initialScale: 1, viewportFit: "cover" };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   // Cookie choice first; otherwise the browser's Accept-Language (fr-* → French).
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <main id="main" className="mx-auto w-full max-w-3xl flex-1 px-4 pb-16 pt-6">
             {children}
           </main>
+          <OfflineBanner />
         </AppProviders>
       </body>
     </html>

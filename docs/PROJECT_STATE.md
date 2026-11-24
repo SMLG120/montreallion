@@ -337,7 +337,7 @@ The category mix differs from the spec, as requested ("keep going on food and fe
 - **Tests:** unit 405 (+5 climb: proportionality, no fall, move tiers, monotone staircase, look parsing). E2E 30 passed, 2 skipped (+4: steps == running score, a miss holds, look and progress survive reload, no sideways scroll, reduced-motion aria; desktop and mobile). DB 18.
 - **Test harness:** the Playwright projects send distinct `x-forwarded-for` client addresses. The suite now starts more than 20 games a minute, the per-IP start limit. Production limits are unchanged.
 
-## Expansion F: accounts + avatar (2026-11-23, built and tested locally; NOT deployed)
+## Expansion F: accounts + avatar (deployed 2026-11-24 as 7f8d00e; accounts off in prod until the steps below)
 - **Auth:** Supabase Auth, a separate project from the Neon game database. Magic-link email only, so sign-up, sign-in, verification and recovery are one flow. Sign-out on the device.
   - All Supabase calls are server-side (`src/lib/server/supabase.ts`) with the anon/publishable key, via the server-only env vars `SUPABASE_URL` and `SUPABASE_ANON_KEY`.
   - **No service-role key**; health flags one if it's set.
@@ -365,6 +365,38 @@ The category mix differs from the spec, as requested ("keep going on food and fe
   5. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in Vercel production.
   6. Apply the Neon migration (`db:migrate`).
   Until then, production shows "accounts aren't available" and guest play is unchanged.
+
+## Expansion G: polish, optimization, tests (2026-11-24, built and tested locally; not yet committed)
+- **Visual:**
+  - Forest-green and warm city-light accents: body glows plus the `--forest`, `--forest-deep` and `--glow` tokens.
+  - Original mountain-and-skyline backdrop (`mountain-backdrop.tsx`) on the home hero and the 404 page.
+  - Global `:focus-visible` outline.
+- **Climb:**
+  - The scene bleeds past both sides, so there's no letterboxing on wide screens.
+  - The in-game (compact) view is a 144px strip with the title and progress overlaid on the sky, and the footnote is screen-reader only.
+  - Result: the question, timer and answer box fit on the first screen at 1280×720 and on a Pixel 7.
+- **Avatar panel:**
+  - Larger preview on a small lookout scene, sticky on desktop.
+  - The selected item shows a check in the primary colour; locked items are dashed.
+  - Each layer lists what unlocks its locked items.
+- **States:**
+  - Themed bilingual `not-found`, route `error` (retry, no details shown), self-contained `global-error`, and root `loading`.
+  - `OfflineBanner`: a fixed overlay, so no layout shift.
+- **Bugs fixed:**
+  - A network failure during check or answer left the game spinning forever; `post()` now resolves with status 0 and shows the offline message.
+  - Account name save, look save and sign-out had the same uncaught failure.
+  - The answer input wasn't focused when a question appeared: the effect ran before the input mounted after the AnimatePresence exit. Fixed with `autoFocus`.
+- **Accessibility:**
+  - The timer announces 10 and 5 seconds left to screen readers. The visual timer stays `aria-hidden`.
+  - The game error view has a labelled retry button.
+- **Performance:**
+  - Measured on a Pixel 7 profile: CLS 0.000 on home, game, leaderboard, account and map. LCP is at most 0.5s locally.
+  - About 690KB raw JS on home, mostly the React, Next and motion runtime. MapLibre (1MB) loads on `/map` only, and no server-only code is in client chunks.
+  - `/map/*` and `/vendor/*` are cached 1h with stale-while-revalidate (they were `max-age=0`); pages are unaffected.
+- **Tests:**
+  - `tests/e2e/polish.spec.ts`: 404 in both languages, offline recovery, no horizontal overflow or layout shift on 6 pages, above-the-fold answer box with focus, keyboard customizer and skip link, timer screen-reader announcement, cache headers.
+  - Totals: unit 414, ETL 36, DB/RLS 26, E2E 46 passed and 4 skipped with local auth. Typecheck and lint are clean.
+- **Next:** commit and push to `main` (Vercel deploys), then smoke-test production. Account enablement steps are still listed under F.
 
 ## Blockers
 - Content: 49 playable questions; 13 generated ones await review (7 fixed, 6 need borough checks); neighbourhood template needs a new source.

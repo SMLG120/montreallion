@@ -12,7 +12,11 @@ import { useLook } from "@/lib/client/account";
 import { ClimberFigure } from "./climber-figure";
 import { LookEditor } from "./look-editor";
 
-const VIEW_H = 230; // visible window of the 360 × 1000 world (the svg keeps this aspect ratio, so nothing is cropped)
+// Visible window of the 360 × 1000 world. The svg keeps this aspect (meet) so the climber is never cropped; the
+// backdrop layers extend past both sides so wider screens see more scenery instead of letterbox bars.
+const VIEW_H = 230;
+const VIEW_H_COMPACT = 150;
+const BLEED = 420;
 const DURATION: Record<Move, number> = { none: 0, short: 0.9, big: 1.4, leap: 1.8 };
 
 /**
@@ -34,7 +38,8 @@ export function MountRoyalClimb({ stops, compact = false }: { stops: ClimbStop[]
   const lastIndex = stops.findLastIndex((s) => s !== null);
   const last = lastIndex >= 0 ? stops[lastIndex] : null;
   const move = moveFor(last);
-  const camY = Math.min(WORLD.h - VIEW_H, Math.max(0, pos.y - VIEW_H * 0.62));
+  const viewH = compact ? VIEW_H_COMPACT : VIEW_H;
+  const camY = Math.min(WORLD.h - viewH, Math.max(0, pos.y - viewH * (compact ? 0.78 : 0.62)));
 
   // The newest answer drives the animation; a restored ride (reload, several stops at once) renders in place.
   const [seenIdx, setSeenIdx] = useState<number | null>(null);
@@ -50,9 +55,9 @@ export function MountRoyalClimb({ stops, compact = false }: { stops: ClimbStop[]
   const stairPath = `M${STAIR.map((p) => p.join(",")).join("L")}`;
   const label = tc.aria(steps, SUMMIT_STEPS, tier ? TIER_LABELS[tier][locale] : tc.noTier);
 
-  return (
-    <section className="overflow-hidden rounded-2xl border border-border bg-card" data-testid="climb" data-steps={steps} data-move={move}>
-      <div className="flex items-center justify-between gap-2 px-4 pt-3">
+  const headerBar = (
+    <>
+      <div className={`flex items-center justify-between gap-2 px-4 ${compact ? "pt-2" : "pt-3"}`}>
         <div className="min-w-0">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{tc.title}</p>
           <p className="text-sm font-semibold tabular-nums" data-testid="climb-steps">
@@ -67,7 +72,7 @@ export function MountRoyalClimb({ stops, compact = false }: { stops: ClimbStop[]
         <button
           type="button"
           onClick={() => setEditing((e) => !e)}
-          className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-border hover:bg-muted"
+          className={`inline-flex shrink-0 items-center justify-center rounded-xl border border-border transition-colors hover:bg-muted active:scale-95 ${compact ? "size-10 bg-card/70 backdrop-blur" : "size-11"}`}
           aria-expanded={editing}
           aria-label={tc.customize}
           data-testid="climb-customize"
@@ -76,23 +81,17 @@ export function MountRoyalClimb({ stops, compact = false }: { stops: ClimbStop[]
         </button>
       </div>
 
-      <div className="mx-4 mt-2 h-1.5 overflow-hidden rounded-full bg-muted" aria-hidden>
+      <div className="mx-4 mt-1.5 h-1.5 overflow-hidden rounded-full bg-muted" aria-hidden>
         <motion.div className="h-full rounded-full bg-line-green" initial={false} animate={{ width: `${frac * 100}%` }} transition={{ duration: reduce ? 0 : 0.8 }} />
       </div>
 
-      {editing && (
-        <div className="mx-4 mt-3 space-y-2 rounded-xl border border-border p-3" data-testid="climb-customizer">
-          <LookEditor look={look} allowed={allowed} onChange={(l) => void save(l)} parts={signedIn ? undefined : ["skin", "jacket", "hat"]} />
-          <Link href="/account" className="inline-block text-xs font-semibold underline">
-            {signedIn ? tc.moreOnAccount : tc.moreWithAccount}
-          </Link>
-        </div>
-      )}
-
-      <div className="mt-2 bg-[linear-gradient(#0d1530,#24345e)]">
+    </>
+  );
+  const scene = (
+      <div className={compact ? "bg-[#0d1530]" : "mt-2 bg-[#0d1530]"}>
       <svg
-        viewBox={`0 0 ${WORLD.w} ${VIEW_H}`}
-        className={`mx-auto block aspect-[360/230] w-full ${compact ? "max-w-sm" : "max-w-md"}`}
+        viewBox={`0 0 ${WORLD.w} ${viewH}`}
+        className={`block w-full ${compact ? "h-36" : "aspect-[360/230] max-h-80"}`}
         preserveAspectRatio="xMidYMid meet"
         role="img"
         aria-label={label}
@@ -107,22 +106,31 @@ export function MountRoyalClimb({ stops, compact = false }: { stops: ClimbStop[]
             <stop offset="1" stopColor="#123526" />
           </linearGradient>
         </defs>
-        <rect width={WORLD.w} height={VIEW_H} fill="url(#mr-sky)" />
+        <rect x={-BLEED} width={WORLD.w + BLEED * 2} height={viewH} fill="url(#mr-sky)" />
         {/* Far layer: stars and the downtown skyline seen from the lookout (slowest parallax). */}
         <motion.g initial={false} animate={{ y: -camY * 0.15 }} transition={{ duration: dur, ease }}>
-          {[[30, 30], [90, 60], [150, 22], [220, 48], [300, 30], [330, 80], [60, 110]].map(([x, y], i) => (
-            <circle key={i} cx={x} cy={y} r={1.2} fill="#fff" opacity={0.6} />
+          {[-1, 0, 1].flatMap((k) =>
+            [[30, 30], [90, 60], [150, 22], [220, 48], [300, 30], [330, 80], [60, 110]].map(([x, y], i) => (
+              <circle key={`${k}-${i}`} cx={x + k * WORLD.w} cy={y} r={1.2} fill="#fff" opacity={0.6} />
+            )),
+          )}
+          {[-1, 0, 1].map((k) => (
+            <g key={k} transform={`translate(${k * WORLD.w} 0)`} opacity={k ? 0.8 : 1}>
+              <Skyline y={150} />
+            </g>
           ))}
-          <Skyline y={150} />
         </motion.g>
         {/* Mid layer: distant tree line. */}
         <motion.g initial={false} animate={{ y: -camY * 0.5 }} transition={{ duration: dur, ease }}>
-          <path d="M0 260 Q60 220 120 250 T240 240 T360 230 V600 H0Z" fill="#163f30" opacity={0.85} />
-          {Array.from({ length: 9 }, (_, i) => <Tree key={i} x={20 + i * 40} y={250 + (i % 3) * 14} s={0.8} color="#1b4a37" />)}
+          <path d={`M${-BLEED} 250 Q60 220 120 250 T240 240 T360 230 T${WORLD.w + BLEED} 245 V600 H${-BLEED}Z`} fill="#163f30" opacity={0.85} />
+          {Array.from({ length: 29 }, (_, i) => <Tree key={i} x={-380 + i * 40} y={250 + (i % 3) * 14} s={0.8} color="#1b4a37" />)}
         </motion.g>
         {/* World layer: the mountain, staircase, trees, lookout and climber (camera follows the climber). */}
         <motion.g initial={false} animate={{ y: -camY }} transition={{ duration: dur, ease }}>
-          <path d="M-20 1000 L-20 260 Q60 150 180 110 Q300 150 380 260 L380 1000Z" fill="url(#mr-hill)" />
+          <path d={`M${-BLEED} 1000 L${-BLEED} 420 Q-60 300 60 190 Q120 130 180 110 Q240 130 300 190 Q420 300 ${WORLD.w + BLEED} 420 L${WORLD.w + BLEED} 1000Z`} fill="url(#mr-hill)" />
+          {[[-60, 480], [-140, 620], [-90, 800], [420, 470], [500, 640], [440, 860], [-30, 360], [390, 340]].map(([x, y], i) => (
+            <Tree key={`side-${i}`} x={x} y={y} s={1.1} color={i % 2 ? "#2f8a5f" : "#26734f"} />
+          ))}
           <Lookout x={176} y={150} lit={summit} />
           <path d={stairPath} fill="none" stroke="#c9b48a" strokeWidth={14} strokeLinejoin="round" strokeLinecap="round" opacity={0.9} />
           <path d={stairPath} fill="none" stroke="#8c7653" strokeWidth={14} strokeDasharray="2 6" strokeLinejoin="round" />
@@ -149,11 +157,34 @@ export function MountRoyalClimb({ stops, compact = false }: { stops: ClimbStop[]
         </motion.g>
       </svg>
       </div>
+  );
+
+  return (
+    <section className="overflow-hidden rounded-2xl border border-border bg-card" data-testid="climb" data-steps={steps} data-move={move}>
+      {compact ? (
+        // In-game: title and progress float over the night sky so the question stays on the first screen.
+        <div className="relative">
+          {scene}
+          <div className="absolute inset-x-0 top-0 bg-[linear-gradient(#0d1530ee,#0d153099_70%,transparent)] pb-3">{headerBar}</div>
+        </div>
+      ) : (
+        headerBar
+      )}
+      {editing && (
+        <div className="mx-4 mt-3 space-y-2 rounded-xl border border-border p-3" data-testid="climb-customizer">
+          <LookEditor look={look} allowed={allowed} onChange={(l) => void save(l)} parts={signedIn ? undefined : ["skin", "jacket", "hat"]} />
+          <Link href="/account" className="inline-block text-xs font-semibold underline">
+            {signedIn ? tc.moreOnAccount : tc.moreWithAccount}
+          </Link>
+        </div>
+      )}
+
+      {!compact && scene}
       <p className="sr-only" aria-live="polite">
         {label}
       </p>
       {summit && <p className="px-4 pb-3 pt-1 text-center text-sm font-bold text-line-yellow">{tc.summit}</p>}
-      <p className="px-4 pb-3 text-[11px] text-muted-foreground">{tc.gamified}</p>
+      {compact ? <p className="sr-only">{tc.gamified}</p> : <p className="px-4 pb-3 text-[11px] text-muted-foreground">{tc.gamified}</p>}
     </section>
   );
 }
