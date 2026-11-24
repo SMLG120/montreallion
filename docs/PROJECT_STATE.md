@@ -65,6 +65,7 @@ categories · sources · questions · question_sources · answers · answer_alia
 - Streaks are per-device (localStorage).
 - `scripts/db.ts` tracks migrations in `app_migrations`. If you use the Supabase CLI (`supabase db push`) instead, pick ONE tool per database so migrations aren't applied twice.
 - Display names: blocklist on write, plus manual reset in /admin/names (no automated moderation queue).
+- Base map tiles and fonts come from OpenFreeMap (free, no uptime guarantee), which stalls intermittently; see "Map smoke de-flake".
 - Only 49 approved questions (15 seed + 34 generated), 13 more in review; target 500+.
 
 ## Commands
@@ -416,6 +417,46 @@ Claude read all 207 in-review questions at Samuel's request. For each one it che
     - Wrong-cuisine answers: Portuguese has Biryani & co; chicken has Dairy Queen; seafood has 3 Brasseurs and Les Enfants Terribles; Korean has Misoya and Onigiri Shop; bubble tea has Frite & Bulle and Sandwicherie Sue; vegan has B12 Burger and Jonnyboy.
     - The Plateau restaurants question has a junk answer, "325 F | Cuisine malgache".
 - Known limit of the approved food questions: answers are OSM places matched to the City's open-food registry, so some well-known places are absent and an answer is accepted only if it's in the list. Players can appeal a rejected answer from the results page.
+
+## Map smoke de-flake (2026-11-25, 7edcb99)
+- **Symptom:** `smoke:map` failed now and then: 1 in 5 local runs, 1 in 12 local runs, and CI on ca62252.
+- **Root causes** (found with 27 instrumented page loads plus direct `curl` timing):
+  1. MapLibre cancels in-flight OpenFreeMap tiles on zoom and pan (`net::ERR_ABORTED`). The smoke counted those as failed requests; that was the CI failure.
+  2. OpenFreeMap (third-party) sometimes leaves tile and font requests hanging for 25s+. It's always the zoom-9 tiles over Montréal plus a Noto Sans glyph range: 4 of 15 rapid loads, likely worse under burst load. The same URLs via `curl` answer in about 0.13s (Cloudflare HIT), so the stall is intermittent and connection-level. The map's `data-rendered` summary was written only on MapLibre `idle`, which waits for every tile, so one stalled tile hid that our own layers had drawn.
+- **Fixes:**
+  - `map-view.tsx` also writes the summary 500 ms after any render.
+  - `smoke-map.ts`:
+    - Ignores OpenFreeMap tile aborts.
+    - Splits the render check into "our layers rendered (transit lines, stations)", which must pass, and "base map + clusters (OpenFreeMap tiles and fonts)", which reloads once on a stall before failing.
+    - Logs OpenFreeMap requests still pending after 10s.
+- **Verified:**
+  - Simulated stall (`page.route` holding the z9 tiles and fonts): the old code never reports; the new code reports 20 rail lines and 179 stations within 2s.
+  - A stall that clears passes after one reload. A persistent stall fails with diagnostics.
+  - 18 normal local runs and 3 prod runs pass; post-deploy CI is green on 7edcb99.
+- **Player impact (open):** during an OpenFreeMap stall the base map and cluster counts stay blank until a refresh. Our layers are unaffected. If the smoke's stall warnings become frequent, move to a tile provider with an uptime guarantee or self-host the tiles (PMTiles).
+
+## Start flow + full-screen 3D Mount Royal climb (2026-11-26, not yet deployed)
+- **Pre-game screen (both modes):** `/play/*` shows rules, mode and the climber and a **Start game** button. No ride is created and no clock runs until Start.
+  - `GET /api/game?mode=daily|session=<id>` → `engine.peek`: read-only and never creates or serves. `live` is true only while the served question can still be answered.
+  - On open: a finished daily redirects to results. A *live* question resumes directly, with its server clock unchanged (refresh can't reset it). Anything else shows the pre-game screen with **Continue: stop n of 7**, which serves the next question without a new start.
+  - Start is idempotent: the client sends `requestId` (a UUID), which becomes the session id. Retries and double clicks return the same ride, it can't claim another player's ride, and the daily stays one per player per day. Postgres `createSession` now uses `on conflict do nothing` for both the id and the daily index.
+  - The Unlimited ride id is kept per tab in `sessionStorage` (`ml_ride:<mode>:<category>`), so a refresh resumes it. "New ride instead" drops it.
+- **Full-viewport game:** `game-client.tsx` renders a fixed overlay. The canvas sits under the translucent site header (which keeps language, sound and account). The HUD has leave, stop, score, climb readout and customizer, reset camera and display settings; the métro line has 7 stops. The question/answer panel is a left column on desktop and a bottom sheet (≤62dvh) on phones. The scene stays mounted from the pre-game screen through every round. Page scroll is locked while playing.
+- **3D (`src/components/game/three/`, three 0.187.0 + @react-three/fiber 9.8.2; no drei, no physics):**
+  - `stair3d.ts` (pure, unit-tested): 7 switchback flights of 24 treads (rise 0.17 m, run 0.34 m) with flat landings and a lookout plaza. `sampleStair(s)` puts the feet exactly on tread tops. `terrainHeight` is carved or embanked under the path, and the camera uses it to stay above ground. Tree and rock placement is seeded. `progressToPath(climbFraction(steps))` keeps the existing score→steps model (350 = top of the stairs): normalized progress, not altitude.
+  - `climb-scene.tsx`: everything instanced (treads, landings, posts, rails, walls, lamps, trees ×3, rocks, ~150 city towers with a shared window texture). Dusk sky dome, stars, river, and an original stylized plaza and pavilion. About 45–53 draw calls. `frameloop="demand"`: frames render only while climbing, the camera settles, particles fly or the player orbits.
+  - Climbing: the climber travels node by node toward the server-confirmed goal (gait phase = one tread per half cycle). Speed and effects depend on the move tier (legend: hops plus a particle burst). A miss gives a head shake and no gain. A restored ride (reload) is placed directly without replaying. At the summit the climber walks onto the plaza and celebrates.
+  - Camera: behind and above, exponential damping. Limited orbit (drag), zoom (wheel/pinch) when idle, re-framing during movement, reset button, and a terrain floor. `setViewOffset` centres the climber in the area not covered by the panel or HUD. Portrait screens pull back.
+  - `climber-3d.tsx`: builds the saved `Appearance` (skin, hair ×5, hair colour, jacket, pants, hat ×6, pack ×4, accessory ×7) in 3D from shared primitives, so existing looks carry over. Customizing (HUD palette) saves through the existing `useLook` (guest localStorage / account).
+  - `climb-stage.tsx`: lazy `next/dynamic` chunk (~251 KB gzip, not in any page's initial JS). Settings `ml_gfx` = auto/low/high/2d. Auto picks low on coarse pointers, small screens or ≤4 cores, and drops to low if measured climb fps stays under 28. Without WebGL, on a render error or after a second context loss, it falls back to the existing SVG climb. Reduced motion: no hops, bursts or celebration wave, faster and steadier camera.
+  - QA hooks on the canvas: `data-s` (settled path position), `data-geometries`, `data-textures`. On the stage: `data-fps`, `data-calls`.
+- **Tests:**
+  - Unit 605 (+`start-flow.test.ts` 6, +`stair3d.test.ts` 5). DB 21 (+ concurrent idempotent Start).
+  - E2E memory 54 passed / 4 skipped; Postgres 55 / 3.
+  - New `start.spec` (no start/serve before Start, double click = one ride, refresh keeps the clock, Continue after refresh) and `scene3d.spec`.
+  - Playwright's desktop/mobile projects now run with `--disable-webgl`. That exercises the 2D fallback and keeps parallel workers from starving on software GL. The `webgl` project (SwiftShader) runs `scene3d.spec` after them. `map-render.spec` (MapLibre) re-enables WebGL.
+- **Performance, measured honestly:** in headless SwiftShader (CPU rendering, no GPU) the climb runs at 9–14 fps with about 50 draw calls; that says nothing about GPU devices. Real-device fps hasn't been measured yet; check on a phone and a laptop after deploying (the stage's `data-fps` shows it).
+- **Not done / open:** not deployed (pushing `main` deploys production). No new DB migration is needed. three's console notes a `THREE.Clock` deprecation from R3F 9.8 (harmless).
 
 ## Blockers
 - Content: 230 playable questions after review #2; 33 generated ones are held in review with fixes listed in "Content review #2".
