@@ -128,8 +128,9 @@ export function createPostgresStore(sql: Sql, getBank: () => Promise<Bank>): Ses
       const inserted = await sql<{ id: string }[]>`
         insert into sessions (id, player_id, mode, date_key, rarity_model_id, question_ids, current_index, created_at)
         values (${s.id}, ${s.playerId}, ${s.mode}, ${s.dateKey}, ${s.rarityModel}, ${s.questionIds}, 0, ${new Date(s.createdAt)})
-        on conflict (player_id, date_key) where mode = 'daily' do nothing
+        on conflict do nothing
         returning id`;
+      // Conflict on the daily unique index (one per player/day) or on the id (an idempotent Start retry).
       if (!inserted.length && s.dateKey) {
         const existing = await this.findDaily(s.playerId, s.dateKey);
         if (existing) return existing;

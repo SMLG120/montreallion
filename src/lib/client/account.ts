@@ -42,6 +42,8 @@ export function refreshAccount(): Promise<void> {
   return inflight;
 }
 
+const LOADING: AccountState = { status: "loading" };
+
 export function useAccount(): AccountState {
   const s = useSyncExternalStore(
     (f) => {
@@ -49,7 +51,7 @@ export function useAccount(): AccountState {
       return () => subs.delete(f);
     },
     () => state,
-    () => ({ status: "loading" }) as AccountState,
+    () => LOADING,
   );
   useEffect(() => {
     if (state.status === "loading" && !inflight) void refreshAccount();

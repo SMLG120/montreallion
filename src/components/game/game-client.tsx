@@ -3,11 +3,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, animate, motion, useMotionValue, useTransform } from "motion/react";
-import { ArrowRight, Check, CornerDownLeft, Loader2, Pencil, RotateCw, SearchCheck } from "lucide-react";
+import { ArrowRight, Check, CornerDownLeft, Loader2, Pencil, Play, RotateCw, SearchCheck } from "lucide-react";
 import { useApp } from "@/components/providers";
 import { Button } from "@/components/ui/button";
 import { MetroLine, type StopState } from "./metro-line";
 import { MountRoyalClimb } from "./mount-royal-climb";
+import { ClimbBackdrop, ClimbHud, LeaveButton, SceneSettings, useGfx } from "./three/climb-stage";
 import { CATEGORY_LABELS, SCOPE_LABELS, TIER_LABELS } from "@/lib/i18n/dict";
 import { chime, recordDailyStreak, TIER_COLOR } from "@/lib/client/fx";
 import type { CategoryId, Localized, PublicQuestion, Tier } from "@/lib/game/types";
@@ -34,11 +35,49 @@ type CheckState = { input: string; view: CheckView; selected: number | null };
 
 type Phase =
   | { kind: "loading" }
+  | { kind: "lobby"; ride: Ride | null }
   | { kind: "error"; message: string }
   | { kind: "question"; q: PublicQuestion; deadline: number }
   | { kind: "reveal"; q: PublicQuestion; input: string; result: AnswerResult };
 
 const ANSWER_SECONDS = 25;
+
+/** Read-only view of an existing ride (GET /api/game). */
+type Ride = {
+  sessionId: string;
+  total: number;
+  dateKey: string | null;
+  index: number;
+  finished: boolean;
+  live: boolean;
+  runningScore: number;
+  history: StopState[];
+};
+
+async function getJson<T>(url: string): Promise<{ ok: boolean; status: number; data: T }> {
+  try {
+    const res = await fetch(url, { cache: "no-store" });
+    return { ok: res.ok, status: res.status, data: (await res.json().catch(() => ({}))) as T };
+  } catch {
+    return { ok: false, status: 0, data: {} as T };
+  }
+}
+
+/** The current Unlimited ride id, per tab, so a refresh resumes it instead of starting a new one. */
+function readRide(key: string): string | null {
+  try {
+    return sessionStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+function writeRide(key: string, id: string | null) {
+  try {
+    if (id) sessionStorage.setItem(key, id);
+    else sessionStorage.removeItem(key);
+  } catch {}
+}
+const newId = () => (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : null);
 
 /** POST JSON. A network failure resolves as status 0 instead of throwing, so busy states always clear. */
 async function post<T>(url: string, body?: unknown): Promise<{ ok: boolean; status: number; data: T }> {
@@ -73,6 +112,49 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
   const inputRef = useRef<HTMLInputElement>(null);
   const nextBtnRef = useRef<HTMLButtonElement>(null);
   const started = useRef(false);
+  const startingRef = useRef(false);
+  const pendingId = useRef<string | null>(null);
+  const [starting, setStarting] = useState(false);
+  const [startError, setStartError] = useState<string | null>(null);
+  const rideKey = `ml_ride:${mode}:${category ?? ""}`;
+  const gfx = useGfx();
+  const [resetKey, setResetKey] = useState(0);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const hudRef = useRef<HTMLDivElement>(null);
+  const [inset, setInset] = useState({ left: 0, bottom: 0, top: 0 });
+  // The site header wraps to two rows on phones; the HUD sits right under it, whatever its height.
+  const [headerH, setHeaderH] = useState(56);
+
+  // The game owns the viewport: no page scroll behind it.
+  useEffect(() => {
+    const el = document.documentElement;
+    el.classList.add("overflow-hidden");
+    return () => el.classList.remove("overflow-hidden");
+  }, []);
+  // Track the panel's footprint so the 3D camera frames the climber in the uncovered part of the screen.
+  useEffect(() => {
+    const el = panelRef.current;
+    const hud = hudRef.current;
+    const header = document.querySelector("body > header, header.sticky") as HTMLElement | null;
+    if (!el || !hud) return;
+    const measure = () => {
+      if (header) setHeaderH(Math.round(header.getBoundingClientRect().height));
+      const r = el.getBoundingClientRect();
+      const top = Math.round(hud.getBoundingClientRect().bottom);
+      const side = r.width < innerWidth * 0.7;
+      setInset(side ? { left: Math.round(r.right), bottom: 0, top: 0 } : { left: 0, bottom: Math.round(innerHeight - r.top), top });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    ro.observe(hud);
+    if (header) ro.observe(header);
+    addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      removeEventListener("resize", measure);
+    };
+  }, []);
 
   const failMsg = useCallback(
     (status: number) => (status === 0 ? t.status.offline : status === 429 ? t.game.rateLimited : t.game.error),
@@ -82,9 +164,10 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
   const finish = useCallback(
     (id: string, dateKey: string | null) => {
       if (mode === "daily" && dateKey) recordDailyStreak(dateKey);
+      if (mode === "unlimited") writeRide(rideKey, null);
       router.push(`/results/${id}`);
     },
-    [mode, router],
+    [mode, router, rideKey],
   );
 
   const loadNext = useCallback(
@@ -114,20 +197,88 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
     [finish, failMsg],
   );
 
-  // Start or resume a session once.
+  /** Applies a ride's saved history (stops, score) without serving anything. */
+  const applyRide = useCallback((ride: Ride) => {
+    setRunning(ride.runningScore);
+    setStops(Array.from({ length: ride.total }, (_, i) => ride.history[i] ?? null));
+  }, []);
+
+  // On open: look up an existing ride WITHOUT creating one. Only a live question resumes directly (its clock is
+  // already running server-side and is never reset); everything else waits on the pre-game screen.
   useEffect(() => {
     if (started.current) return;
     started.current = true;
     (async () => {
-      const r = await post<{ sessionId: string; total: number; dateKey: string | null; index: number; finished: boolean }>("/api/game", { mode, category });
-      if (!r.ok) return setPhase({ kind: "error", message: r.status === 422 ? t.game.unavailable : failMsg(r.status) });
-      const s = { id: r.data.sessionId, total: r.data.total, dateKey: r.data.dateKey };
-      setSession(s);
-      if (r.data.finished) return finish(s.id, s.dateKey);
-      if (mode === "daily" && r.data.index > 0) setResumed(true);
-      await loadNext(s);
+      const stored = mode === "unlimited" ? readRide(rideKey) : null;
+      let ride: Ride | null = null;
+      if (mode === "daily" || stored) {
+        const r = await getJson<{ ride: Ride | null }>(mode === "daily" ? "/api/game?mode=daily" : `/api/game?session=${stored}`);
+        if (r.ok) ride = r.data.ride;
+      }
+      if (ride?.finished) {
+        if (mode === "daily") return finish(ride.sessionId, ride.dateKey);
+        writeRide(rideKey, null);
+        ride = null;
+      }
+      if (ride) applyRide(ride);
+      if (ride?.live) {
+        const s = { id: ride.sessionId, total: ride.total, dateKey: ride.dateKey };
+        setSession(s);
+        if (mode === "daily" && ride.index > 0) setResumed(true);
+        return loadNext(s);
+      }
+      setPhase({ kind: "lobby", ride });
     })();
-  }, [mode, category, loadNext, finish, failMsg, t.game.unavailable]);
+  }, [mode, rideKey, loadNext, finish, applyRide]);
+
+  /** Start Game: the only action that creates a ride or serves the first question. Idempotent per requestId. */
+  const startGame = useCallback(async () => {
+    if (phase.kind !== "lobby" || startingRef.current) return;
+    startingRef.current = true;
+    setStarting(true);
+    setStartError(null);
+    const known = phase.ride && !phase.ride.finished ? phase.ride : null;
+    if (known) {
+      // Continue: the ride already exists, so just serve its current question (not a new start).
+      const s = { id: known.sessionId, total: known.total, dateKey: known.dateKey };
+      if (mode === "unlimited") writeRide(rideKey, s.id);
+      setSession(s);
+      if (mode === "daily" && known.index > 0) setResumed(true);
+      await loadNext(s);
+      startingRef.current = false;
+      setStarting(false);
+      return;
+    }
+    const requestId = pendingId.current ??= newId();
+    if (mode === "unlimited" && requestId) writeRide(rideKey, requestId);
+    const r = await post<{ sessionId: string; total: number; dateKey: string | null; index: number; finished: boolean }>("/api/game", {
+      mode,
+      category,
+      ...(requestId ? { requestId } : {}),
+    });
+    if (!r.ok) {
+      startingRef.current = false;
+      setStarting(false);
+      return setStartError(r.status === 422 ? t.game.unavailable : failMsg(r.status));
+    }
+    const s = { id: r.data.sessionId, total: r.data.total, dateKey: r.data.dateKey };
+    if (mode === "unlimited") writeRide(rideKey, s.id);
+    setSession(s);
+    if (r.data.finished) return finish(s.id, s.dateKey);
+    if (mode === "daily" && r.data.index > 0) setResumed(true);
+    await loadNext(s);
+    startingRef.current = false;
+    setStarting(false);
+  }, [phase, mode, category, rideKey, loadNext, finish, failMsg, t.game.unavailable]);
+
+  /** Unlimited only: drop the unfinished practice ride and offer a fresh one. */
+  const newRide = useCallback(() => {
+    writeRide(rideKey, null);
+    pendingId.current = null;
+    setStops(Array(7).fill(null));
+    setRunning(0);
+    setPhase({ kind: "lobby", ride: null });
+  }, [rideKey]);
 
   const submit = useCallback(
     async (value: string, choice?: number) => {
@@ -226,24 +377,74 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
   const total = session?.total ?? 7;
   const currentIndex = phase.kind === "question" || phase.kind === "reveal" ? phase.q.index : stops.filter(Boolean).length;
 
-  return (
-    <div className="space-y-4 sm:space-y-5">
-      <div className="flex items-end justify-between gap-3">
+  let lobbyView: React.ReactNode = null;
+  if (phase.kind === "lobby") {
+    const ride = phase.ride;
+    const resume = ride && !ride.finished && (ride.index > 0 || mode === "daily") ? ride : null;
+    lobbyView = (
+      <section className="space-y-4" aria-labelledby="lobby-title" data-testid="lobby" data-mode={mode}>
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{mode === "daily" ? t.nav.daily : t.nav.unlimited}</p>
-          <p className="font-heading text-xl font-bold">{t.game.stop(Math.min(currentIndex + 1, total), total)}</p>
+          <h1 id="lobby-title" className="font-heading text-3xl font-extrabold">
+            {mode === "daily" ? t.lobby.dailyTitle : t.lobby.unlimitedTitle}
+            {category && <span className="ml-2 align-middle text-base font-bold text-muted-foreground">· {CATEGORY_LABELS[category][locale]}</span>}
+          </h1>
+          <p className="mt-1 text-muted-foreground">{mode === "daily" ? t.lobby.dailyIntro : t.lobby.unlimitedIntro}</p>
         </div>
-        <div className="text-right" aria-live="polite">
-          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{t.game.total}</p>
-          <p className="font-heading text-2xl font-extrabold tabular-nums" data-testid="running-score">
-            {running}
-          </p>
+        <div className="space-y-4">
+          <div className="space-y-4">
+            <ol className="space-y-2 rounded-2xl border border-border bg-card p-4 text-sm">
+              {t.lobby.rules.map((r, i) => (
+                <li key={i} className="flex gap-3">
+                  <span className="grid size-6 shrink-0 place-items-center rounded-full bg-muted font-heading text-xs font-extrabold" aria-hidden>
+                    {i + 1}
+                  </span>
+                  <span>{r}</span>
+                </li>
+              ))}
+            </ol>
+            {resume && resume.index > 0 && <MetroLine stops={stops} current={resume.index} label={t.game.stop(resume.index + 1, resume.total)} />}
+            {mode === "daily" && !resume?.index && <p className="text-sm text-muted-foreground">{t.lobby.dailyLeft}</p>}
+            <Button
+              autoFocus
+              onClick={() => void startGame()}
+              disabled={starting}
+              aria-busy={starting}
+              className="h-14 w-full rounded-xl text-lg font-extrabold"
+              data-testid="start-game"
+            >
+              {starting ? <Loader2 className="animate-spin" aria-hidden /> : <Play aria-hidden />}
+              {starting ? t.lobby.starting : resume && resume.index > 0 ? t.lobby.continue(resume.index + 1, resume.total) : t.lobby.start}
+            </Button>
+            {mode === "unlimited" && resume && (
+              <Button variant="ghost" className="w-full text-muted-foreground" onClick={newRide} disabled={starting} data-testid="new-ride">
+                {t.lobby.newRide}
+              </Button>
+            )}
+            {startError && (
+              <p role="alert" className="rounded-lg bg-line-yellow/15 px-3 py-2 text-sm text-line-yellow" data-testid="start-error">
+                {startError}
+              </p>
+            )}
+          </div>
+          {gfx.mode === "2d" && (
+            <div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{t.lobby.climber}</p>
+              <MountRoyalClimb stops={stops} />
+            </div>
+          )}
         </div>
-      </div>
+      </section>
+    );
+  }
 
-      <MetroLine stops={stops} current={currentIndex} label={t.game.stop(Math.min(currentIndex + 1, total), total)} />
+  const inLobby = phase.kind === "lobby";
+  const finishedRide = phase.kind === "reveal" && phase.result.finished;
+  const stopLabel = t.game.stop(Math.min(currentIndex + 1, total), total);
 
-      <MountRoyalClimb stops={stops} compact />
+  const gameView = inLobby ? null : (
+    <div className="space-y-4">
+      {gfx.mode === "2d" && <MountRoyalClimb stops={stops} compact />}
 
       {resumed && <p className="rounded-lg border border-border bg-card px-3 py-2 text-sm text-muted-foreground">{t.game.resumeNote}</p>}
 
@@ -375,6 +576,52 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
       </span>
     </div>
   );
+
+  // Full-viewport game: the 3D climb fills the screen (under the translucent site header); the HUD and the
+  // question panel float over it. The scene stays mounted from the pre-game screen through every round.
+  return (
+    <div className="fixed inset-0 z-10 overflow-hidden" data-testid="game-stage" data-phase={phase.kind}>
+      <ClimbBackdrop gfx={gfx} stops={stops} finished={finishedRide} intro={inLobby} resetKey={resetKey} inset={inset} />
+
+      <div ref={hudRef} className="pointer-events-none absolute inset-x-0 z-10 px-3 pt-2 sm:px-4" style={{ top: headerH }}>
+        <div className="flex flex-wrap items-start gap-2">
+          <LeaveButton />
+          <div className="pointer-events-auto min-w-0 rounded-2xl border border-white/10 bg-background/70 px-3 py-1.5 backdrop-blur-md">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">{mode === "daily" ? t.nav.daily : t.nav.unlimited}</p>
+            <p className="font-heading text-sm font-bold leading-tight sm:text-base">{inLobby ? t.lobby.start : stopLabel}</p>
+          </div>
+          <div className="pointer-events-auto rounded-2xl border border-white/10 bg-background/70 px-3 py-1.5 text-right backdrop-blur-md" aria-live="polite">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{t.game.total}</p>
+            <p className="font-heading text-lg font-extrabold leading-tight tabular-nums" data-testid="running-score">
+              {running}
+            </p>
+          </div>
+          {gfx.mode === "3d" && (
+            // One HUD: its own row on phones, inline on wider screens.
+            <div className="order-last flex w-full justify-end sm:order-none sm:ml-auto sm:w-auto">
+              <ClimbHud stops={stops} />
+            </div>
+          )}
+          <div className={gfx.mode === "3d" ? "ml-auto sm:ml-0" : "ml-auto"}>
+            <SceneSettings gfx={gfx} onResetCamera={() => setResetKey((k) => k + 1)} />
+          </div>
+        </div>
+        {!inLobby && (
+          <div className="pointer-events-auto mt-2 rounded-2xl border border-white/10 bg-background/60 backdrop-blur-md lg:ml-auto lg:w-[26rem]">
+            <MetroLine stops={stops} current={currentIndex} label={stopLabel} />
+          </div>
+        )}
+      </div>
+
+      <div
+        ref={panelRef}
+        className="absolute inset-x-0 bottom-0 z-10 max-h-[62dvh] overflow-y-auto overscroll-contain rounded-t-3xl border-t border-white/10 bg-background/88 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-2xl backdrop-blur-md lg:inset-x-auto lg:bottom-auto lg:left-4 lg:top-[7.75rem] lg:max-h-[calc(100dvh-8.75rem)] lg:w-[27rem] lg:rounded-3xl lg:border"
+        data-testid="game-panel"
+      >
+        {lobbyView ?? gameView}
+      </div>
+    </div>
+  );
 }
 
 function canConfirm(c: CheckState): boolean {
@@ -495,7 +742,7 @@ function QuestionCard({ q }: { q: PublicQuestion }) {
         <span className="ml-auto font-normal normal-case tracking-normal opacity-80">{SCOPE_LABELS[q.scope][locale]}</span>
       </div>
       <div className="space-y-2 px-5 py-4 sm:space-y-3 sm:px-7 sm:py-6">
-        <h1 id="prompt" className="font-heading text-2xl font-extrabold leading-tight sm:text-3xl" data-testid="prompt">
+        <h1 id="prompt" className="font-heading text-xl font-extrabold leading-tight sm:text-3xl" data-testid="prompt">
           {q.prompt[locale]}
         </h1>
         <p className="text-sm opacity-75">{q.eligibility[locale]}</p>

@@ -10,3 +10,10 @@ export async function checkAndConfirm(page: Page, value: string) {
   await input.press("Enter");
   await expect(page.getByTestId("reveal")).toBeVisible();
 }
+
+/** Pre-game screen: nothing is timed until Start game is pressed. */
+export async function startGame(page: Page) {
+  await expect(page.getByTestId("lobby")).toBeVisible();
+  await page.getByTestId("start-game").click();
+  await expect(page.getByTestId("prompt")).toBeVisible();
+}

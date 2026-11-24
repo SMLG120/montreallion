@@ -1,6 +1,6 @@
 import { expect, test, type APIRequestContext, type Page } from "@playwright/test";
 import { answerFor } from "./oracle";
-import { checkAndConfirm } from "./answer";
+import { checkAndConfirm, startGame } from "./answer";
 
 /**
  * Email-code sign-in. Production uses Neon Auth; there is no local Neon Auth emulator, so the test server runs the
@@ -31,6 +31,7 @@ test.describe("accounts", () => {
 
     // As a guest: finish part of a ride and pick a look.
     await page.goto("/play/unlimited");
+    await startGame(page);
     await page.getByTestId("climb-customize").click();
     await page.getByTestId("look-jacket-j2").click();
     await page.getByTestId("look-hair-curly").waitFor({ state: "detached" }).catch(() => undefined); // guests only see guest parts

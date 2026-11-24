@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import { answerFor } from "./oracle";
-import { checkAndConfirm } from "./answer";
+import { checkAndConfirm, startGame } from "./answer";
 
 async function answerCurrent(page: Page, mode: "right" | "wrong") {
   const prompt = (await page.getByTestId("prompt").textContent())!.trim();
@@ -13,6 +13,7 @@ test("plays a full daily game: 7 stops, server scoring, results and resume lock"
   test.setTimeout(60_000); // 7 × (check + confirm)
   await page.goto("/");
   await page.getByTestId("play-daily").click();
+  await startGame(page);
   for (let i = 0; i < 7; i++) {
     await expect(page.getByTestId("prompt")).toBeVisible();
     await answerCurrent(page, i === 3 ? "wrong" : "right");
@@ -33,6 +34,7 @@ test("plays a full daily game: 7 stops, server scoring, results and resume lock"
 test("daily results link to the leaderboard, where a player can set a name", async ({ page }) => {
   test.setTimeout(60_000);
   await page.goto("/play/daily");
+  await startGame(page);
   for (let i = 0; i < 7; i++) {
     await expect(page.getByTestId("prompt")).toBeVisible();
     await answerCurrent(page, "right");
@@ -62,6 +64,7 @@ test("daily results link to the leaderboard, where a player can set a name", asy
 
 test("switching EN/FR mid-question keeps the game state", async ({ page }) => {
   await page.goto("/play/unlimited");
+  await startGame(page);
   await answerCurrent(page, "right");
   await page.getByTestId("next-stop").click();
   const enPrompt = await page.getByTestId("prompt").textContent();
@@ -77,6 +80,7 @@ test("switching EN/FR mid-question keeps the game state", async ({ page }) => {
 
 test("accent-insensitive and typo-tolerant matching through the UI", async ({ page }) => {
   await page.goto("/play/unlimited");
+  await startGame(page);
   const prompt = (await page.getByTestId("prompt").textContent())!.trim();
   const plain = answerFor.get(prompt)!.normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase();
   await page.getByTestId("answer-input").fill(plain);
@@ -88,6 +92,7 @@ test("accent-insensitive and typo-tolerant matching through the UI", async ({ pa
 
 test("double-check: typo → POSSIBLE MATCH → confirm; nothing counts until confirmed", async ({ page }) => {
   await page.goto("/play/unlimited");
+  await startGame(page);
   const prompt = (await page.getByTestId("prompt").textContent())!.trim();
   const answer = answerFor.get(prompt)!;
   // Swap two adjacent letters in the middle of a long-enough word (1 transposition).
@@ -120,6 +125,7 @@ test("double-check: typo → POSSIBLE MATCH → confirm; nothing counts until co
 
 test("double-check: NOT RECOGNIZED → submit as typed → incorrect", async ({ page }) => {
   await page.goto("/play/unlimited");
+  await startGame(page);
   await page.getByTestId("answer-input").fill("Zzyzx Qwerty Plonk");
   await page.getByTestId("answer-input").press("Enter");
   await expect(page.getByTestId("check-panel")).toHaveAttribute("data-status", "none");

@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { E2E_ADMIN_TOKEN } from "../../playwright.config";
 import { answerFor, bankQuestions } from "./oracle";
-import { checkAndConfirm } from "./answer";
+import { checkAndConfirm, startGame } from "./answer";
 
 const transitPrompts = new Set(bankQuestions.filter((q) => q.category === "transit").map((q) => q.prompt.en));
 
@@ -31,6 +31,7 @@ test.describe("French browser", () => {
 test("Unlimited can be limited to one category line", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("category-transit").click();
+  await startGame(page);
   await expect(page).toHaveURL(/category=transit/);
   const first = await answer(page, true);
   expect(transitPrompts.has(first)).toBe(true);
@@ -67,6 +68,7 @@ test.describe("admin console (Postgres only)", () => {
     // A player appeals a rejected answer from their daily results.
     const player = await browser.newPage();
     await player.goto("/play/daily");
+    await startGame(player);
     for (let i = 0; i < 7; i++) await answer(player, i !== 0);
     await expect(player).toHaveURL(/\/results\//);
     await player.getByTestId("appeal-open").click();
