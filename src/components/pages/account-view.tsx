@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Check, Loader2, LogOut, Mail } from "lucide-react";
+import { Check, Loader2, LogIn, LogOut, Mail } from "lucide-react";
 import { useApp } from "@/components/providers";
 import { Button } from "@/components/ui/button";
 import { ClimberFigure } from "@/components/game/climber-figure";
@@ -10,73 +10,159 @@ import { LookEditor } from "@/components/game/look-editor";
 import { refreshAccount, setAccount, storedGuestLook, useAccount, useLook, type Me } from "@/lib/client/account";
 import { ACHIEVEMENTS } from "@/lib/game/profile";
 
-export function AccountView({ notice }: { notice: "link" | "welcome" | null }) {
+export function AccountView() {
   const { t } = useApp();
   const ta = t.account;
   const account = useAccount();
+  const [welcome, setWelcome] = useState(false);
 
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-extrabold">{ta.title}</h1>
-      {notice === "link" && <p className="rounded-lg border border-destructive/50 bg-destructive/10 px-3 py-2 text-sm" role="alert">{ta.linkFailed}</p>}
       {account.status === "loading" && (
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
           <Loader2 className="size-4 animate-spin" aria-hidden /> …
         </p>
       )}
       {account.status === "unavailable" && <p className="rounded-2xl border border-border bg-card text-card-foreground px-4 py-4 text-sm">{ta.unavailable}</p>}
-      {account.status === "guest" && <SignIn />}
-      {account.status === "signed-in" && <Profile me={account.me} welcome={notice === "welcome"} />}
+      {account.status === "guest" && <SignIn onSignedIn={() => setWelcome(true)} />}
+      {account.status === "signed-in" && <Profile me={account.me} welcome={welcome} />}
     </div>
   );
 }
 
-function SignIn() {
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/** Two steps: email → 6-digit code. Codes come from Neon Auth; the same flow signs up, signs in and recovers. */
+function SignIn({ onSignedIn }: { onSignedIn: () => void }) {
   const { t } = useApp();
   const ta = t.account;
   const [email, setEmail] = useState("");
-  const [state, setState] = useState<"idle" | "sending" | "sent" | "error" | "bad" | "rate">("idle");
-  const send = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setState("bad");
-    setState("sending");
-    const r = await fetch("/api/auth/login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email }) }).catch(() => null);
-    setState(r?.ok ? "sent" : r?.status === 429 ? "rate" : r?.status === 400 ? "bad" : "error");
+  const [code, setCode] = useState("");
+  const [step, setStep] = useState<"email" | "code">("email");
+  const [state, setState] = useState<"idle" | "busy" | "error" | "bad" | "rate" | "badCode" | "offline">("idle");
+  const codeRef = useRef<HTMLInputElement>(null);
+  // Move focus to the code box when the code step appears (the focused send button is gone by then).
+  useEffect(() => {
+    if (step === "code") codeRef.current?.focus();
+  }, [step]);
+
+  const post = (url: string, body: unknown) =>
+    fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) }).catch(() => null);
+
+  const send = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    if (!EMAIL_RE.test(email.trim())) return setState("bad");
+    setState("busy");
+    const r = await post("/api/auth/login", { email });
+    if (r?.ok) {
+      setStep("code");
+      setCode("");
+      setState("idle");
+    } else setState(!r ? "offline" : r.status === 429 ? "rate" : r.status === 400 ? "bad" : "error");
   };
+
+  const verify = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!/^\d{6}$/.test(code)) return setState("badCode");
+    setState("busy");
+    const r = await post("/api/auth/verify", { email, code });
+    if (r?.ok) {
+      const { me } = (await r.json()) as { me: Me };
+      onSignedIn();
+      setAccount({ status: "signed-in", me });
+      return;
+    }
+    setState(!r ? "offline" : r.status === 429 ? "rate" : r.status === 400 ? "badCode" : "error");
+    codeRef.current?.select();
+  };
+
+  const msg =
+    state === "bad" ? ta.badEmail : state === "badCode" ? ta.badCode : state === "rate" ? ta.rateLimited : state === "offline" ? t.status.offline : state === "error" ? ta.error : "";
+  const busy = state === "busy";
+
   return (
     <section className="rounded-2xl border border-border bg-card text-card-foreground space-y-4 px-5 py-6">
       <h2 className="text-xl font-bold">{ta.signInTitle}</h2>
-      <p className="text-sm text-muted-foreground">{ta.signInBody}</p>
-      {state === "sent" ? (
-        <p className="flex items-start gap-2 rounded-lg border border-line-green/50 bg-line-green/10 px-3 py-3 text-sm" role="status" data-testid="login-sent">
-          <Mail className="mt-0.5 size-4 shrink-0" aria-hidden /> {ta.sent(email.trim())}
-        </p>
+      {step === "email" ? (
+        <>
+          <p className="text-sm text-muted-foreground">{ta.signInBody}</p>
+          <form onSubmit={send} className="flex flex-col gap-2 sm:flex-row" noValidate>
+            <label className="flex-1">
+              <span className="sr-only">{ta.email}</span>
+              <input
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (state !== "busy") setState("idle");
+                }}
+                placeholder={ta.email}
+                aria-invalid={state === "bad"}
+                aria-describedby="login-msg"
+                className="h-11 w-full rounded-xl border border-border bg-muted/40 px-3"
+                data-testid="login-email"
+              />
+            </label>
+            <Button type="submit" className="h-11 rounded-xl font-bold" disabled={busy} data-testid="login-send">
+              {busy ? <Loader2 className="animate-spin" /> : <Mail />}
+              {busy ? ta.sending : ta.send}
+            </Button>
+          </form>
+        </>
       ) : (
-        <form onSubmit={send} className="flex flex-col gap-2 sm:flex-row" noValidate>
-          <label className="flex-1">
-            <span className="sr-only">{ta.email}</span>
-            <input
-              type="email"
-              inputMode="email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={ta.email}
-              aria-invalid={state === "bad"}
-              aria-describedby="login-msg"
-              className="h-11 w-full rounded-xl border border-border bg-muted/40 px-3"
-              data-testid="login-email"
-            />
-          </label>
-          <Button type="submit" className="h-11 rounded-xl font-bold" disabled={state === "sending"} data-testid="login-send">
-            {state === "sending" ? <Loader2 className="animate-spin" /> : <Mail />}
-            {state === "sending" ? ta.sending : ta.send}
-          </Button>
-        </form>
+        <>
+          <p className="flex items-start gap-2 rounded-lg border border-line-green/50 bg-line-green/10 px-3 py-3 text-sm" role="status" data-testid="login-sent">
+            <Mail className="mt-0.5 size-4 shrink-0" aria-hidden /> {ta.sent(email.trim())}
+          </p>
+          <form onSubmit={verify} className="flex flex-col gap-2 sm:flex-row" noValidate>
+            <label className="flex-1">
+              <span className="sr-only">{ta.code}</span>
+              <input
+                ref={codeRef}
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                pattern="[0-9]*"
+                maxLength={6}
+                value={code}
+                onChange={(e) => {
+                  setCode(e.target.value.replace(/\D/g, "").slice(0, 6));
+                  if (state !== "busy") setState("idle");
+                }}
+                placeholder={ta.code}
+                aria-invalid={state === "badCode"}
+                aria-describedby="login-msg"
+                className="h-11 w-full rounded-xl border border-border bg-muted/40 px-3 font-mono text-lg tracking-[0.4em]"
+                data-testid="login-code"
+              />
+            </label>
+            <Button type="submit" className="h-11 rounded-xl font-bold" disabled={busy || code.length !== 6} data-testid="login-verify">
+              {busy ? <Loader2 className="animate-spin" /> : <LogIn />}
+              {busy ? ta.verifying : ta.verify}
+            </Button>
+          </form>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+            <button type="button" className="font-semibold underline underline-offset-4 disabled:opacity-50" onClick={() => void send()} disabled={busy} data-testid="login-resend">
+              {ta.resend}
+            </button>
+            <button
+              type="button"
+              className="font-semibold underline underline-offset-4"
+              onClick={() => {
+                setStep("email");
+                setState("idle");
+              }}
+            >
+              {ta.changeEmail}
+            </button>
+          </div>
+        </>
       )}
       <p id="login-msg" className="min-h-5 text-sm text-destructive" role="alert">
-        {state === "bad" ? ta.badEmail : state === "rate" ? ta.rateLimited : state === "error" ? ta.error : ""}
+        {msg}
       </p>
       <p className="text-xs text-muted-foreground">{ta.guestNote}</p>
     </section>

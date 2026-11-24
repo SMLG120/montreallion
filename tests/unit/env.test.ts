@@ -11,12 +11,13 @@ describe("configProblems", () => {
     const p = configProblems({ ...good, DATABASE_URL: good.DATABASE_URL.replace("6543", "5432"), DATABASE_POOL_MAX: "10", ADMIN_TOKEN: "short" } as unknown as NodeJS.ProcessEnv);
     expect(p).toHaveLength(3);
   });
-  it("accounts: needs URL and key together, https only, and never a service-role key", () => {
+  it("accounts: Neon Auth URL and cookie secret together, https, 32+ char secret; test backend flagged", () => {
     const env = (x: Record<string, string>) => configProblems({ ...good, ...x } as unknown as NodeJS.ProcessEnv);
-    expect(env({ SUPABASE_URL: "https://abc.supabase.co", SUPABASE_ANON_KEY: "k" })).toEqual([]);
-    expect(env({ SUPABASE_URL: "https://abc.supabase.co", SUPABASE_PUBLISHABLE_KEY: "sb_publishable_x" })).toEqual([]);
-    expect(env({ SUPABASE_URL: "https://abc.supabase.co" })).toEqual([expect.stringMatching(/together/)]);
-    expect(env({ SUPABASE_URL: "http://abc", SUPABASE_ANON_KEY: "k" })).toEqual([expect.stringMatching(/https/)]);
-    expect(env({ SUPABASE_URL: "https://abc.supabase.co", SUPABASE_ANON_KEY: "k", SUPABASE_SERVICE_ROLE_KEY: "s" })).toEqual([expect.stringMatching(/service-role/)]);
+    const secret = "s".repeat(32);
+    expect(env({ NEON_AUTH_BASE_URL: "https://ep-x.neonauth.us-east-1.aws.neon.tech/neondb/auth", NEON_AUTH_COOKIE_SECRET: secret })).toEqual([]);
+    expect(env({ NEON_AUTH_BASE_URL: "https://ep-x.neonauth.aws.neon.tech/auth" })).toEqual([expect.stringMatching(/together/)]);
+    expect(env({ NEON_AUTH_BASE_URL: "http://x", NEON_AUTH_COOKIE_SECRET: secret })).toEqual([expect.stringMatching(/https/)]);
+    expect(env({ NEON_AUTH_BASE_URL: "https://x", NEON_AUTH_COOKIE_SECRET: "short" })).toEqual([expect.stringMatching(/32/)]);
+    expect(env({ AUTH_DEV_BACKEND: "1" })).toEqual([expect.stringMatching(/test-only/)]);
   });
 });

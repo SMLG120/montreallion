@@ -1,34 +1,31 @@
-import { expect, test, type APIRequestContext } from "@playwright/test";
+import { expect, test, type APIRequestContext, type Page } from "@playwright/test";
 import { answerFor } from "./oracle";
 import { checkAndConfirm } from "./answer";
 
 /**
- * Email sign-in against the local Supabase stack (npm run auth:start). Magic links are read from its mail
- * catcher (Mailpit). Skipped when the test server has no auth configured.
+ * Email-code sign-in. Production uses Neon Auth; there is no local Neon Auth emulator, so the test server runs the
+ * in-memory test backend (AUTH_DEV_BACKEND=1, refused on Vercel) and reads the "emailed" code from its
+ * test-only endpoint. Everything after the code (session cookie, profile, RLS-backed saves, device links) is real.
  */
-const MAIL = process.env.E2E_MAIL_URL ?? "http://127.0.0.1:54324";
-const ENABLED = Boolean(process.env.E2E_SUPABASE_URL);
+async function emailedCode(request: APIRequestContext, email: string): Promise<string> {
+  const r = await request.get(`/api/auth/dev-code?email=${encodeURIComponent(email)}`);
+  expect(r.ok(), "test auth backend is on").toBe(true);
+  return ((await r.json()) as { code: string }).code;
+}
 
-async function magicLink(request: APIRequestContext, email: string): Promise<string> {
-  for (let i = 0; i < 30; i++) {
-    const r = await request.get(`${MAIL}/api/v1/search?query=${encodeURIComponent(`to:"${email}"`)}`);
-    if (r.ok()) {
-      const { messages } = (await r.json()) as { messages: { ID: string }[] };
-      if (messages?.length) {
-        const msg = await (await request.get(`${MAIL}/api/v1/message/${messages[0].ID}`)).json();
-        const href = String(msg.HTML ?? msg.Text).match(/https?:\/\/[^"'\s<>]+verify[^"'\s<>]+/)?.[0];
-        if (href) return href.replace(/&amp;/g, "&");
-      }
-    }
-    await new Promise((res) => setTimeout(res, 500));
-  }
-  throw new Error(`no magic link for ${email}`);
+async function signIn(page: Page, email: string) {
+  await page.goto("/account");
+  await page.getByTestId("login-email").fill(email);
+  await page.getByTestId("login-send").click();
+  await expect(page.getByTestId("login-sent")).toBeVisible();
+  await expect(page.getByTestId("login-code")).toBeFocused();
+  await page.getByTestId("login-code").fill(await emailedCode(page.request, email));
+  await page.getByTestId("login-verify").click();
+  await expect(page.getByTestId("signed-in-as")).toContainText(email);
 }
 
 test.describe("accounts", () => {
-  test.skip(!ENABLED, "local Supabase auth not configured for this run");
-
-  test("guest → magic link → profile; look carries over; name + cosmetics; locked items refused; logout", async ({ page, request }, info) => {
+  test("guest → email code → profile; look carries over; name + cosmetics; locked items refused; logout", async ({ page }, info) => {
     test.setTimeout(120_000);
     const email = `e2e-${info.project.name}-${Date.now()}@example.test`;
 
@@ -45,14 +42,8 @@ test.describe("accounts", () => {
     }
     await expect(page).toHaveURL(/results/);
 
-    // Sign in by email link.
-    await page.goto("/account");
-    await page.getByTestId("login-email").fill(email);
-    await page.getByTestId("login-send").click();
-    await expect(page.getByTestId("login-sent")).toBeVisible();
-    await page.goto(await magicLink(request, email));
-    await expect(page).toHaveURL(/\/account\?welcome=1/);
-    await expect(page.getByTestId("signed-in-as")).toContainText(email);
+    // Sign in with the emailed code.
+    await signIn(page, email);
 
     // The guest ride and look came along.
     await expect(page.getByTestId("stat-rides")).toHaveText("1");
@@ -88,9 +79,29 @@ test.describe("accounts", () => {
     expect((await page.request.put("/api/me", { data: { displayName: "Nope" } })).status()).toBe(401);
   });
 
-  test("an invalid or reused link is refused", async ({ page }) => {
-    await page.goto("/auth/callback?code=not-a-real-code");
-    await expect(page).toHaveURL(/\/account\?error=link/);
-    await expect(page.getByRole("alert").first()).toBeVisible();
+  test("wrong and reused codes are refused; another device signs into the same account", async ({ page, browser }, info) => {
+    const email = `e2e-code-${info.project.name}-${Date.now()}@example.test`;
+    await page.goto("/account");
+    await page.getByTestId("login-email").fill(email);
+    await page.getByTestId("login-send").click();
+    const code = await emailedCode(page.request, email);
+    await page.getByTestId("login-code").fill(code === "000000" ? "111111" : "000000");
+    await page.getByTestId("login-verify").click();
+    await expect(page.locator("#login-msg")).toContainText(/wrong or expired|erroné ou expiré/);
+    await page.getByTestId("login-code").fill(code);
+    await page.getByTestId("login-verify").click();
+    await expect(page.getByTestId("signed-in-as")).toContainText(email);
+    await page.getByTestId("profile-name").fill("Plateau Rider");
+    await page.getByTestId("profile-name-save").click();
+    await expect(page.getByTestId("profile-name-save")).toContainText(/Saved|Enregistré/);
+    // The used code can't sign anyone in again.
+    expect((await page.request.post("/api/auth/verify", { data: { email, code } })).status()).toBe(400);
+
+    // A second device (fresh browser) signs in with a new code and sees the same profile.
+    const other = await browser.newContext();
+    const p2 = await other.newPage();
+    await signIn(p2, email);
+    await expect(p2.getByTestId("profile-name")).toHaveValue("Plateau Rider");
+    await other.close();
   });
 });

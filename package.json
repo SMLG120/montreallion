@@ -26,15 +26,11 @@
     "db:export-reviews": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/db.ts export-reviews",
     "smoke": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/smoke.ts",
     "smoke:map": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/smoke-map.ts",
-    "check": "npm run typecheck && npm run lint && npm test && npm run etl:test",
-    "auth:start": "supabase start --workdir auth",
-    "auth:stop": "supabase stop --workdir auth",
-    "auth:reset": "supabase db reset --workdir auth"
+    "check": "npm run typecheck && npm run lint && npm test && npm run etl:test"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
-    "@supabase/ssr": "0.12.7",
-    "@supabase/supabase-js": "2.119.0",
+    "@neon/auth": "0.8.2",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.5.2",
     "lucide-react": "^1.77.0",
@@ -57,7 +53,6 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
-    "supabase": "2.122.1",
     "tailwindcss": "4.3.3",
     "typescript": "^5",
     "vitest": "^5.1.1"

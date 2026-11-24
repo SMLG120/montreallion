@@ -2,7 +2,7 @@ import type { RideRow } from "./profile";
 import type { Sql } from "@/lib/server/db";
 import type { Bank } from "./bank";
 import type { Precheck, Session, Submission } from "./engine";
-import { anonTag, type Board, type DailyChallenge, type DayCounts, type FrozenScores, type SessionStore } from "./store";
+import { anonTag, type AccountProfile, type Board, type DailyChallenge, type DayCounts, type FrozenScores, type SessionStore } from "./store";
 import type { Tier } from "./types";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
@@ -268,5 +268,40 @@ export function createPostgresStore(sql: Sql, getBank: () => Promise<Bank>): Ses
         tiers: (x.tiers ?? []) as RideRow["tiers"],
       }));
     },
+
+    async getProfile(userId) {
+      const rows = await asAccount(userId, (tx) => tx<ProfileRow[]>`select display_name, appearance from account_profiles where user_id = ${userId}`);
+      return rows[0] ? profileOf(rows[0]) : null;
+    },
+
+    async saveProfile(userId, patch) {
+      const setName = patch.displayName !== undefined;
+      const setLook = patch.appearance !== undefined;
+      const look = sql.json((patch.appearance ?? {}) as never);
+      const rows = await asAccount(userId, (tx) => tx<ProfileRow[]>`
+        insert into account_profiles (user_id, display_name, appearance)
+        values (${userId}, ${setName ? patch.displayName! : null}, ${look})
+        on conflict (user_id) do update set
+          display_name = case when ${setName} then excluded.display_name else account_profiles.display_name end,
+          appearance = case when ${setLook} then excluded.appearance else account_profiles.appearance end,
+          updated_at = now()
+        returning display_name, appearance`);
+      return profileOf(rows[0]);
+    },
   };
+
+  /**
+   * Runs `fn` as the restricted `montreallion_account` role with `montreallion.user_id` set to the verified user,
+   * so Postgres row-level security (not just this code) limits it to that user's own profile row.
+   */
+  function asAccount<T>(userId: string, fn: (tx: Sql) => Promise<T>): Promise<T> {
+    return sql.begin(async (tx) => {
+      await tx`select set_config('montreallion.user_id', ${userId}, true)`;
+      await tx`set local role montreallion_account`;
+      return fn(tx as unknown as Sql);
+    }) as Promise<T>;
+  }
 }
+
+type ProfileRow = { display_name: string | null; appearance: Record<string, unknown> | null };
+const profileOf = (r: ProfileRow): AccountProfile => ({ displayName: r.display_name, appearance: r.appearance ?? {} });

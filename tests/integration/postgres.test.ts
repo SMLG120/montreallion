@@ -385,5 +385,47 @@ describe.skipIf(!URL)("Postgres store (integration)", () => {
     // Only the opaque user id is stored with game data: no email column anywhere on the game database.
     const cols = await sql`select column_name from information_schema.columns where table_schema = 'public' and column_name ilike '%email%'`;
     expect(cols).toHaveLength(0);
+    // Neon Auth (Better Auth) ids are opaque strings, not necessarily UUIDs.
+    expect(await store.linkAccount("ba_user_7Qx2", P2)).toBe(false); // P2 already belongs to U1
+  });
+
+  it("account profiles: owner-only via Postgres RLS on a restricted role; partial updates; constraints", async () => {
+    const store = m.store.createPostgresStore(sql, m.bank.getBank);
+    const A = "ba_A_9f3k2mQ";
+    const B = "ba_B_x81LpzR";
+    expect(await store.getProfile(A)).toBeNull();
+    expect(await store.saveProfile(A, { displayName: "Alice", appearance: { jacket: "j2" } })).toEqual({ displayName: "Alice", appearance: { jacket: "j2" } });
+    expect(await store.saveProfile(A, { appearance: { jacket: "j1" } })).toEqual({ displayName: "Alice", appearance: { jacket: "j1" } }); // name kept
+    expect(await store.saveProfile(A, { displayName: null })).toEqual({ displayName: null, appearance: { jacket: "j1" } }); // look kept
+    await store.saveProfile(B, { displayName: "Bob" });
+    expect((await store.getProfile(B))?.displayName).toBe("Bob");
+
+    // Acting as A at the database level: B's row is invisible, unchangeable and can't be created or deleted.
+    const asA = <T,>(fn: (tx: Sql) => Promise<T>) =>
+      sql.begin(async (tx) => {
+        await tx`select set_config('montreallion.user_id', ${A}, true)`;
+        await tx`set local role montreallion_account`;
+        return fn(tx as unknown as Sql);
+      });
+    expect(await asA((tx) => tx`select user_id from account_profiles`)).toEqual([{ user_id: A }]);
+    expect((await asA((tx) => tx`update account_profiles set display_name = 'Hacked' where user_id = ${B}`)).count).toBe(0);
+    expect((await store.getProfile(B))?.displayName).toBe("Bob");
+    await expect(asA((tx) => tx`insert into account_profiles (user_id, display_name) values (${"ba_C_new"}, 'Mallory')`)).rejects.toThrow(/row-level security/);
+    await expect(asA((tx) => tx`delete from account_profiles where user_id = ${A}`)).rejects.toThrow(/permission denied/);
+    await expect(asA((tx) => tx`update account_profiles set user_id = ${B} where user_id = ${A}`)).rejects.toThrow(/permission denied/);
+    await expect(asA((tx) => tx`update account_profiles set created_at = now()`)).rejects.toThrow(/permission denied/);
+    await expect(asA((tx) => tx`select * from sessions limit 1`)).rejects.toThrow(/permission denied/); // nothing else either
+    // Without the user setting, the role sees nothing at all.
+    const none = await sql.begin(async (tx) => {
+      await tx`set local role montreallion_account`;
+      return tx`select user_id from account_profiles`;
+    });
+    expect(none).toHaveLength(0);
+
+    // Shape and size limits hold even for the owner.
+    await expect(store.saveProfile(A, { displayName: "x" })).rejects.toThrow(/check constraint/);
+    await expect(store.saveProfile(A, { appearance: Object.fromEntries(Array.from({ length: 300 }, (_, i) => [`k${i}`, "v".repeat(20)])) })).rejects.toThrow(/check constraint/);
+    const role = await sql`select rolcanlogin, rolbypassrls, rolsuper from pg_roles where rolname = 'montreallion_account'`;
+    expect(role).toEqual([{ rolcanlogin: false, rolbypassrls: false, rolsuper: false }]);
   });
 });

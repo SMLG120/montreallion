@@ -337,34 +337,32 @@ The category mix differs from the spec, as requested ("keep going on food and fe
 - **Tests:** unit 405 (+5 climb: proportionality, no fall, move tiers, monotone staircase, look parsing). E2E 30 passed, 2 skipped (+4: steps == running score, a miss holds, look and progress survive reload, no sideways scroll, reduced-motion aria; desktop and mobile). DB 18.
 - **Test harness:** the Playwright projects send distinct `x-forwarded-for` client addresses. The suite now starts more than 20 games a minute, the per-IP start limit. Production limits are unchanged.
 
-## Expansion F: accounts + avatar (deployed 2026-11-24 as 7f8d00e; accounts off in prod until the steps below)
-- **Auth:** Supabase Auth, a separate project from the Neon game database. Magic-link email only, so sign-up, sign-in, verification and recovery are one flow. Sign-out on the device.
-  - All Supabase calls are server-side (`src/lib/server/supabase.ts`) with the anon/publishable key, via the server-only env vars `SUPABASE_URL` and `SUPABASE_ANON_KEY`.
-  - **No service-role key**; health flags one if it's set.
-  - Routes: `POST /api/auth/login` (5/min, no account enumeration), `GET /auth/callback` (PKCE code or token_hash), `POST /api/auth/logout`, `GET/PUT /api/me`.
-- **Profiles:** live in the auth project (`auth/supabase/migrations`), with RLS for owner select/update only.
-  - Column grants: the user may change `display_name` and `appearance` only. No insert or delete.
-  - Size and shape checks on `appearance`. A profile row is created by trigger on sign-up.
-  - No email column; emails stay in `auth.users` and are shown only to their owner.
-- **Game link:** Neon `account_players(player_id → user_id)` (migration `20261123000002`).
-  - Each device's guest player is linked on sign-in and on `/api/me`. A player is never moved to another account.
-  - Stats aggregate across linked players: rides, best daily and unlimited, current and best daily streak, lifetime steps, lookouts reached, achievements, recent rides.
-  - Display name is validated by `checkDisplayName` and copied to every linked player for leaderboards.
-- **Avatar (`climb.ts` + `climber-figure.tsx` + `look-editor.tsx`):**
-  - 8 modular layers: skin, hair, hair colour, jacket, pants, hat, backpack, accessory.
-  - Each item's tier is guest, account or achievement-unlocked (6 unlockables).
-  - `sanitizeLook` runs on read; `PUT` refuses locked items with 422.
-  - Guests keep skin, jacket and hat on the device; the guest look carries into a new account on first sign-in.
-- **Tests:** unit 414; ETL 36; DB 26, including 7 RLS tests against local Supabase (anon reads nothing, owner-only rows, protected columns, insert/delete refused, constraints, no email). E2E 34 passed, 2 skipped with local auth (magic link via Mailpit, look and ride carry-over, cosmetics, locked item 422, name validation, email absent from leaderboard, logout then 401, bad link refused). E2E 30 passed, 6 skipped without auth.
-- **Local stack:** `npm run auth:start` (Docker; auth, Postgres and Mailpit only), `auth:stop`.
-- **Blocked on the user (deploy):**
-  1. Free a Supabase project slot and create a project (us-east-1).
-  2. Apply `auth/supabase/migrations/*`.
-  3. Set the Site URL `https://montreallion.vercel.app` and the redirect `https://montreallion.vercel.app/auth/callback`.
-  4. Configure custom SMTP (the built-in sender only mails team members, at a low hourly limit).
-  5. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in Vercel production.
-  6. Apply the Neon migration (`db:migrate`).
-  Until then, production shows "accounts aren't available" and guest play is unchanged.
+## Expansion F: accounts + avatar (deployed 2026-11-24; auth switched from Supabase to Neon Auth on 2026-11-25)
+- **Why the switch:** the Supabase account was at the 2-free-project limit. The user chose Neon Auth (managed Better Auth) on the existing Neon project: free up to 60k MAU, and no second provider.
+- **Auth (`src/lib/server/auth.ts`):** email plus a 6-digit code. Sign-up, sign-in and recovery are one flow. Magic links aren't used because Neon's shared sender doesn't deliver them; codes need no SMTP.
+  - Uses the `@neon/auth` 0.8.2 server SDK (`createNeonAuth`) from route handlers only. There's no client SDK and no proxy.
+  - Session cookies are `__Secure-neon-auth.*`, signed with `NEON_AUTH_COOKIE_SECRET`.
+  - The SDK's types omit the email-OTP methods, so `EmailOtpServer` types the runtime endpoints (`email-otp/send-verification-otp`, `sign-in/email-otp`).
+  - Routes: `POST /api/auth/login` (5/min, no account enumeration), `POST /api/auth/verify` (10/min; links this device's guest player), `POST /api/auth/logout`, and `GET/PUT /api/me`.
+  - The magic-link `/auth/callback` route is gone.
+- **Test backend:** `AUTH_DEV_BACKEND=1` turns on an in-memory backend for E2E, since there's no local Neon Auth emulator.
+  - It issues single-use 6-digit codes with a 10-minute TTL and 5 tries, readable at `/api/auth/dev-code`, which returns 404 otherwise.
+  - `authConfig` refuses it on Vercel, and health reports it as a problem there. Playwright's web server sets it.
+- **Profiles on Neon (migration `20261125000001_account_profiles.sql`):** `account_profiles(user_id text, display_name 2–20, appearance jsonb object < 2KB)`.
+  - All reads and writes run inside a transaction under `set local role montreallion_account` with `montreallion.user_id` set to the verified user, so Postgres RLS enforces ownership.
+  - The role can't log in or bypass RLS. It may select, insert its own row, and update only `display_name`, `appearance` and `updated_at`. It can't delete and can't touch any other table.
+  - `account_players.user_id` is now text, because Better Auth ids aren't UUIDs. There's still no email column on the game database.
+- **Avatar and stats:** unchanged. 8 layers, guest/account/achievement tiers, locked items rejected with 422, guest look carried over on first sign-in, stats aggregated across linked devices.
+- **Tests:**
+  - Unit 420, including `auth.test.ts` (config gating, code issue/verify/expiry/brute force) and Neon Auth env checks.
+  - DB 20, including the profile RLS test: other users' rows invisible, update affects 0 rows, insert refused by RLS, delete/`user_id`/`created_at`/other tables refused, constraints.
+  - E2E: 46 passed, 4 skipped (memory store); 47 passed, 3 skipped (Postgres store). Covers email code sign-in, wrong and reused codes, second device, carry-over, cosmetics, logout.
+- **Removed:** `@supabase/*`, the `supabase` CLI, the `auth/` workdir, `auth:*` scripts, Supabase env checks and the CI role step. `supabase/migrations/` is still the game database's migration folder; it's just a name.
+- **Blocked on the user (prod):**
+  1. Enable Neon Auth on the production branch, with Email OTP and the domain.
+  2. Set `NEON_AUTH_BASE_URL` and `NEON_AUTH_COOKIE_SECRET` in Vercel.
+  3. Run `db:migrate` for `20261125000001`.
+  Steps are in docs/DEPLOY.md. Until then production shows "accounts aren't available".
 
 ## Expansion G: polish, optimization, tests (deployed 2026-11-24 as e54a31d)
 - **Visual:**

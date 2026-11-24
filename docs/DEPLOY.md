@@ -68,12 +68,20 @@ npm run smoke -- https://<deployment-url>
 - **Migrations** are forward-only and tracked in `app_migrations`. Run `db:migrate` before deploying code that needs them.
 - **Party polling** costs about 1 request/s per player in a room. Keep an eye on Vercel function invocations.
 
-## Accounts (phase F): Supabase Auth project
-1. Create a Supabase project, ideally in us-east-1, near the Neon database in iad1. It holds only auth users and profiles.
-2. Apply the schema: `npx supabase link --workdir auth --project-ref <ref>`, then `npx supabase db push --workdir auth`. Alternatively, paste `auth/supabase/migrations/*.sql` into the SQL editor.
-3. In Auth → URL Configuration:
-   - Site URL: `https://montreallion.vercel.app`
-   - Redirect URL: `https://montreallion.vercel.app/auth/callback`
-4. In Auth → SMTP, set a custom SMTP provider (e.g. Resend). Supabase's default sender only delivers to project team members and is heavily rate-limited.
-5. In Vercel → Production env, set `SUPABASE_URL` and `SUPABASE_ANON_KEY` (or `SUPABASE_PUBLISHABLE_KEY`). Never add a service-role key; the app doesn't use one, and `/api/health` flags it.
-6. Run the Neon migration `20261123000002_accounts.sql` with `npm run db:migrate`, using the env-pull recipe above.
+## Accounts: Neon Auth (email code sign-in)
+Accounts use Neon Auth (managed Better Auth) on the same Neon project as the game database. It's free up to 60,000 monthly active users. Players sign in with a 6-digit emailed code; sign-up and recovery use the same flow. Neon's shared email sender delivers codes, so no SMTP is needed to start.
+
+1. Open the Neon Console. The database is Vercel-managed: Vercel → montreallion → Storage → the Neon database → **Open in Neon**.
+2. On the **production branch** (the one in `DATABASE_URL`), open **Auth** and enable Neon Auth.
+3. Enable **Email OTP** sign-in, with new-user registration allowed. Leave magic links off: the shared sender can't deliver them.
+4. Under **Auth → Configuration → Domains**, add `https://montreallion.vercel.app`. Then turn off **Allow Localhost** for production.
+5. Optional: under **Settings → Better Auth → Project Info**, set the application name shown in emails to `Montréallion`.
+6. In Vercel → Settings → Environment Variables (Production), set:
+   - `NEON_AUTH_BASE_URL`: the branch's Auth URL from step 2. It must be `https://`.
+   - `NEON_AUTH_COOKIE_SECRET`: 32 or more random characters (`openssl rand -base64 32`). Rotating it signs everyone out.
+
+   Never set `AUTH_DEV_BACKEND` on Vercel. It's an in-memory test backend: the app ignores it there and `/api/health` reports it.
+7. Redeploy. `/api/health` should show `"problems":[]`, and `/account` should show the email form.
+8. Neon migrations `20261123000002_accounts.sql` and `20261125000001_account_profiles.sql` are applied with `npm run db:migrate` (env-pull recipe above). The second one creates the `account_profiles` table and the restricted, non-login `montreallion_account` role that RLS uses.
+
+Neon's shared sender is rate-limited. If sign-in codes stop arriving under load, add custom SMTP under **Settings → Better Auth → Custom SMTP provider** (for example Resend: `smtp.resend.com`, port 465, user `resend`, password = API key).

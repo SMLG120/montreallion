@@ -19,6 +19,10 @@ export function anonTag(playerId: string): string {
   return String(1000 + (h % 9000));
 }
 
+/** An account's own profile row (owner-only; see migration 20261125000001). */
+export type AccountProfile = { displayName: string | null; appearance: Record<string, unknown> };
+export type ProfilePatch = { displayName?: string | null; appearance?: Record<string, string> };
+
 export type DailyChallenge = {
   dateKey: string;
   questionIds: string[];
@@ -56,6 +60,10 @@ export interface SessionStore {
   accountPlayers(userId: string): Promise<string[]>;
   /** Finished rides of these players, newest first. */
   finishedRides(playerIds: string[], limit: number): Promise<RideRow[]>;
+  /** The account's profile, read as that account (RLS on Postgres); null before the first save. */
+  getProfile(userId: string): Promise<AccountProfile | null>;
+  /** Creates or updates the account's own profile; only the fields present in the patch change. */
+  saveProfile(userId: string, patch: ProfilePatch): Promise<AccountProfile>;
 }
 
 export const rideRow = (s: Session): RideRow => ({
@@ -97,6 +105,7 @@ export function createMemoryStore(): SessionStore {
   const locks = new Map<string, Promise<unknown>>();
   const names = new Map<string, string>();
   const links = new Map<string, { userId: string; at: number }>();
+  const profiles = new Map<string, AccountProfile>();
 
   const withLock = <T>(id: string, fn: () => Promise<T>): Promise<T> => {
     const run = (locks.get(id) ?? Promise.resolve()).then(fn, fn);
@@ -201,6 +210,19 @@ export function createMemoryStore(): SessionStore {
         .sort((a, b) => b.finishedAt! - a.finishedAt!)
         .slice(0, limit)
         .map(rideRow);
+    },
+    async getProfile(userId) {
+      const p = profiles.get(userId);
+      return p ? { ...p, appearance: { ...p.appearance } } : null;
+    },
+    async saveProfile(userId, patch) {
+      const cur = profiles.get(userId) ?? { displayName: null, appearance: {} };
+      const next: AccountProfile = {
+        displayName: patch.displayName !== undefined ? patch.displayName : cur.displayName,
+        appearance: patch.appearance !== undefined ? { ...patch.appearance } : cur.appearance,
+      };
+      profiles.set(userId, next);
+      return { ...next, appearance: { ...next.appearance } };
     },
   };
 }

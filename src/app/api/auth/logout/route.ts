@@ -1,9 +1,8 @@
 import { json } from "@/lib/server/http";
-import { supabaseForRequest } from "@/lib/server/supabase";
+import { authBackend } from "@/lib/server/auth";
 
 /** POST /api/auth/logout — ends the session on this device (guest play continues). */
 export async function POST() {
-  const sb = await supabaseForRequest();
-  if (sb) await sb.auth.signOut({ scope: "local" });
+  await authBackend()?.signOut();
   return json({ ok: true });
 }

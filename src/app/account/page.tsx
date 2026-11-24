@@ -7,8 +7,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t.account.title, robots: { index: false } };
 }
 
-export default async function Page({ searchParams }: PageProps<"/account">) {
-  const q = await searchParams;
-  const notice = q.error === "link" ? "link" : q.welcome === "1" ? "welcome" : null;
-  return <AccountView notice={notice} />;
+export default function Page() {
+  return <AccountView />;
 }
