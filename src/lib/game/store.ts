@@ -138,6 +138,7 @@ export function createMemoryStore(): SessionStore {
     },
     createSession(s) {
       return withLock(`create:${s.playerId}`, async () => {
+        if (sessions.has(s.id)) return structuredClone(sessions.get(s.id)!); // idempotent Start retry
         if (s.mode === "daily" && s.dateKey) {
           const existing = daily.get(`${s.playerId}:${s.dateKey}`);
           if (existing && sessions.has(existing)) return structuredClone(sessions.get(existing)!);

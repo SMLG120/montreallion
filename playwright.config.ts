@@ -13,8 +13,30 @@ export default defineConfig({
   projects: [
     // Each project is a different "player" for the per-IP rate limits (20 game starts/min), as real players would be.
     // Local `next start` trusts x-forwarded-for; on Vercel the platform sets it, so production limits are unaffected.
-    { name: "desktop", use: { ...devices["Desktop Chrome"], extraHTTPHeaders: { "x-forwarded-for": "198.51.100.1" } } },
-    { name: "mobile", use: { ...devices["Pixel 7"], extraHTTPHeaders: { "x-forwarded-for": "198.51.100.2" } } },
+    // Gameplay specs run with WebGL off: CI machines have no GPU and parallel software rendering starves the
+    // workers. That path is the real no-WebGL fallback (simple 2D climb), so it is covered too.
+    {
+      name: "desktop",
+      testIgnore: /scene3d\.spec/,
+      use: { ...devices["Desktop Chrome"], extraHTTPHeaders: { "x-forwarded-for": "198.51.100.1" }, launchOptions: { args: ["--disable-webgl"] } },
+    },
+    {
+      name: "mobile",
+      testIgnore: /scene3d\.spec/,
+      use: { ...devices["Pixel 7"], extraHTTPHeaders: { "x-forwarded-for": "198.51.100.2" }, launchOptions: { args: ["--disable-webgl"] } },
+    },
+    // The 3D Mount Royal scene, on software WebGL (SwiftShader); its spec runs serially.
+    {
+      name: "webgl",
+      testMatch: /scene3d\.spec/,
+      // After the other projects, so software rendering isn't competing with parallel workers.
+      dependencies: ["desktop", "mobile"],
+      use: {
+        ...devices["Desktop Chrome"],
+        extraHTTPHeaders: { "x-forwarded-for": "198.51.100.3" },
+        launchOptions: { args: ["--enable-unsafe-swiftshader", "--use-angle=swiftshader"] },
+      },
+    },
   ],
   webServer: {
     command: `npm run build && npx next start -p ${PORT}`,

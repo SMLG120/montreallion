@@ -114,6 +114,17 @@ describe.skipIf(!URL)("Postgres store (integration)", () => {
     expect(d).toBe(1);
   });
 
+  it("Start with a requestId is idempotent under concurrency, and peek never creates or serves", async () => {
+    const rid = "dddddddd-dddd-4ddd-8ddd-dddddddddddd";
+    expect(await engine.peek(P2, { id: rid })).toBeNull();
+    const all = await Promise.all([1, 2, 3].map(() => engine.start(P2, "unlimited", { requestId: rid })));
+    expect(new Set(all.map((s) => s.id))).toEqual(new Set([rid]));
+    const [{ n }] = await sql`select count(*)::int as n from sessions where id = ${rid}`;
+    expect(n).toBe(1);
+    expect(await engine.peek(P2, { id: rid })).toMatchObject({ index: 0, live: false });
+    await expect(engine.start(P1, "unlimited", { requestId: rid })).rejects.toThrow();
+  });
+
   it("freezes daily scoring even if rarity weights change mid-day", async () => {
     const P4 = "dddddddd-dddd-4ddd-8ddd-dddddddddddd";
     const s = await engine.start(P4, "daily");

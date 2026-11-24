@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { startGame } from "./answer";
 
 /** Phase G: loading/offline/error states, mobile layout, layout stability, keyboard access and caching. */
 
@@ -34,6 +35,7 @@ test("unknown pages get a themed, bilingual 404 with a way home", async ({ page,
 
 test("offline: a banner appears, a failed check doesn't freeze the game, and it recovers", async ({ page, context }) => {
   await page.goto("/play/unlimited");
+  await startGame(page);
   await expect(page.getByTestId("prompt")).toBeVisible();
 
   await context.setOffline(true);
@@ -64,6 +66,7 @@ test("no horizontal overflow and no layout shift on the main pages", async ({ pa
 
 test("the question, timer and answer box fit on the first screen", async ({ page }) => {
   await page.goto("/play/unlimited");
+  await startGame(page);
   await expect(page.getByTestId("prompt")).toBeVisible();
   const vh = page.viewportSize()!.height;
   for (const id of ["prompt", "timer", "answer-input", "submit-answer"]) {
@@ -77,6 +80,7 @@ test("the question, timer and answer box fit on the first screen", async ({ page
 test("keyboard: skip link, visible focus, and the customizer works without a mouse", async ({ page, isMobile }) => {
   test.skip(isMobile, "keyboard navigation is a desktop concern");
   await page.goto("/play/unlimited");
+  await startGame(page);
   await expect(page.getByTestId("prompt")).toBeVisible();
   await page.getByTestId("climb-customize").focus();
   const outline = await page.getByTestId("climb-customize").evaluate((el) => getComputedStyle(el).outlineStyle);
@@ -98,6 +102,7 @@ test("screen readers hear the timer at 10 seconds", async ({ page, isMobile }) =
   test.skip(isMobile, "one run is enough for a 15-second wait");
   test.setTimeout(45_000);
   await page.goto("/play/unlimited");
+  await startGame(page);
   await expect(page.getByTestId("prompt")).toBeVisible();
   await expect(page.getByTestId("timer-sr")).toHaveText("", { timeout: 1000 });
   await expect(page.getByTestId("timer-sr")).toHaveText("10 seconds left", { timeout: 20_000 });

@@ -435,7 +435,7 @@ Claude read all 207 in-review questions at Samuel's request. For each one it che
   - 18 normal local runs and 3 prod runs pass; post-deploy CI is green on 7edcb99.
 - **Player impact (open):** during an OpenFreeMap stall the base map and cluster counts stay blank until a refresh. Our layers are unaffected. If the smoke's stall warnings become frequent, move to a tile provider with an uptime guarantee or self-host the tiles (PMTiles).
 
-## Start flow + full-screen 3D Mount Royal climb (2026-11-26, not yet deployed)
+## Start flow + full-screen 3D Mount Royal climb (2026-11-24, on preview branch `feat/3d-climb`, not in production)
 - **Pre-game screen (both modes):** `/play/*` shows rules, mode and the climber and a **Start game** button. No ride is created and no clock runs until Start.
   - `GET /api/game?mode=daily|session=<id>` → `engine.peek`: read-only and never creates or serves. `live` is true only while the served question can still be answered.
   - On open: a finished daily redirects to results. A *live* question resumes directly, with its server clock unchanged (refresh can't reset it). Anything else shows the pre-game screen with **Continue: stop n of 7**, which serves the next question without a new start.

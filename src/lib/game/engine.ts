@@ -83,6 +83,20 @@ export type Session = {
   precheck?: Precheck | null;
 };
 
+/** Pre-game view of an existing ride (no answers, no scores per answer beyond the player's own history). */
+export type PeekView = {
+  sessionId: string;
+  mode: Mode;
+  total: number;
+  dateKey: string | null;
+  index: number;
+  finished: boolean;
+  /** The current question has been served and its clock is still running. */
+  live: boolean;
+  runningScore: number;
+  history: { status: Submission["status"]; score: number; tier: Tier | null }[];
+};
+
 /** Pre-check that belongs to the session's current question, if any. */
 function currentCheck(s: Session): Precheck | null {
   return s.precheck && s.precheck.index === s.index ? s.precheck : null;
@@ -178,10 +192,25 @@ export function createEngine(deps: Partial<Deps> = {}) {
   }
 
   return {
-    async start(playerId: string, mode: Mode, opts: { category?: CategoryId } = {}): Promise<Session> {
+    /**
+     * Creates (or resumes) a ride. Never serves a question: the clock starts on the first `serve`.
+     * `requestId` (client-generated UUID) makes Start idempotent: retries and double clicks return the same ride.
+     */
+    async start(playerId: string, mode: Mode, opts: { category?: CategoryId; requestId?: string } = {}): Promise<Session> {
       const [st, bank] = await Promise.all([store(), loadBank()]);
       const key = dateKey(new Date(now()));
       await st.ensurePlayer(playerId);
+      let reqId = opts.requestId && UUID_RE.test(opts.requestId) ? opts.requestId : null;
+      if (reqId) {
+        const prior = await st.get(reqId);
+        if (prior) {
+          own(prior, playerId);
+          if (prior.mode !== mode) throw new GameError("forbidden");
+          // A daily retried after midnight must not resume yesterday's ride: start today's under a fresh id.
+          if (mode === "daily" && prior.dateKey !== key) reqId = null;
+          else return prior;
+        }
+      }
 
       let daily: DailyChallenge | null = null;
       if (mode === "daily") {
@@ -193,8 +222,8 @@ export function createEngine(deps: Partial<Deps> = {}) {
         });
       }
       const questionIds = daily ? daily.questionIds : await pickUnlimited(st, bank, playerId, opts.category);
-      return st.createSession({
-        id: randomUUID(),
+      const created = await st.createSession({
+        id: reqId ?? randomUUID(),
         playerId,
         mode,
         dateKey: daily ? key : null,
@@ -208,6 +237,10 @@ export function createEngine(deps: Partial<Deps> = {}) {
         frozenScores: daily ? daily.scores : null,
         precheck: null,
       });
+      own(created, playerId);
+      // A conflicting concurrent start (same requestId, other mode) must never hand back the wrong kind of ride.
+      if (created.mode !== mode || (mode === "daily" && created.dateKey !== key)) throw new GameError("forbidden");
+      return created;
     },
 
     /** Serves the current question and starts its timer. Idempotent: re-serving never resets the clock. */
@@ -336,6 +369,44 @@ export function createEngine(deps: Partial<Deps> = {}) {
       });
       if (!out) throw new GameError("not_found");
       return { session: out.session, view: out.result };
+    },
+
+    /**
+     * Read-only: the player's existing ride (today's daily, or a given session id) WITHOUT creating
+     * a session or serving a question, so a pre-game screen never starts a clock. Null if none/not owned.
+     */
+    async peek(playerId: string, q: { mode: "daily" } | { id: string }): Promise<PeekView | null> {
+      const st = await store();
+      let s: Session | null;
+      if ("mode" in q) s = await st.findDaily(playerId, dateKey(new Date(now())));
+      else s = UUID_RE.test(q.id) ? await st.get(q.id) : null;
+      if (!s || s.playerId !== playerId) return null;
+      // The served question's window already closed: record its expiry now (exactly what the next serve would do),
+      // so the lobby doesn't offer to continue a stop that can no longer be answered. This never starts a clock.
+      if (s.finishedAt === null && s.servedAt !== null && s.index < s.questionIds.length && now() > closesAt(s)!) {
+        const out = await st.mutate(s.id, (m) => {
+          if (m.finishedAt === null && m.servedAt !== null && m.index < m.questionIds.length && now() > closesAt(m)!) {
+            m.submissions.push(expiredSub(m.questionIds[m.index], "", ANSWER_MS));
+            advance(m);
+          }
+          return null;
+        });
+        if (out) s = out.session;
+      }
+      const finished = s.finishedAt !== null;
+      const close = closesAt(s);
+      return {
+        sessionId: s.id,
+        mode: s.mode,
+        total: s.questionIds.length,
+        dateKey: s.dateKey,
+        index: s.index,
+        finished,
+        // A question is "live" only while it can still be answered; resuming it never restarts its clock.
+        live: !finished && close !== null && now() <= close,
+        runningScore: s.submissions.reduce((t, x) => t + x.score, 0),
+        history: s.submissions.map((x) => ({ status: x.status, score: x.score, tier: x.tier })),
+      };
     },
 
     /** Read-only lookup without ownership check; callers must only expose finished sessions. */

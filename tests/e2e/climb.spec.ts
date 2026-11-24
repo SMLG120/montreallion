@@ -1,11 +1,12 @@
 import { expect, test } from "@playwright/test";
 import { answerFor } from "./oracle";
-import { checkAndConfirm } from "./answer";
+import { checkAndConfirm, startGame } from "./answer";
 
 test("climber: climbs by the score, holds on a miss, keeps its look after reload", async ({ page }) => {
   test.setTimeout(90_000);
   await page.goto("/");
   await page.getByTestId("play-daily").click();
+  await startGame(page);
   const climb = page.getByTestId("climb");
   await expect(climb).toHaveAttribute("data-steps", "0");
 
@@ -39,6 +40,7 @@ test.describe("reduced motion", () => {
   test("climb scene renders with an accessible description", async ({ page }) => {
     await page.goto("/");
     await page.getByTestId("play-daily").click();
+    await startGame(page);
     await expect(page.getByTestId("climb").getByRole("img")).toHaveAttribute("aria-label", /\d+ of 350|\d+ marches sur 350/);
   });
 });

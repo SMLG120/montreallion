@@ -25,6 +25,9 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run etl:test
+      # The schema still locks out generic client roles (defense in depth); the RLS test needs them to exist.
+      - name: create client roles (anon/authenticated) for the RLS test
+        run: psql "$TEST_DATABASE_URL" -c "create role anon nologin; create role authenticated nologin;"
       - run: npm run test:db
       - run: npx playwright install --with-deps chromium
       - name: e2e (memory store)
