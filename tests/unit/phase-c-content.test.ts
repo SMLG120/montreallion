@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import generated from "../../data/generated/questions.generated.json";
+import decisions from "../../etl/review/decisions.json";
 import { bankFileSchema } from "@/lib/game/schema";
 import { checkAnswer } from "@/lib/game/match";
 import { normalizeAnswer } from "@/lib/game/normalize";
@@ -24,8 +25,13 @@ describe("phase C questions: provenance and integrity", () => {
 
   it("are held for human review (never auto-approved)", () => {
     for (const q of phaseC) expect(["in_review", "approved"]).toContain(q.reviewStatus);
-    // Approval only ever comes from etl/review/decisions.json; at import time none of them are approved.
-    expect(phaseC.filter((q) => q.reviewStatus === "approved").length).toBe(0);
+    // Approval only ever comes from a recorded review in etl/review/decisions.json, pinned to the current content.
+    for (const q of phaseC.filter((q) => q.reviewStatus === "approved")) {
+      const d = (decisions as Record<string, { status: string; contentHash: string; reviewer?: string }>)[q.id];
+      expect(d?.status, q.id).toBe("approved");
+      expect(d?.contentHash, q.id).toBe(q.generator.contentHash);
+      expect(d?.reviewer, q.id).toBeTruthy();
+    }
   });
 
   it.each(phaseC.map((q) => [q.id, q] as const))("%s: bilingual, scoped, sourced, ≥5 distinct answers", (_id, q) => {
