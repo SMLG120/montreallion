@@ -34,8 +34,24 @@ describe("pre-game start flow", () => {
     expect(await engine.peek(P, { id: s.id })).toMatchObject({ live: true, index: 0 });
     const b = await engine.serve(s.id, P); // refresh / repeated click
     expect(b.deadline).toBe(a.deadline);
-    t += ANSWER_MS + GRACE_MS;
-    expect(await engine.peek(P, { id: s.id })).toMatchObject({ live: false, index: 0 });
+    t += ANSWER_MS + GRACE_MS + 1;
+    // The lapsed stop is recorded as expired, so the lobby offers the next one (never a stop that can't be answered).
+    const v = await engine.peek(P, { id: s.id });
+    expect(v).toMatchObject({ live: false, index: 1, finished: false });
+    expect(v!.history).toEqual([{ status: "expired", score: 0, tier: null }]);
+    // Peek still doesn't start the next clock.
+    expect((await engine.get(s.id))!.servedAt).toBeNull();
+  });
+
+  it("peek after the last question lapsed reports the ride finished", async () => {
+    const s = await engine.start(P, "daily");
+    for (let i = 0; i < s.questionIds.length; i++) {
+      await engine.serve(s.id, P);
+      t += ANSWER_MS + GRACE_MS + 1;
+    }
+    const v = await engine.peek(P, { mode: "daily" });
+    expect(v).toMatchObject({ finished: true, live: false, index: s.questionIds.length });
+    expect((await engine.get(s.id))!.finishedAt).not.toBeNull();
   });
 
   it("peek hides other players' rides and bad ids", async () => {
@@ -62,5 +78,14 @@ describe("pre-game start flow", () => {
     const a = await engine.start(P, "daily", { requestId: R });
     const b = await engine.start(P, "daily", { requestId: "44444444-4444-4444-8444-444444444444" });
     expect(b.id).toBe(a.id);
+  });
+
+  it("a daily Start retried after midnight starts today's ride, not yesterday's", async () => {
+    t = Date.parse("2026-11-21T23:59:58-05:00");
+    const y = await engine.start(P, "daily", { requestId: R });
+    t = Date.parse("2026-11-22T00:00:05-05:00");
+    const d = await engine.start(P, "daily", { requestId: R });
+    expect(d.id).not.toBe(y.id);
+    expect(d.dateKey).not.toBe(y.dateKey);
   });
 });

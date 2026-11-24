@@ -200,13 +200,15 @@ export function createEngine(deps: Partial<Deps> = {}) {
       const [st, bank] = await Promise.all([store(), loadBank()]);
       const key = dateKey(new Date(now()));
       await st.ensurePlayer(playerId);
-      const reqId = opts.requestId && UUID_RE.test(opts.requestId) ? opts.requestId : null;
+      let reqId = opts.requestId && UUID_RE.test(opts.requestId) ? opts.requestId : null;
       if (reqId) {
         const prior = await st.get(reqId);
         if (prior) {
           own(prior, playerId);
-          if (prior.mode === mode) return prior;
-          throw new GameError("forbidden");
+          if (prior.mode !== mode) throw new GameError("forbidden");
+          // A daily retried after midnight must not resume yesterday's ride: start today's under a fresh id.
+          if (mode === "daily" && prior.dateKey !== key) reqId = null;
+          else return prior;
         }
       }
 
@@ -236,6 +238,8 @@ export function createEngine(deps: Partial<Deps> = {}) {
         precheck: null,
       });
       own(created, playerId);
+      // A conflicting concurrent start (same requestId, other mode) must never hand back the wrong kind of ride.
+      if (created.mode !== mode || (mode === "daily" && created.dateKey !== key)) throw new GameError("forbidden");
       return created;
     },
 
@@ -377,6 +381,18 @@ export function createEngine(deps: Partial<Deps> = {}) {
       if ("mode" in q) s = await st.findDaily(playerId, dateKey(new Date(now())));
       else s = UUID_RE.test(q.id) ? await st.get(q.id) : null;
       if (!s || s.playerId !== playerId) return null;
+      // The served question's window already closed: record its expiry now (exactly what the next serve would do),
+      // so the lobby doesn't offer to continue a stop that can no longer be answered. This never starts a clock.
+      if (s.finishedAt === null && s.servedAt !== null && s.index < s.questionIds.length && now() > closesAt(s)!) {
+        const out = await st.mutate(s.id, (m) => {
+          if (m.finishedAt === null && m.servedAt !== null && m.index < m.questionIds.length && now() > closesAt(m)!) {
+            m.submissions.push(expiredSub(m.questionIds[m.index], "", ANSWER_MS));
+            advance(m);
+          }
+          return null;
+        });
+        if (out) s = out.session;
+      }
       const finished = s.finishedAt !== null;
       const close = closesAt(s);
       return {

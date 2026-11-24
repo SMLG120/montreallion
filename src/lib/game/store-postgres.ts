@@ -135,7 +135,10 @@ export function createPostgresStore(sql: Sql, getBank: () => Promise<Bank>): Ses
         const existing = await this.findDaily(s.playerId, s.dateKey);
         if (existing) return existing;
       }
-      return (await load(sql, s.id, false))!;
+      const row = await load(sql, s.id, false);
+      // Conflict on some other constraint (no row under this id) or a same-id row of another kind: never hand it back.
+      if (!row || row.playerId !== s.playerId || row.mode !== s.mode || row.dateKey !== s.dateKey) throw new Error("session create conflict");
+      return row;
     },
 
     async findDaily(playerId, dateKey) {

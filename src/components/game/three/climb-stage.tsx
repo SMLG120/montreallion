@@ -67,6 +67,18 @@ export function useGfx() {
       localStorage.setItem(GFX_KEY, p);
     } catch {}
   }, []);
+  const fail = useCallback(() => setFailed(true), []);
+  /** A lost context gets one rebuild; a second loss within 20 s switches to the simple view. */
+  const lost = useCallback(() => {
+    const now = performance.now();
+    if (now - lastLoss.current < 20_000) setFailed(true);
+    else setAttempt((a) => a + 1);
+    lastLoss.current = now;
+  }, []);
+  /** Auto mode only: measured frame rate during a climb was low, so drop to the light scene. */
+  const degrade = useCallback(() => {
+    if (pref === "auto") setDegraded(true);
+  }, [pref]);
   const mode: "3d" | "2d" | null = env === null ? null : !env.webgl || failed || pref === "2d" ? "2d" : "3d";
   const quality: Quality = pref === "low" || pref === "high" ? pref : degraded ? "low" : (env?.auto ?? "low");
   return {
@@ -76,16 +88,9 @@ export function useGfx() {
     quality,
     noWebgl: env !== null && (!env.webgl || failed),
     attempt,
-    fail: () => setFailed(true),
-    /** A lost context gets one rebuild; a second loss within 20 s switches to the simple view. */
-    lost: () => {
-      const now = performance.now();
-      if (now - lastLoss.current < 20_000) setFailed(true);
-      else setAttempt((a) => a + 1);
-      lastLoss.current = now;
-    },
-    /** Auto mode only: measured frame rate during a climb was low, so drop to the light scene. */
-    degrade: () => pref === "auto" && setDegraded(true),
+    fail,
+    lost,
+    degrade,
   };
 }
 
@@ -110,6 +115,7 @@ class SceneBoundary extends Component<{ onError: () => void; children: ReactNode
 export function ClimbBackdrop({
   gfx,
   stops,
+  liveIndex = -1,
   finished,
   intro,
   resetKey,
@@ -117,6 +123,8 @@ export function ClimbBackdrop({
 }: {
   gfx: ReturnType<typeof useGfx>;
   stops: ClimbStop[];
+  /** Index of the stop answered live in this tab; only that one animates (restored history stands still). */
+  liveIndex?: number;
   finished: boolean;
   intro: boolean;
   resetKey: number;
@@ -128,12 +136,22 @@ export function ClimbBackdrop({
   const steps = climbSteps(stops);
   const lastIndex = stops.findLastIndex((s) => s !== null);
   const last = lastIndex >= 0 ? stops[lastIndex] : null;
-  const [stats, setStats] = useState<{ fps: number; calls: number } | null>(null);
+  // Frame-rate telemetry goes straight to data attributes (for QA/tests), never through React state: re-rendering
+  // the scene tree mid-climb would cost frames right while they're being measured.
+  const stage = useRef<HTMLDivElement>(null);
   const lowFrames = useRef(0);
-  const { degrade } = gfx;
+  const { degrade, lost } = gfx;
+  const onContextLost = useCallback(() => {
+    console.warn("[climb] WebGL context lost");
+    lost();
+  }, [lost]);
   const onStats = useCallback(
     (s: { fps: number; calls: number }) => {
-      setStats(s);
+      const el = stage.current;
+      if (el) {
+        el.dataset.fps = String(Math.round(s.fps));
+        el.dataset.calls = String(s.calls);
+      }
       lowFrames.current = s.fps < 28 ? lowFrames.current + 1 : 0;
       if (lowFrames.current >= 3) degrade();
     },
@@ -146,8 +164,7 @@ export function ClimbBackdrop({
       data-testid="climb-stage"
       data-mode={gfx.mode ?? "pending"}
       data-quality={gfx.quality}
-      data-fps={stats ? Math.round(stats.fps) : undefined}
-      data-calls={stats?.calls}
+      ref={stage}
     >
       {gfx.mode === "3d" && (
         <SceneBoundary onError={gfx.fail}>
@@ -156,6 +173,7 @@ export function ClimbBackdrop({
               key={`${gfx.quality}:${gfx.attempt}`}
               steps={steps}
               lastIndex={lastIndex}
+              animate={liveIndex === lastIndex}
               lastMove={moveFor(last)}
               lastMissed={!!last && last.status !== "correct"}
               finished={finished}
@@ -165,10 +183,7 @@ export function ClimbBackdrop({
               reduceMotion={reduce}
               resetKey={resetKey}
               inset={inset}
-              onContextLost={() => {
-                console.warn("[climb] WebGL context lost");
-                gfx.lost();
-              }}
+              onContextLost={onContextLost}
               onStats={onStats}
             />
           </div>

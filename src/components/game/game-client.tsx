@@ -119,6 +119,8 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
   const rideKey = `ml_ride:${mode}:${category ?? ""}`;
   const gfx = useGfx();
   const [resetKey, setResetKey] = useState(0);
+  /** The stop answered live in this tab (animated in 3D); restored history just stands still. */
+  const [liveIndex, setLiveIndex] = useState(-1);
   const panelRef = useRef<HTMLDivElement>(null);
   const hudRef = useRef<HTMLDivElement>(null);
   const [inset, setInset] = useState({ left: 0, bottom: 0, top: 0 });
@@ -212,7 +214,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
       const stored = mode === "unlimited" ? readRide(rideKey) : null;
       let ride: Ride | null = null;
       if (mode === "daily" || stored) {
-        const r = await getJson<{ ride: Ride | null }>(mode === "daily" ? "/api/game?mode=daily" : `/api/game?session=${stored}`);
+        const r = await getJson<{ ride: Ride | null }>(mode === "daily" ? "/api/game?mode=daily" : `/api/game?session=${encodeURIComponent(stored ?? "")}`);
         if (r.ok) ride = r.data.ride;
       }
       if (ride?.finished) {
@@ -275,7 +277,8 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
   const newRide = useCallback(() => {
     writeRide(rideKey, null);
     pendingId.current = null;
-    setStops(Array(7).fill(null));
+    setLiveIndex(-1);
+    setStops((prev) => Array(prev.length).fill(null));
     setRunning(0);
     setPhase({ kind: "lobby", ride: null });
   }, [rideKey]);
@@ -299,6 +302,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
       }
       const result = r.data as AnswerResult;
       if (sound) chime(result.tier === "legend" ? "legend" : result.status === "correct" ? "correct" : "wrong");
+      setLiveIndex(phase.q.index);
       setStops((prev) => prev.map((x, i) => (i === phase.q.index ? { status: result.status, tier: result.tier, score: result.score } : x)));
       setRunning(result.runningScore);
       setPhase({ kind: "reveal", q: phase.q, input: value, result });
@@ -581,7 +585,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
   // question panel float over it. The scene stays mounted from the pre-game screen through every round.
   return (
     <div className="fixed inset-0 z-10 overflow-hidden" data-testid="game-stage" data-phase={phase.kind}>
-      <ClimbBackdrop gfx={gfx} stops={stops} finished={finishedRide} intro={inLobby} resetKey={resetKey} inset={inset} />
+      <ClimbBackdrop gfx={gfx} stops={stops} liveIndex={liveIndex} finished={finishedRide} intro={inLobby} resetKey={resetKey} inset={inset} />
 
       <div ref={hudRef} className="pointer-events-none absolute inset-x-0 z-10 px-3 pt-2 sm:px-4" style={{ top: headerH }}>
         <div className="flex flex-wrap items-start gap-2">

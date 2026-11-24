@@ -49,6 +49,8 @@ export type ClimbSceneProps = {
   steps: number;
   /** Index of the newest answered stop (-1 before the first). Animation runs only when it advances by one. */
   lastIndex: number;
+  /** False when the latest stop was restored (reload) rather than answered live: stand still, don't replay. */
+  animate?: boolean;
   lastMove: Move;
   lastMissed: boolean;
   finished: boolean;
@@ -604,7 +606,7 @@ function City({ count }: { count: number }) {
 
 // ------------------------------------------------------------------ climber rig + camera
 
-function Rig({ steps, lastIndex, lastMove, lastMissed, finished, intro, look, reduceMotion, resetKey, onStats, shadows }: ClimbSceneProps & { shadows: boolean }) {
+function Rig({ steps, lastIndex, animate = true, lastMove, lastMissed, finished, intro, look, reduceMotion, resetKey, onStats, shadows }: ClimbSceneProps & { shadows: boolean }) {
   const { camera, gl, invalidate } = useThree();
   const root = useRef<Group>(null);
   const climber = useRef<ClimberHandle>(null);
@@ -635,7 +637,7 @@ function Rig({ steps, lastIndex, lastMove, lastMissed, finished, intro, look, re
   // reload) stand where the ride is, without replaying the climb.
   useEffect(() => {
     const s = st.current;
-    const advanced = lastIndex === s.seenIndex + 1;
+    const advanced = animate && lastIndex === s.seenIndex + 1;
     s.seenIndex = lastIndex;
     const goal = finished && target >= SUMMIT_NODE ? PATH_END : target;
     if (!advanced) {
@@ -652,7 +654,7 @@ function Rig({ steps, lastIndex, lastMove, lastMissed, finished, intro, look, re
       s.shake = 0;
     }
     invalidate();
-  }, [lastIndex, target, finished, lastMove, lastMissed, reduceMotion, invalidate]);
+  }, [lastIndex, animate, target, finished, lastMove, lastMissed, reduceMotion, invalidate]);
 
   useEffect(() => {
     const s = st.current;
@@ -744,6 +746,10 @@ function Rig({ steps, lastIndex, lastMove, lastMissed, finished, intro, look, re
 
     // Travel along verified staircase waypoints toward the confirmed goal (never past it, never backward).
     const moving = s.s < s.goal - 1e-4;
+    if (!moving) {
+      s.frames = 0;
+      s.frameTime = 0;
+    }
     const ds = state.gl.domElement.dataset;
     if (!moving && ds.s !== s.s.toFixed(2)) {
       // Settled position and GPU resource counts, for QA (leak checks) and tests.
@@ -760,8 +766,12 @@ function Rig({ steps, lastIndex, lastMove, lastMissed, finished, intro, look, re
         s.celebrate = 0;
         if (!reduceMotion) s.burstT = 0;
       }
-      s.frames++;
-      s.frameTime += rawDt;
+      // Frame-rate sample: only consecutive moving frames. The first frame after an idle gap carries the whole
+      // gap (frameloop="demand"), so it's skipped, and a window never spans two climbs.
+      if (rawDt < 0.25) {
+        s.frames++;
+        s.frameTime += rawDt;
+      }
       if (s.frames >= 45) {
         onStats?.({ fps: s.frames / s.frameTime, calls: state.gl.info.render.calls });
         s.frames = 0;
