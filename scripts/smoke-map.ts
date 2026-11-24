@@ -2,7 +2,8 @@
  * Post-deploy /map smoke test in a real browser (desktop + mobile). Read-only.
  *   node scripts/smoke-map.ts https://your-deployment.example
  * Checks: MapLibre worker (200, JS MIME), no worker/CSP/WebGL/init errors, nonzero canvas that is visibly drawn,
- * base map + transit lines + stations + clusters rendered, zoom, pan, layer toggle, search, and data/tile requests.
+ * our layers rendered, base map + clusters rendered (third-party tiles: one reload allowed on a stall), zoom, pan,
+ * layer toggle, search, and data/tile requests (MapLibre's own cancellations of tiles on zoom/pan are not failures).
  */
 import { chromium, devices, type Page } from "@playwright/test";
 
@@ -46,7 +47,16 @@ async function run(label: string, device: (typeof devices)[string]) {
       if (!/GPU stall|GL Driver Message/i.test(m.text())) errors.push(m.text());
     }
   });
-  page.on("requestfailed", (r) => bad.push(`${r.failure()?.errorText} ${r.url()}`));
+  const thirdParty = (u: string) => u.includes("tiles.openfreemap.org");
+  const pending = new Map<string, number>();
+  page.on("request", (r) => thirdParty(r.url()) && pending.set(r.url(), Date.now()));
+  page.on("requestfinished", (r) => pending.delete(r.url()));
+  page.on("requestfailed", (r) => {
+    pending.delete(r.url());
+    // MapLibre cancels in-flight base-map tiles on zoom/pan: that's normal, not a failure.
+    if (thirdParty(r.url()) && r.failure()?.errorText === "net::ERR_ABORTED") return;
+    bad.push(`${r.failure()?.errorText} ${r.url()}`);
+  });
   page.on("response", (r) => {
     const u = r.url();
     if (u.includes("tiles.openfreemap.org") && /\.pbf|\/tiles\//.test(u) && r.ok()) tiles++;
@@ -59,8 +69,23 @@ async function run(label: string, device: (typeof devices)[string]) {
   const w = await worker;
   check("worker 200 + JavaScript MIME", !!w && w.status() === 200 && /javascript/.test(w.headers()["content-type"] ?? ""), w ? `${w.status()} ${w.headers()["content-type"]}` : "never requested");
 
-  const r0 = await until(page, () => rendered(page), (v) => !!v && v.base > 0 && v.rail > 0 && v.stations > 0 && v.clusters > 0, 30_000);
-  check("base map, transit lines, stations, clusters rendered", !!r0 && r0.base > 0 && r0.rail > 0 && r0.stations > 0 && r0.clusters > 0, JSON.stringify(r0));
+  // Our own layers (served by this deployment) must render.
+  const ours = await until(page, () => rendered(page), (v) => !!v && v.rail > 0 && v.stations > 0, 30_000);
+  check("our layers rendered (transit lines, stations)", !!ours && ours.rail > 0 && ours.stations > 0, JSON.stringify(ours));
+  // Base map tiles and label glyphs (clusters show counts) come from OpenFreeMap, which occasionally leaves requests
+  // hanging for 25s+. Like a player would, reload once before calling it a failure.
+  const full = (v: Rendered | null) => !!v && v.base > 0 && v.rail > 0 && v.stations > 0 && v.clusters > 0;
+  let r0 = await until(page, () => rendered(page), full, 20_000);
+  let note = "";
+  if (!full(r0)) {
+    console.log(`warn base map incomplete after 20s (${JSON.stringify(r0)}); reloading once (OpenFreeMap stall?)`);
+    pending.clear();
+    await page.reload({ waitUntil: "domcontentloaded" });
+    r0 = await until(page, () => rendered(page), full, 30_000);
+    note = " (after one reload)";
+  }
+  check("base map + clusters rendered (OpenFreeMap tiles and fonts)", full(r0), `${JSON.stringify(r0)}${note}`);
+  if (!full(r0)) r0 = null;
 
   const box = await page.locator("canvas.maplibregl-canvas").boundingBox();
   check("canvas has nonzero size", !!box && box.width > 100 && box.height > 100, box ? `${Math.round(box.width)}x${Math.round(box.height)}` : "no canvas");
@@ -112,6 +137,9 @@ async function run(label: string, device: (typeof devices)[string]) {
   check("base map tiles loaded", tiles > 0, `${tiles} tiles`);
   check("no failed requests", bad.length === 0, bad.slice(0, 3).join(" | "));
   check("no worker/CSP/WebGL/init errors", errors.length === 0, errors.slice(0, 3).join(" | "));
+  // Diagnostic only: OpenFreeMap (third-party) sometimes leaves tile/font requests hanging for 25s+.
+  const stuck = [...pending].filter(([, t]) => Date.now() - t > 10_000);
+  if (stuck.length) console.log(`warn third-party OpenFreeMap requests pending >10s: ${stuck.length} (e.g. ${stuck[0][0].slice(0, 90)})`);
   await browser.close();
 }
 

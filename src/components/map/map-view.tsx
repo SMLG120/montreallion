@@ -142,9 +142,12 @@ export function MapView({ game }: { game: string | null }) {
         setReady(true);
       });
       // Render summary for the post-deploy smoke test (scripts/smoke-map.ts): what actually got drawn.
-      map.on("idle", () => {
+      // Written on idle and 500 ms after any render: "idle" waits for every tile, and a stalled third-party
+      // base-map tile would otherwise hide that our own layers drew fine.
+      let pendingSummary = 0;
+      const summarize = () => {
         const el = box.current;
-        if (!el) return;
+        if (!el || mapRef.current !== map) return;
         const count = (ids: string[]) => {
           const layers = ids.filter((l) => map.getLayer(l));
           return layers.length ? map.queryRenderedFeatures({ layers }).length : 0;
@@ -159,6 +162,13 @@ export function MapView({ game }: { game: string | null }) {
           zoom: +map.getZoom().toFixed(3),
           center: [+c.lng.toFixed(5), +c.lat.toFixed(5)],
         });
+      };
+      map.on("idle", summarize);
+      map.on("render", () => {
+        pendingSummary ||= window.setTimeout(() => {
+          pendingSummary = 0;
+          summarize();
+        }, 500);
       });
     })();
     return () => {
