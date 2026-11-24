@@ -366,7 +366,7 @@ The category mix differs from the spec, as requested ("keep going on food and fe
   6. Apply the Neon migration (`db:migrate`).
   Until then, production shows "accounts aren't available" and guest play is unchanged.
 
-## Expansion G: polish, optimization, tests (2026-11-24, built and tested locally; not yet committed)
+## Expansion G: polish, optimization, tests (deployed 2026-11-24 as e54a31d)
 - **Visual:**
   - Forest-green and warm city-light accents: body glows plus the `--forest`, `--forest-deep` and `--glow` tokens.
   - Original mountain-and-skyline backdrop (`mountain-backdrop.tsx`) on the home hero and the 404 page.
@@ -396,7 +396,7 @@ The category mix differs from the spec, as requested ("keep going on food and fe
 - **Tests:**
   - `tests/e2e/polish.spec.ts`: 404 in both languages, offline recovery, no horizontal overflow or layout shift on 6 pages, above-the-fold answer box with focus, keyboard customizer and skip link, timer screen-reader announcement, cache headers.
   - Totals: unit 414, ETL 36, DB/RLS 26, E2E 46 passed and 4 skipped with local auth. Typecheck and lint are clean.
-- **Next:** commit and push to `main` (Vercel deploys), then smoke-test production. Account enablement steps are still listed under F.
+- **Prod verified:** health ok (e54a31d, problems []), `smoke` and `smoke:map` pass, themed 404, map asset cache headers live (pages stay no-store). **Next:** account enablement steps under F (user).
 
 ## Blockers
 - Content: 49 playable questions; 13 generated ones await review (7 fixed, 6 need borough checks); neighbourhood template needs a new source.
