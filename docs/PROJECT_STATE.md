@@ -362,7 +362,7 @@ The category mix differs from the spec, as requested ("keep going on food and fe
   1. Enable Neon Auth on the production branch, with Email OTP and the domain.
   2. Set `NEON_AUTH_BASE_URL` and `NEON_AUTH_COOKIE_SECRET` in Vercel.
   3. Run `db:migrate` for `20261125000001`.
-  Steps are in docs/DEPLOY.md. Until then production shows "accounts aren't available".
+  Done 2026-11-25: migration applied, Neon Auth enabled, env set, redeployed. Production verified: `/api/me` reports configured, a real code send returns 200, a wrong code returns 400, `/api/auth/dev-code` returns 404, the email form renders on desktop and mobile, and both smoke tests pass. The first real sign-in (user's own inbox) is the only check left.
 
 ## Expansion G: polish, optimization, tests (deployed 2026-11-24 as e54a31d)
 - **Visual:**
