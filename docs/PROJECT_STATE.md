@@ -398,6 +398,27 @@ The category mix differs from the spec, as requested ("keep going on food and fe
   - Totals: unit 414, ETL 36, DB/RLS 26, E2E 46 passed and 4 skipped with local auth. Typecheck and lint are clean.
 - **Prod verified:** health ok (e54a31d, problems []), `smoke` and `smoke:map` pass, themed 404, map asset cache headers live (pages stay no-store). **Next:** account enablement steps under F (user).
 
+## Content review #2 (2026-11-24, reviewer: "Samuel (via Claude)")
+Claude read all 207 in-review questions at Samuel's request. For each one it checked whether the answers fit the prompt, looked for junk entries and checked whether well-known correct answers were missing. Decisions are in `etl/review/decisions.json`, pinned to content hashes.
+- **Approved 174:** 230 playable questions after `db:seed` (15 seed + 215 generated). These include most Phase C food, festival, event, heritage, garden, museum, park, exo/bus, skyscraper, mall, bridge and Québec-region questions.
+- **Held in review (33), with what to fix:**
+  - Métro by borough (Ahuntsic-Cartierville, Rosemont, Villeray): fewer than 5 answers, or borderline-boundary stations (Jean-Talon, Fabre) still need the borough check.
+  - Neighbourhoods (9): lists mix neighbourhoods with electoral districts, parks (Parc Jarry) and business parks (Montreal Technoparc, Cité de la Mode). Needs a real neighbourhood source.
+  - Métro opening years (3): correct answers are missing: Berri-UQAM (1966), Charlevoix (1978), Côte-Sainte-Catherine (1982).
+  - F1 winners: Gilles Villeneuve, Jacques Laffite and Alan Jones are missing from the drivers; Ligier is missing from the teams.
+  - `gen-ev-ffm-gp-film`: answers include raw wiki markup (`[[…`, `{{Lien|…`).
+  - Film festivals and festivals (any): "2022/2023/2024/2025 International Festival of Film on Art" appear as separate answers.
+  - Québec film festivals outside Montréal: includes the Ottawa International Short Film Festival (Ontario).
+  - Heritage churches: includes the Masonic temple; "Cathédrale Chris Church" is a typo.
+  - National Historic Sites in Le Sud-Ouest: Bank of Montreal (Q4856154) is placed in this borough; check its location.
+  - Food:
+    - Bagel: St-Viateur and Fairmount are missing.
+    - Ramen: only 5 answers, and Kinton and Misoya are missing.
+    - Hot dog: Décarie Hot Dog and Montreal Pool Room are missing.
+    - Wrong-cuisine answers: Portuguese has Biryani & co; chicken has Dairy Queen; seafood has 3 Brasseurs and Les Enfants Terribles; Korean has Misoya and Onigiri Shop; bubble tea has Frite & Bulle and Sandwicherie Sue; vegan has B12 Burger and Jonnyboy.
+    - The Plateau restaurants question has a junk answer, "325 F | Cuisine malgache".
+- Known limit of the approved food questions: answers are OSM places matched to the City's open-food registry, so some well-known places are absent and an answer is accepted only if it's in the list. Players can appeal a rejected answer from the results page.
+
 ## Blockers
-- Content: 49 playable questions; 13 generated ones await review (7 fixed, 6 need borough checks); neighbourhood template needs a new source.
+- Content: 230 playable questions after review #2; 33 generated ones are held in review with fixes listed in "Content review #2".
 - Repo: own git repo, remote https://github.com/SMLG120/montreallion (public, `main`). The Vercel project is Git-connected: pushes to `main` deploy to production, other branches get preview URLs.

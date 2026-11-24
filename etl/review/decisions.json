@@ -24,6 +24,1042 @@
     "reviewer": "Samuel",
     "status": "rejected"
   },
+  "gen-ev-expo67-national": {
+    "contentHash": "860d2e62ab9fbe0d",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-expo67-other": {
+    "contentHash": "7690c913bc98e78d",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-fantasia-1996": {
+    "contentHash": "e2e8a09969336ae6",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-fantasia-2013": {
+    "contentHash": "db4246e1a79ea1cc",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-fantasia-2019": {
+    "contentHash": "b08c35da37b63729",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-ffm-gp-director": {
+    "contentHash": "c02affd95fcdf6e1",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-fireworks-any": {
+    "contentHash": "685f7ee34e93f909",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-fireworks-gold": {
+    "contentHash": "9151f3f072a80f5b",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-francouvertes-podium": {
+    "contentHash": "1debac2c0bdd7699",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-francouvertes-winner": {
+    "contentHash": "0e56def215c70ad3",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-gp-cycliste": {
+    "contentHash": "c33d8f0348e74d6e",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-gp-cycliste-podium": {
+    "contentHash": "57f6cbcd5d1abf8e",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-heavy-2008": {
+    "contentHash": "fb0b34a938fdc5a8",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-heavy-2012": {
+    "contentHash": "0d866363d97c3218",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-heavy-2014": {
+    "contentHash": "27c433e949499668",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-heavy-2016": {
+    "contentHash": "972af433744b0536",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-igloofest-dj": {
+    "contentHash": "4a85d30f5c7a4996",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-marathon": {
+    "contentHash": "110a5d3f1e54ff13",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-olympics-1976-venue": {
+    "contentHash": "8c0fb92b7d58a4fb",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-qc-city-festival": {
+    "contentHash": "3641f5e26a6c4bf3",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-qc-music-festival": {
+    "contentHash": "394418b665d4967c",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-qc-region-abitibi-temiscamingue": {
+    "contentHash": "ab4cbab61595b180",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-qc-region-cantons-de-l-est": {
+    "contentHash": "ce1e73157c19a8d0",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-qc-region-chaudiere-appalaches": {
+    "contentHash": "09c0aeaf8701f0bc",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-qc-region-mauricie": {
+    "contentHash": "618f456b2d06d644",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-qc-region-saguenay-lac-saint-jean": {
+    "contentHash": "14fa48716b091914",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-ridm-director": {
+    "contentHash": "7a38b8d5d352c793",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-ridm-film": {
+    "contentHash": "98d56d326c8c0bf8",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-exo-island-station": {
+    "contentHash": "c2029010338b7d32",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-exo-line-candiac": {
+    "contentHash": "b5ed0a8d3926452f",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-exo-line-mascouche": {
+    "contentHash": "25149814308f124d",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-exo-line-mont-saint-hilaire": {
+    "contentHash": "84b30d903753d200",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-exo-line-saint-jerome": {
+    "contentHash": "fb49be376495cd03",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-exo-line-vaudreuil-hudson": {
+    "contentHash": "321782b148db024d",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-african": {
+    "contentHash": "03ecfca1ea69cb50",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bakery": {
+    "contentHash": "90710f495997b3fa",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bakery-in-ahuntsic-cartierville": {
+    "contentHash": "6ad2485dbf8e2232",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bakery-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "64ba42604217d34b",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bakery-in-le-plateau-mont-royal": {
+    "contentHash": "51e10fcf509d88ac",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bakery-in-le-sud-ouest": {
+    "contentHash": "e48f5836487ed8a2",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bakery-in-rosemont-la-petite-patrie": {
+    "contentHash": "12a54394e4c0627b",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bakery-in-ville-marie": {
+    "contentHash": "58744c5f58c2eba7",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bakery-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "9fb44e1d1849ace2",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bar-in-ahuntsic-cartierville": {
+    "contentHash": "91732737b4426bd3",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bar-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "511f3af447312d08",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bar-in-le-plateau-mont-royal": {
+    "contentHash": "9f584cbb8e2e01ab",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bar-in-le-sud-ouest": {
+    "contentHash": "f8d736e8da17481e",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bar-in-mercier-hochelaga-maisonneuve": {
+    "contentHash": "c01b62162b49510c",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bar-in-rosemont-la-petite-patrie": {
+    "contentHash": "fcfd014f267ae267",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bar-in-ville-marie": {
+    "contentHash": "112a4b44bc95ec3e",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bar-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "f9da474df20763ca",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bbq-steak": {
+    "contentHash": "6d151b60f3566790",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-breakfast": {
+    "contentHash": "c648443e8357f3a2",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-burger": {
+    "contentHash": "2fe500cc9a7aed20",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-butcher": {
+    "contentHash": "8484b6fb1142ede7",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-ahuntsic-cartierville": {
+    "contentHash": "b21a250f58d681cd",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "06f662ff4e7bd2f5",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-le-plateau-mont-royal": {
+    "contentHash": "9d3f6c4781a19e06",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-le-sud-ouest": {
+    "contentHash": "aec235e607715694",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-mercier-hochelaga-maisonneuve": {
+    "contentHash": "2986db36e5226e19",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-outremont": {
+    "contentHash": "6e109b4f290f1d7a",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-pointe-claire": {
+    "contentHash": "e7db6458fc7e834d",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-rosemont-la-petite-patrie": {
+    "contentHash": "d8b006c8b15e7740",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-saint-laurent": {
+    "contentHash": "8b7b2feff87e52cb",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-saint-leonard": {
+    "contentHash": "121e4995331d8c9e",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-verdun": {
+    "contentHash": "c9d3148aace9540d",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-ville-marie": {
+    "contentHash": "8eb3dc603943c717",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-cafe-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "812d8e63d690c0fe",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-caribbean": {
+    "contentHash": "1075a07f62fde8df",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-chinese": {
+    "contentHash": "012c6b4231daad3e",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-chocolate": {
+    "contentHash": "8a8ddca0d4bad4d5",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-coffee-chain": {
+    "contentHash": "4f204ca3060a29b7",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-dessert": {
+    "contentHash": "027c8333a231e8ce",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-chain": {
+    "contentHash": "a66bd70840797d9c",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-ahuntsic-cartierville": {
+    "contentHash": "28238d358090e6d8",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "c32730f0a2ad8c32",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-dollard-des-ormeaux": {
+    "contentHash": "98c026db8aa6a7d8",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-kirkland": {
+    "contentHash": "1efbf55daf2eaa30",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-lasalle": {
+    "contentHash": "8d622e7bc2869668",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-le-plateau-mont-royal": {
+    "contentHash": "305e996a181e03c6",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-le-sud-ouest": {
+    "contentHash": "81c9b5c75f5f522c",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-mercier-hochelaga-maisonneuve": {
+    "contentHash": "716351e8b6f85b5b",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-pierrefonds-roxboro": {
+    "contentHash": "fb679b543d6c143e",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-pointe-claire": {
+    "contentHash": "543e6e6dc21c8bf2",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-rosemont-la-petite-patrie": {
+    "contentHash": "7dc95319dd3731e9",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-saint-laurent": {
+    "contentHash": "f7afe8fd22cf8c7e",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-saint-leonard": {
+    "contentHash": "4358c5f321aa3b0b",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-verdun": {
+    "contentHash": "1f29ee4f9bf79d14",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-ville-marie": {
+    "contentHash": "329108137de8ba9d",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fast-food-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "1d6b56d1e4670561",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-filipino-se-asian": {
+    "contentHash": "f34c43435a71c254",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-fine-food": {
+    "contentHash": "c47de48a7b1c1940",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-french": {
+    "contentHash": "9f1a343a6b6195b3",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-greek": {
+    "contentHash": "e60a92bacf1c368d",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-greengrocer": {
+    "contentHash": "d816d412a3ac77fa",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-ice-cream": {
+    "contentHash": "cded43f2c2fb3346",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-indian": {
+    "contentHash": "792e9f063cbe3469",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-italian": {
+    "contentHash": "33d98c251101908a",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-japanese": {
+    "contentHash": "409f009937fda5ad",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-lebanese": {
+    "contentHash": "15e516da6ab5ac7d",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-mexican": {
+    "contentHash": "e46ecd049da6331e",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-middle-eastern": {
+    "contentHash": "2cbdffc2bd14138f",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-pizza": {
+    "contentHash": "5daf2655ba5530cd",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-poutine": {
+    "contentHash": "6ac69897b8d39e67",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-pub": {
+    "contentHash": "3b43202e70ebea71",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-famous": {
+    "contentHash": "1c3b7ae161bbfd77",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-ahuntsic-cartierville": {
+    "contentHash": "e35d64b713b28348",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "c996270c979ff9e3",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-dollard-des-ormeaux": {
+    "contentHash": "9a66a651be9b17f3",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-dorval": {
+    "contentHash": "bc5fd80b40feaf5f",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-kirkland": {
+    "contentHash": "14cf2f73b20ef6bb",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-lasalle": {
+    "contentHash": "5e43944289641c33",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-le-sud-ouest": {
+    "contentHash": "f168e533c4c0bdee",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-mercier-hochelaga-maisonneuve": {
+    "contentHash": "161d0a87bab99c4b",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-outremont": {
+    "contentHash": "b67d797b22daded6",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-pierrefonds-roxboro": {
+    "contentHash": "8f4c2c64efc15e92",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-pointe-claire": {
+    "contentHash": "ae19745fd4d0632e",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-rosemont-la-petite-patrie": {
+    "contentHash": "c7476a82e64ba7e5",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-saint-laurent": {
+    "contentHash": "6fffffcc43f896ac",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-saint-leonard": {
+    "contentHash": "f41a2880d2773f38",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-sainte-anne-de-bellevue": {
+    "contentHash": "8a5c2970d8d0186a",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-verdun": {
+    "contentHash": "d9e14d9d84f4c91b",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-ville-marie": {
+    "contentHash": "df6e93c643d5e171",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "072a368ecc33c1b1",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-sandwich": {
+    "contentHash": "dd945a5b542423c4",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-thai": {
+    "contentHash": "de25c6d649748161",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-vietnamese": {
+    "contentHash": "63be27e4c82e04b8",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-garden-in-ahuntsic-cartierville": {
+    "contentHash": "a9e87ea6cb80417c",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-garden-in-anjou": {
+    "contentHash": "da899fe904eaa23f",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-garden-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "bddb684ab3af0521",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-garden-in-le-sud-ouest": {
+    "contentHash": "69f972cfc0805da6",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-garden-in-mercier-hochelaga-maisonneuve": {
+    "contentHash": "825cdfe835dfee2f",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-garden-in-riviere-des-prairies-pointe-aux-trembles": {
+    "contentHash": "d5ba3b00560d9ed4",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-garden-in-rosemont-la-petite-patrie": {
+    "contentHash": "cafb73837cdb3db7",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-garden-in-saint-laurent": {
+    "contentHash": "efff286c56a38ef3",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-garden-in-ville-marie": {
+    "contentHash": "e92213ac02a271a1",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-garden-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "291fad807ab1f2d7",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-heritage-in-ahuntsic-cartierville": {
+    "contentHash": "745d328e9114d6d0",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-heritage-in-kirkland": {
+    "contentHash": "612789144bbb2078",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-heritage-in-l-ile-bizard-sainte-genevieve": {
+    "contentHash": "8c8d0ae575e17179",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-heritage-in-lasalle": {
+    "contentHash": "a14faf8ecb04e0ed",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-heritage-in-le-plateau-mont-royal": {
+    "contentHash": "3df683bf95b68352",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-heritage-in-le-sud-ouest": {
+    "contentHash": "31e354b1d3f8acbb",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-heritage-in-riviere-des-prairies-pointe-aux-trembles": {
+    "contentHash": "92c1c75eb766ed63",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-heritage-in-ville-marie": {
+    "contentHash": "b6736edecac6a268",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-heritage-in-westmount": {
+    "contentHash": "41418e45b695bd33",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-heritage-kind-cinema": {
+    "contentHash": "528f316d23e1bd49",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-heritage-kind-site": {
+    "contentHash": "ce4ddf2e088883e5",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
   "gen-library-in-ahuntsic-cartierville": {
     "contentHash": "1af22fda84541725",
     "date": "2026-11-21",
@@ -114,6 +1150,34 @@
     "reviewer": "Samuel",
     "status": "approved"
   },
+  "gen-museum-all": {
+    "contentHash": "0cf04dd36d12f585",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-museum-art": {
+    "contentHash": "cb6e8dde52a8c66b",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-museum-history": {
+    "contentHash": "e0a6585a9ba202fd",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-museum-ville-marie": {
+    "contentHash": "76ab097dbb4aa774",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
   "gen-neighbourhood-in-ahuntsic-cartierville": {
     "contentHash": "c191a2f0f8d52904",
     "date": "2026-11-21",
@@ -197,6 +1261,20 @@
     "note": "Uses the City's housing-reference zones, not the neighbourhood names people use (e.g. Montréal-Nord: Centre/Est/Ouest; Griffintown, Le Village, Petite-Italie missing). Rework the template with a better source.",
     "reviewer": "Samuel",
     "status": "rejected"
+  },
+  "gen-nhs-in-island": {
+    "contentHash": "bcb039be32dc89a7",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-nhs-in-ville-marie": {
+    "contentHash": "746d13019878e52b",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
   },
   "gen-park-in-ahuntsic-cartierville": {
     "contentHash": "fcfafdf871b0a832",
@@ -312,6 +1390,34 @@
     "reviewer": "Samuel",
     "status": "approved"
   },
+  "gen-park-kind-large": {
+    "contentHash": "fe69bd624bcad5c1",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-park-kind-nature": {
+    "contentHash": "bf5372f7e80c8dea",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-park-kind-square": {
+    "contentHash": "03f2251f831a9848",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-public-art-artist": {
+    "contentHash": "c8042963e72862e2",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
   "gen-rem-branch-anse-a-l-orme": {
     "contentHash": "87f3133bd062fafe",
     "date": "2026-11-21",
@@ -324,6 +1430,20 @@
     "reviewer": "Samuel",
     "status": "approved"
   },
+  "gen-rem-in-city": {
+    "contentHash": "007dc83033aff589",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-rem-outside-city": {
+    "contentHash": "def30220ccc50303",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
   "gen-rem-station": {
     "contentHash": "2a3210b79635e57a",
     "date": "2026-11-21",
@@ -334,6 +1454,104 @@
     "contentHash": "9a3be43f8ab1b63a",
     "date": "2026-11-21",
     "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-stm-bus-express": {
+    "contentHash": "b0c3ce425ac2d9a2",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-stm-bus-night": {
+    "contentHash": "b3b65196c604b422",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wl-bridge-prairies": {
+    "contentHash": "652c3d3bc8e58c6b",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wl-bridge-st-lawrence": {
+    "contentHash": "eb8ab8e762653f79",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wl-fest-arts": {
+    "contentHash": "5ec4a081f1e746dd",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wl-fest-music": {
+    "contentHash": "e385518bcd6c6d6d",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wl-fest-stage": {
+    "contentHash": "ec8e1c5682748040",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wl-food-microbrewery-mtl": {
+    "contentHash": "36ed732723b7ed51",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wl-food-quebec-cheese": {
+    "contentHash": "870ce7b14ccad85a",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wl-food-quebec-cuisine": {
+    "contentHash": "30cedef9a132dc8e",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wl-mall": {
+    "contentHash": "f1bcacb9b1ea476f",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wl-skyscraper-old": {
+    "contentHash": "3a088b72c87b8c1e",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wl-skyscraper-top25": {
+    "contentHash": "a7774bde1e2b72a0",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wl-theatre": {
+    "contentHash": "e5fdf9d185507c44",
+    "date": "2026-11-24",
+    "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
     "status": "approved"
   }
 }
