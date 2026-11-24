@@ -337,6 +337,35 @@ The category mix differs from the spec, as requested ("keep going on food and fe
 - **Tests:** unit 405 (+5 climb: proportionality, no fall, move tiers, monotone staircase, look parsing). E2E 30 passed, 2 skipped (+4: steps == running score, a miss holds, look and progress survive reload, no sideways scroll, reduced-motion aria; desktop and mobile). DB 18.
 - **Test harness:** the Playwright projects send distinct `x-forwarded-for` client addresses. The suite now starts more than 20 games a minute, the per-IP start limit. Production limits are unchanged.
 
+## Expansion F: accounts + avatar (2026-11-23, built and tested locally; NOT deployed)
+- **Auth:** Supabase Auth, a separate project from the Neon game database. Magic-link email only, so sign-up, sign-in, verification and recovery are one flow. Sign-out on the device.
+  - All Supabase calls are server-side (`src/lib/server/supabase.ts`) with the anon/publishable key, via the server-only env vars `SUPABASE_URL` and `SUPABASE_ANON_KEY`.
+  - **No service-role key**; health flags one if it's set.
+  - Routes: `POST /api/auth/login` (5/min, no account enumeration), `GET /auth/callback` (PKCE code or token_hash), `POST /api/auth/logout`, `GET/PUT /api/me`.
+- **Profiles:** live in the auth project (`auth/supabase/migrations`), with RLS for owner select/update only.
+  - Column grants: the user may change `display_name` and `appearance` only. No insert or delete.
+  - Size and shape checks on `appearance`. A profile row is created by trigger on sign-up.
+  - No email column; emails stay in `auth.users` and are shown only to their owner.
+- **Game link:** Neon `account_players(player_id → user_id)` (migration `20261123000002`).
+  - Each device's guest player is linked on sign-in and on `/api/me`. A player is never moved to another account.
+  - Stats aggregate across linked players: rides, best daily and unlimited, current and best daily streak, lifetime steps, lookouts reached, achievements, recent rides.
+  - Display name is validated by `checkDisplayName` and copied to every linked player for leaderboards.
+- **Avatar (`climb.ts` + `climber-figure.tsx` + `look-editor.tsx`):**
+  - 8 modular layers: skin, hair, hair colour, jacket, pants, hat, backpack, accessory.
+  - Each item's tier is guest, account or achievement-unlocked (6 unlockables).
+  - `sanitizeLook` runs on read; `PUT` refuses locked items with 422.
+  - Guests keep skin, jacket and hat on the device; the guest look carries into a new account on first sign-in.
+- **Tests:** unit 414; ETL 36; DB 26, including 7 RLS tests against local Supabase (anon reads nothing, owner-only rows, protected columns, insert/delete refused, constraints, no email). E2E 34 passed, 2 skipped with local auth (magic link via Mailpit, look and ride carry-over, cosmetics, locked item 422, name validation, email absent from leaderboard, logout then 401, bad link refused). E2E 30 passed, 6 skipped without auth.
+- **Local stack:** `npm run auth:start` (Docker; auth, Postgres and Mailpit only), `auth:stop`.
+- **Blocked on the user (deploy):**
+  1. Free a Supabase project slot and create a project (us-east-1).
+  2. Apply `auth/supabase/migrations/*`.
+  3. Set the Site URL `https://montreallion.vercel.app` and the redirect `https://montreallion.vercel.app/auth/callback`.
+  4. Configure custom SMTP (the built-in sender only mails team members, at a low hourly limit).
+  5. Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in Vercel production.
+  6. Apply the Neon migration (`db:migrate`).
+  Until then, production shows "accounts aren't available" and guest play is unchanged.
+
 ## Blockers
 - Content: 49 playable questions; 13 generated ones await review (7 fixed, 6 need borough checks); neighbourhood template needs a new source.
 - Repo: own git repo, remote https://github.com/SMLG120/montreallion (public, `main`). The Vercel project is Git-connected: pushes to `main` deploy to production, other branches get preview URLs.

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
-  DEFAULT_LOOK, JACKETS, STAIR, SUMMIT_STEPS, bestTier, climbFraction, climbSteps, moveFor, parseLook, pointAt, type ClimbStop,
+  DEFAULT_LOOK, LOOK_PARTS, STAIR, SUMMIT_STEPS, bestTier, climbFraction, climbSteps, entitlements, moveFor, parseLook, pointAt, sanitizeLook,
+  type ClimbStop,
 } from "@/lib/game/climb";
 
 const ok = (score: number, tier: NonNullable<ClimbStop>["tier"]): ClimbStop => ({ status: "correct", tier, score });
@@ -45,10 +46,34 @@ describe("Mount Royal climb model", () => {
     expect(bestTier([ok(20, "tourist"), ok(80, "gem"), ok(40, "regular")])).toBe("gem");
   });
 
-  it("parses stored appearance defensively", () => {
+  it("parses stored appearance defensively (and reads the phase-E format)", () => {
     expect(parseLook(null)).toEqual(DEFAULT_LOOK);
     expect(parseLook("not json")).toEqual(DEFAULT_LOOK);
-    expect(parseLook(JSON.stringify({ skin: 2, jacket: JACKETS.length - 1, hat: "cap" }))).toEqual({ skin: 2, jacket: JACKETS.length - 1, hat: "cap" });
+    expect(parseLook(JSON.stringify({ skin: 2, jacket: 1, hat: "cap" }))).toMatchObject({ skin: "s2", jacket: "j1", hat: "cap" });
     expect(parseLook(JSON.stringify({ skin: 99, jacket: -1, hat: "<script>" }))).toEqual(DEFAULT_LOOK);
+  });
+});
+
+describe("cosmetics and unlocks", () => {
+  const guest = entitlements(false);
+  const account = entitlements(true, []);
+  const earned = entitlements(true, ["summit", "legend"]);
+
+  it("guests keep only guest items; accounts add account items; achievements unlock their items", () => {
+    const fancy = { hair: "curly", hat: "summit-tuque", accessory: "legend-scarf", pack: "explorer", jacket: "gold" };
+    expect(sanitizeLook(fancy, guest)).toEqual(DEFAULT_LOOK);
+    expect(sanitizeLook(fancy, account)).toMatchObject({ hair: "curly", hat: DEFAULT_LOOK.hat, accessory: "none", pack: "none", jacket: DEFAULT_LOOK.jacket });
+    expect(sanitizeLook(fancy, earned)).toMatchObject({ hair: "curly", hat: "summit-tuque", accessory: "legend-scarf", pack: "none" });
+  });
+
+  it("achievements never unlock anything for a guest", () => {
+    expect(entitlements(false, ["summit"]).has("summit")).toBe(false);
+  });
+
+  it("every part has a free default and unique ids", () => {
+    for (const [part, opts] of Object.entries(LOOK_PARTS)) {
+      expect(new Set(opts.map((o) => o.id)).size, part).toBe(opts.length);
+      expect(opts.find((o) => o.id === DEFAULT_LOOK[part as keyof typeof DEFAULT_LOOK])?.need, part).toBe("guest");
+    }
   });
 });

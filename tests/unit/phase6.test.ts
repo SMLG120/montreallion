@@ -54,7 +54,7 @@ describe("dictionaries", () => {
   type Tree = { [k: string]: unknown };
   const SAME_OK = new Set(["Admin", "Questions", "Sources", "Montréallion", "Total", "Terminus", "Notes", "Note", "Culture", "Autoroute", "Square", "Restaurant", "Café", "Tuque"]);
   // Functions whose output is legitimately identical in both languages for the probe arguments ("2 ha").
-  const SAME_FN_OK = new Set(["t.map.hectares"]);
+  const SAME_FN_OK = new Set(["t.map.hectares", "t.climb.swatch"]); // swatch just joins an already-translated part name and a number
 
   function walk(en: unknown, fr: unknown, path: string, out: string[]) {
     if (typeof en === "string") {

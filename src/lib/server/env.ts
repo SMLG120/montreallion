@@ -15,5 +15,10 @@ export function configProblems(env: NodeJS.ProcessEnv = process.env): string[] {
   const pool = Number(env.DATABASE_POOL_MAX ?? 5);
   if (!(pool >= 1 && pool <= 3)) problems.push("DATABASE_POOL_MAX should be 1-3 on serverless");
   if (env.ADMIN_TOKEN && env.ADMIN_TOKEN.length < 24) problems.push("ADMIN_TOKEN shorter than 24 characters (admin disabled)");
+  const sbUrl = env.SUPABASE_URL;
+  const sbKey = env.SUPABASE_PUBLISHABLE_KEY || env.SUPABASE_ANON_KEY;
+  if (Boolean(sbUrl) !== Boolean(sbKey)) problems.push("SUPABASE_URL and SUPABASE_ANON_KEY (or SUPABASE_PUBLISHABLE_KEY) must be set together (accounts disabled)");
+  if (sbUrl && !/^https:\/\//.test(sbUrl)) problems.push("SUPABASE_URL must be https");
+  if (env.SUPABASE_SERVICE_ROLE_KEY || env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY) problems.push("A Supabase service-role key is set; the app never needs it, so remove it");
   return problems;
 }

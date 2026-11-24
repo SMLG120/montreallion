@@ -1,28 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Palette } from "lucide-react";
 import { useApp } from "@/components/providers";
 import { TIER_LABELS } from "@/lib/i18n/dict";
 import { TIER_COLOR } from "@/lib/client/fx";
-import {
-  DEFAULT_LOOK, HATS, JACKETS, SKINS, STAIR, SUMMIT_STEPS, WORLD,
-  bestTier, climbFraction, climbSteps, moveFor, parseLook, pointAt,
-  type Appearance, type ClimbStop, type Move,
-} from "@/lib/game/climb";
+import { STAIR, SUMMIT_STEPS, WORLD, bestTier, climbFraction, climbSteps, moveFor, pointAt, type ClimbStop, type Move } from "@/lib/game/climb";
+import { useLook } from "@/lib/client/account";
+import { ClimberFigure } from "./climber-figure";
+import { LookEditor } from "./look-editor";
 
-const LOOK_KEY = "ml_look";
 const VIEW_H = 230; // visible window of the 360 × 1000 world (the svg keeps this aspect ratio, so nothing is cropped)
 const DURATION: Record<Move, number> = { none: 0, short: 0.9, big: 1.4, leap: 1.8 };
-
-function readLook(): Appearance {
-  try {
-    return parseLook(localStorage.getItem(LOOK_KEY));
-  } catch {
-    return DEFAULT_LOOK;
-  }
-}
 
 /**
  * Signature visual: a small climber on a stylized Mount Royal staircase. Position is proportional to the ride's
@@ -32,21 +23,8 @@ export function MountRoyalClimb({ stops, compact = false }: { stops: ClimbStop[]
   const { t, locale } = useApp();
   const tc = t.climb;
   const reduce = useReducedMotion() ?? false;
-  const [look, setLook] = useState<Appearance>(DEFAULT_LOOK);
+  const { look, allowed, signedIn, save } = useLook();
   const [editing, setEditing] = useState(false);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate a client-only preference
-    setLook(readLook());
-  }, []);
-  const saveLook = (l: Appearance) => {
-    setLook(l);
-    try {
-      localStorage.setItem(LOOK_KEY, JSON.stringify(l));
-    } catch {
-      /* storage unavailable */
-    }
-  };
 
   const steps = climbSteps(stops);
   const frac = climbFraction(steps);
@@ -102,7 +80,14 @@ export function MountRoyalClimb({ stops, compact = false }: { stops: ClimbStop[]
         <motion.div className="h-full rounded-full bg-line-green" initial={false} animate={{ width: `${frac * 100}%` }} transition={{ duration: reduce ? 0 : 0.8 }} />
       </div>
 
-      {editing && <Customizer look={look} onChange={saveLook} />}
+      {editing && (
+        <div className="mx-4 mt-3 space-y-2 rounded-xl border border-border p-3" data-testid="climb-customizer">
+          <LookEditor look={look} allowed={allowed} onChange={(l) => void save(l)} parts={signedIn ? undefined : ["skin", "jacket", "hat"]} />
+          <Link href="/account" className="inline-block text-xs font-semibold underline">
+            {signedIn ? tc.moreOnAccount : tc.moreWithAccount}
+          </Link>
+        </div>
+      )}
 
       <div className="mt-2 bg-[linear-gradient(#0d1530,#24345e)]">
       <svg
@@ -154,7 +139,7 @@ export function MountRoyalClimb({ stops, compact = false }: { stops: ClimbStop[]
             transition={{ duration: dur, ease, times: animateMove === "leap" ? [0, 0.6, 1] : undefined }}
             data-testid="climber"
           >
-            <Climber look={look} facing={pos.facing} walking={animateMove !== "none" && !reduce} duration={dur} />
+            <ClimberFigure look={look} facing={pos.facing} walking={animateMove !== "none" && !reduce} duration={dur} />
           </motion.g>
           <AnimatePresence>
             {!reduce && (animateMove === "leap" || (summit && animateMove !== "none")) && (
@@ -170,73 +155,6 @@ export function MountRoyalClimb({ stops, compact = false }: { stops: ClimbStop[]
       {summit && <p className="px-4 pb-3 pt-1 text-center text-sm font-bold text-line-yellow">{tc.summit}</p>}
       <p className="px-4 pb-3 text-[11px] text-muted-foreground">{tc.gamified}</p>
     </section>
-  );
-}
-
-function Customizer({ look, onChange }: { look: Appearance; onChange: (l: Appearance) => void }) {
-  const { t } = useApp();
-  const tc = t.climb;
-  const swatch = (on: boolean) => `size-9 rounded-full border-2 ${on ? "border-foreground" : "border-transparent"} outline-offset-2`;
-  return (
-    <div className="mx-4 mt-3 grid gap-3 rounded-xl border border-border p-3 text-sm" data-testid="climb-customizer">
-      <fieldset className="flex flex-wrap items-center gap-2">
-        <legend className="mb-1 text-xs font-bold">{tc.skin}</legend>
-        {SKINS.map((c, i) => (
-          <button key={c} type="button" className={swatch(look.skin === i)} style={{ background: c }} aria-pressed={look.skin === i} aria-label={tc.skinN(i + 1)} onClick={() => onChange({ ...look, skin: i })} />
-        ))}
-      </fieldset>
-      <fieldset className="flex flex-wrap items-center gap-2">
-        <legend className="mb-1 text-xs font-bold">{tc.jacket}</legend>
-        {JACKETS.map((c, i) => (
-          <button key={c} type="button" className={swatch(look.jacket === i)} style={{ background: c }} aria-pressed={look.jacket === i} aria-label={tc.jacketN(i + 1)} onClick={() => onChange({ ...look, jacket: i })} data-testid={`jacket-${i}`} />
-        ))}
-      </fieldset>
-      <fieldset className="flex flex-wrap items-center gap-2">
-        <legend className="mb-1 text-xs font-bold">{tc.hat}</legend>
-        {HATS.map((h) => (
-          <button key={h} type="button" onClick={() => onChange({ ...look, hat: h })} aria-pressed={look.hat === h} className={`min-h-9 rounded-lg border px-3 text-xs font-semibold ${look.hat === h ? "border-foreground bg-muted" : "border-border"}`}>
-            {tc.hats[h]}
-          </button>
-        ))}
-      </fieldset>
-    </div>
-  );
-}
-
-/** Original character: round head, puffer jacket, optional tuque or cap. Drawn standing at (0,0) = feet. */
-function Climber({ look, facing, walking, duration }: { look: Appearance; facing: 1 | -1; walking: boolean; duration: number }) {
-  const skin = SKINS[look.skin];
-  const jacket = JACKETS[look.jacket];
-  const bob = walking ? { y: [0, -3, 0, -3, 0, -3, 0] } : { y: 0 };
-  const leg = (dir: 1 | -1) => (walking ? { rotate: [0, 22 * dir, -22 * dir, 22 * dir, -22 * dir, 0] } : { rotate: 0 });
-  return (
-    <motion.g animate={bob} transition={{ duration, ease: "linear" }}>
-      <g transform={`scale(${facing},1)`}>
-        <ellipse cx={0} cy={1} rx={9} ry={2.5} fill="#000" opacity={0.25} />
-        <motion.rect x={-4} y={-11} width={3.5} height={11} rx={1.5} fill="#2a2f45" style={{ originX: "50%", originY: "0%" }} animate={leg(1)} transition={{ duration }} />
-        <motion.rect x={0.5} y={-11} width={3.5} height={11} rx={1.5} fill="#2a2f45" style={{ originX: "50%", originY: "0%" }} animate={leg(-1)} transition={{ duration }} />
-        <rect x={-7} y={-25} width={14} height={16} rx={6} fill={jacket} />
-        <rect x={-1} y={-24} width={2} height={13} fill="#000" opacity={0.18} />
-        <rect x={-9} y={-23} width={4} height={10} rx={2} fill={jacket} />
-        <rect x={6} y={-23} width={4} height={10} rx={2} fill={jacket} transform="rotate(-20 8 -23)" />
-        <circle cx={0} cy={-31} r={7} fill={skin} />
-        <circle cx={3} cy={-32} r={1} fill="#1b1b1b" />
-        {look.hat === "tuque" && (
-          <g>
-            <path d="M-7.5 -32 Q0 -45 7.5 -32Z" fill={jacket} />
-            <rect x={-8} y={-33.5} width={16} height={3} rx={1.5} fill="#f2efe6" />
-            <circle cx={0} cy={-41} r={2.4} fill="#f2efe6" />
-          </g>
-        )}
-        {look.hat === "cap" && (
-          <g>
-            <path d="M-7 -33 Q0 -42 7 -33Z" fill="#1d2433" />
-            <rect x={3} y={-34} width={8} height={2} rx={1} fill="#1d2433" />
-          </g>
-        )}
-        {look.hat === "none" && <path d="M-7 -33 Q0 -40 7 -33 Q2 -36 -7 -33Z" fill="#3b2a1e" />}
-      </g>
-    </motion.g>
   );
 }
 

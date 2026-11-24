@@ -67,3 +67,13 @@ npm run smoke -- https://<deployment-url>
   - To keep console decisions in the ETL file, run `db:export-reviews`.
 - **Migrations** are forward-only and tracked in `app_migrations`. Run `db:migrate` before deploying code that needs them.
 - **Party polling** costs about 1 request/s per player in a room. Keep an eye on Vercel function invocations.
+
+## Accounts (phase F): Supabase Auth project
+1. Create a Supabase project, ideally in us-east-1, near the Neon database in iad1. It holds only auth users and profiles.
+2. Apply the schema: `npx supabase link --workdir auth --project-ref <ref>`, then `npx supabase db push --workdir auth`. Alternatively, paste `auth/supabase/migrations/*.sql` into the SQL editor.
+3. In Auth → URL Configuration:
+   - Site URL: `https://montreallion.vercel.app`
+   - Redirect URL: `https://montreallion.vercel.app/auth/callback`
+4. In Auth → SMTP, set a custom SMTP provider (e.g. Resend). Supabase's default sender only delivers to project team members and is heavily rate-limited.
+5. In Vercel → Production env, set `SUPABASE_URL` and `SUPABASE_ANON_KEY` (or `SUPABASE_PUBLISHABLE_KEY`). Never add a service-role key; the app doesn't use one, and `/api/health` flags it.
+6. Run the Neon migration `20261123000002_accounts.sql` with `npm run db:migrate`, using the env-pull recipe above.

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX, CircleUser } from "lucide-react";
 import { useApp } from "./providers";
 import { cn } from "@/lib/utils";
 
@@ -55,6 +55,15 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-1 sm:ml-2">
+          <Link
+            href="/account"
+            className={cn("grid size-9 place-items-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground", path === "/account" && "bg-muted text-foreground")}
+            aria-label={t.nav.account}
+            title={t.nav.account}
+            data-testid="nav-account"
+          >
+            <CircleUser className="size-4" />
+          </Link>
           <button
             type="button"
             onClick={() => setSound(!sound)}

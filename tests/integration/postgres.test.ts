@@ -364,4 +364,26 @@ describe.skipIf(!URL)("Postgres store (integration)", () => {
     expect(status).toBe("playing");
     expect(await store.get("ZZZZ2")).toBeNull();
   });
+
+  it("links guest players to an account without ever moving a player to another account", async () => {
+    const store = m.store.createPostgresStore(sql, m.bank.getBank);
+    const U1 = "11111111-1111-4111-8111-111111111111";
+    const U2 = "22222222-2222-4222-8222-222222222222";
+    expect(await store.linkAccount(U1, P1)).toBe(true);
+    expect(await store.linkAccount(U1, P1)).toBe(true); // idempotent
+    expect(await store.linkAccount(U2, P1)).toBe(false); // already someone else's: refused
+    expect(await store.linkAccount(U1, P2)).toBe(true); // second device
+    expect(await store.accountPlayers(U1)).toEqual([P1, P2]);
+    expect(await store.accountPlayers(U2)).toEqual([]);
+
+    const rides = await store.finishedRides(await store.accountPlayers(U1), 50);
+    expect(rides.length).toBeGreaterThanOrEqual(1);
+    const [db] = await sql`select total_score from sessions where id = ${rides[0].id}`;
+    expect(rides[0].total).toBe(db.total_score);
+    expect(rides[0].tiers).toHaveLength(7);
+    expect(rides.every((r) => r.finishedAt > 0)).toBe(true);
+    // Only the opaque user id is stored with game data: no email column anywhere on the game database.
+    const cols = await sql`select column_name from information_schema.columns where table_schema = 'public' and column_name ilike '%email%'`;
+    expect(cols).toHaveLength(0);
+  });
 });

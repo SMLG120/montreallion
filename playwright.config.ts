@@ -21,6 +21,7 @@ export default defineConfig({
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,
-    env: { ADMIN_TOKEN: E2E_ADMIN_TOKEN },
+    // Accounts are enabled only when a local Supabase stack is passed in (E2E_SUPABASE_URL / E2E_SUPABASE_ANON_KEY).
+    env: { ADMIN_TOKEN: E2E_ADMIN_TOKEN, SUPABASE_URL: process.env.E2E_SUPABASE_URL ?? "", SUPABASE_ANON_KEY: process.env.E2E_SUPABASE_ANON_KEY ?? "" },
   },
 });

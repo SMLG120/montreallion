@@ -1,3 +1,4 @@
+import type { RideRow } from "./profile";
 import type { Sql } from "@/lib/server/db";
 import type { Bank } from "./bank";
 import type { Precheck, Session, Submission } from "./engine";
@@ -237,6 +238,35 @@ export function createPostgresStore(sql: Sql, getBank: () => Promise<Bank>): Ses
       await sql`insert into players (id, display_name, name_updated_at) values (${playerId}, ${name}, ${name ? new Date() : null})
                 on conflict (id) do update set display_name = excluded.display_name, last_seen_at = now(),
                   name_updated_at = case when excluded.display_name is null then null else now() end`;
+    },
+
+    async linkAccount(userId, playerId) {
+      await sql`insert into players (id) values (${playerId}) on conflict (id) do nothing`;
+      const r = await sql<{ user_id: string }[]>`
+        insert into account_players (player_id, user_id) values (${playerId}, ${userId})
+        on conflict (player_id) do update set player_id = excluded.player_id
+        returning user_id`;
+      return r[0]?.user_id === userId;
+    },
+
+    async accountPlayers(userId) {
+      const r = await sql<{ player_id: string }[]>`
+        select player_id from account_players where user_id = ${userId} order by linked_at, player_id`;
+      return r.map((x) => x.player_id);
+    },
+
+    async finishedRides(playerIds, limit) {
+      if (!playerIds.length) return [];
+      const r = await sql<{ id: string; mode: "daily" | "unlimited"; date_key: string | null; finished_at: Date; total_score: number; tiers: (string | null)[] | null }[]>`
+        select s.id, s.mode, to_char(s.date_key, 'YYYY-MM-DD') as date_key, s.finished_at, s.total_score,
+               (select array_agg(sub.tier::text order by sub.position) from submissions sub where sub.session_id = s.id) as tiers
+        from sessions s
+        where s.player_id = any(${playerIds}::uuid[]) and s.finished_at is not null
+        order by s.finished_at desc limit ${limit}`;
+      return r.map((x) => ({
+        id: x.id, mode: x.mode, dateKey: x.date_key, finishedAt: x.finished_at.getTime(), total: x.total_score,
+        tiers: (x.tiers ?? []) as RideRow["tiers"],
+      }));
     },
   };
 }

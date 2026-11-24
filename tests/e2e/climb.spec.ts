@@ -11,8 +11,8 @@ test("climber: climbs by the score, holds on a miss, keeps its look after reload
 
   // Customize, then reload: the appearance persists on this device.
   await page.getByTestId("climb-customize").click();
-  await page.getByTestId("jacket-2").click();
-  await expect(page.getByTestId("jacket-2")).toHaveAttribute("aria-pressed", "true");
+  await page.getByTestId("look-jacket-j2").click();
+  await expect(page.getByTestId("look-jacket-j2")).toHaveAttribute("aria-pressed", "true");
 
   for (let i = 0; i < 3; i++) {
     await expect(page.getByTestId("prompt")).toBeVisible();
@@ -30,7 +30,7 @@ test("climber: climbs by the score, holds on a miss, keeps its look after reload
   await page.reload();
   await expect(page.getByTestId("climb")).toHaveAttribute("data-steps", steps!); // progress restored with the ride
   await page.getByTestId("climb-customize").click();
-  await expect(page.getByTestId("jacket-2")).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByTestId("look-jacket-j2")).toHaveAttribute("aria-pressed", "true");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
 });
 

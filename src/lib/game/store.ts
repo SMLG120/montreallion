@@ -1,4 +1,5 @@
 import type { Session } from "./engine";
+import type { RideRow } from "./profile";
 
 import type { RarityBasis } from "./scoring";
 
@@ -49,7 +50,22 @@ export interface SessionStore {
   /** Question ids from the player's most recent `sessions` sessions (any mode), newest first. */
   recentQuestionIds(playerId: string, sessions: number): Promise<string[]>;
   setDisplayName(playerId: string, name: string | null): Promise<void>;
+  /** Links a guest player to an account. A player already linked to another account is never moved (returns false). */
+  linkAccount(userId: string, playerId: string): Promise<boolean>;
+  /** The account's linked players, oldest link first (the first is the account's primary player). */
+  accountPlayers(userId: string): Promise<string[]>;
+  /** Finished rides of these players, newest first. */
+  finishedRides(playerIds: string[], limit: number): Promise<RideRow[]>;
 }
+
+export const rideRow = (s: Session): RideRow => ({
+  id: s.id,
+  mode: s.mode,
+  dateKey: s.dateKey,
+  finishedAt: s.finishedAt!,
+  total: scoreOf(s),
+  tiers: s.submissions.map((x) => x.tier),
+});
 
 const elapsedOf = (s: Session) => s.submissions.reduce((t, x) => t + x.elapsedMs, 0);
 const scoreOf = (s: Session) => s.submissions.reduce((t, x) => t + x.score, 0);
@@ -80,6 +96,7 @@ export function createMemoryStore(): SessionStore {
   const challenges = new Map<string, DailyChallenge>();
   const locks = new Map<string, Promise<unknown>>();
   const names = new Map<string, string>();
+  const links = new Map<string, { userId: string; at: number }>();
 
   const withLock = <T>(id: string, fn: () => Promise<T>): Promise<T> => {
     const run = (locks.get(id) ?? Promise.resolve()).then(fn, fn);
@@ -167,6 +184,23 @@ export function createMemoryStore(): SessionStore {
     async setDisplayName(playerId, name) {
       if (name) names.set(playerId, name);
       else names.delete(playerId);
+    },
+    async linkAccount(userId, playerId) {
+      const cur = links.get(playerId);
+      if (cur) return cur.userId === userId;
+      links.set(playerId, { userId, at: Date.now() + links.size / 1000 });
+      return true;
+    },
+    async accountPlayers(userId) {
+      return [...links.entries()].filter(([, l]) => l.userId === userId).sort((a, b) => a[1].at - b[1].at).map(([p]) => p);
+    },
+    async finishedRides(playerIds, limit) {
+      const ids = new Set(playerIds);
+      return [...sessions.values()]
+        .filter((s) => ids.has(s.playerId) && s.finishedAt !== null)
+        .sort((a, b) => b.finishedAt! - a.finishedAt!)
+        .slice(0, limit)
+        .map(rideRow);
     },
   };
 }

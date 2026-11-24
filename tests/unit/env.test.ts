@@ -11,4 +11,12 @@ describe("configProblems", () => {
     const p = configProblems({ ...good, DATABASE_URL: good.DATABASE_URL.replace("6543", "5432"), DATABASE_POOL_MAX: "10", ADMIN_TOKEN: "short" } as unknown as NodeJS.ProcessEnv);
     expect(p).toHaveLength(3);
   });
+  it("accounts: needs URL and key together, https only, and never a service-role key", () => {
+    const env = (x: Record<string, string>) => configProblems({ ...good, ...x } as unknown as NodeJS.ProcessEnv);
+    expect(env({ SUPABASE_URL: "https://abc.supabase.co", SUPABASE_ANON_KEY: "k" })).toEqual([]);
+    expect(env({ SUPABASE_URL: "https://abc.supabase.co", SUPABASE_PUBLISHABLE_KEY: "sb_publishable_x" })).toEqual([]);
+    expect(env({ SUPABASE_URL: "https://abc.supabase.co" })).toEqual([expect.stringMatching(/together/)]);
+    expect(env({ SUPABASE_URL: "http://abc", SUPABASE_ANON_KEY: "k" })).toEqual([expect.stringMatching(/https/)]);
+    expect(env({ SUPABASE_URL: "https://abc.supabase.co", SUPABASE_ANON_KEY: "k", SUPABASE_SERVICE_ROLE_KEY: "s" })).toEqual([expect.stringMatching(/service-role/)]);
+  });
 });
