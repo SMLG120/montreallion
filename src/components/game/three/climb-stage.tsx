@@ -1,6 +1,7 @@
 "use client";
 
 import { Component, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useReducedMotion } from "motion/react";
@@ -18,6 +19,34 @@ const ClimbScene = dynamic(() => import("./climb-scene"), { ssr: false, loading:
 
 export type GfxPref = "auto" | "low" | "high" | "2d";
 const GFX_KEY = "ml_gfx";
+/** Opt-in frame-rate readout for measuring real devices: `?fps=1` turns it on (remembered), `?fps=0` off. */
+const FPS_KEY = "ml_fps";
+
+function fpsOverlayWanted(): boolean {
+  const q = new URLSearchParams(location.search).get("fps");
+  try {
+    if (q === "1") localStorage.setItem(FPS_KEY, "1");
+    if (q === "0") localStorage.removeItem(FPS_KEY);
+    return localStorage.getItem(FPS_KEY) === "1";
+  } catch {
+    return q === "1";
+  }
+}
+
+/** The GPU's name, when the browser exposes it (handy for telling phones apart in measurements). */
+function gpuName(): string | null {
+  try {
+    const gl = document.createElement("canvas").getContext("webgl2") ?? document.createElement("canvas").getContext("webgl");
+    if (!gl) return null;
+    const ext = gl.getExtension("WEBGL_debug_renderer_info");
+    const name = String(gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER));
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    // "ANGLE (Apple, ANGLE Metal Renderer: Apple M4, Unspecified Version)" → "Apple M4"
+    return name.replace(/^ANGLE \((.*)\)$/, "$1").replace(/^.*Renderer: /, "").replace(/, Unspecified Version$/, "");
+  } catch {
+    return null;
+  }
+}
 
 function hasWebGL(): boolean {
   try {
@@ -140,6 +169,14 @@ export function ClimbBackdrop({
   // the scene tree mid-climb would cost frames right while they're being measured.
   const stage = useRef<HTMLDivElement>(null);
   const lowFrames = useRef(0);
+  const fpsOut = useRef<HTMLSpanElement>(null);
+  const minFps = useRef(Infinity);
+  const [overlay, setOverlay] = useState<{ gpu: string | null } | null>(null);
+  useEffect(() => {
+    // URL and storage are only readable after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (fpsOverlayWanted()) setOverlay({ gpu: gpuName() });
+  }, []);
   const { degrade, lost } = gfx;
   const onContextLost = useCallback(() => {
     console.warn("[climb] WebGL context lost");
@@ -151,6 +188,11 @@ export function ClimbBackdrop({
       if (el) {
         el.dataset.fps = String(Math.round(s.fps));
         el.dataset.calls = String(s.calls);
+      }
+      if (fpsOut.current) {
+        const fps = Math.round(s.fps);
+        minFps.current = Math.min(minFps.current, fps);
+        fpsOut.current.textContent = `${fps} fps · min ${minFps.current} · ${s.calls} calls`;
       }
       lowFrames.current = s.fps < 28 ? lowFrames.current + 1 : 0;
       if (lowFrames.current >= 3) degrade();
@@ -190,6 +232,26 @@ export function ClimbBackdrop({
         </SceneBoundary>
       )}
       {gfx.mode === null && <p className="sr-only">{t.scene.loading}</p>}
+      {overlay &&
+        createPortal(
+          <div
+            // Top-left, over the logo: the one spot that hides no game content on either layout.
+            className="pointer-events-none fixed left-1 top-1 z-[1000] max-w-[70vw] rounded-md bg-black/80 px-1.5 py-0.5 font-mono text-[10px] leading-tight text-white"
+            data-testid="fps-overlay"
+            aria-hidden
+          >
+            <span ref={fpsOut} className="block" data-testid="fps-value">
+              {gfx.mode === "3d" ? "fps: climb to measure" : "fps: n/a"}
+            </span>
+            <span className="block truncate text-white/70">
+              {gfx.mode ?? "…"} · {gfx.quality}
+              {gfx.pref === "auto" ? " (auto)" : ""}
+              {overlay.gpu ? ` · ${overlay.gpu}` : ""}
+            </span>
+          </div>,
+          // On <body>: the stage is its own stacking context under the site header, which would cover it.
+          document.body,
+      )}
     </div>
   );
 }

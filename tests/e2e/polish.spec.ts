@@ -115,3 +115,17 @@ test("map layers are cached briefly; pages are not", async ({ request }) => {
   const page = await request.get("/map");
   expect(page.headers()["cache-control"] ?? "").not.toContain("max-age=3600");
 });
+
+test("?fps=1 shows a frame-rate readout that stays on until ?fps=0", async ({ page }) => {
+  await page.goto("/play/unlimited");
+  await expect(page.getByTestId("lobby")).toBeVisible();
+  await expect(page.getByTestId("fps-overlay")).toHaveCount(0);
+  await page.goto("/play/unlimited?fps=1");
+  await expect(page.getByTestId("fps-overlay")).toBeVisible();
+  await expect(page.getByTestId("fps-overlay")).toContainText(/2d|3d/);
+  await page.goto("/play/unlimited");
+  await expect(page.getByTestId("fps-overlay")).toBeVisible();
+  await page.goto("/play/unlimited?fps=0");
+  await expect(page.getByTestId("lobby")).toBeVisible();
+  await expect(page.getByTestId("fps-overlay")).toHaveCount(0);
+});
