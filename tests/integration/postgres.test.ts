@@ -293,7 +293,8 @@ describe.skipIf(!URL)("Postgres store (integration)", () => {
     const [reset] = await sql<{ review_status: string }[]>`select review_status from questions where id = ${gen.id}`;
     expect(reset.review_status).toBe("in_review");
     m.bank.invalidateBank();
-  });
+    // Reseeds the full bank twice: ~15 s on CI runners, close to the 20 s default, so give it room.
+  }, 60_000);
 
   it("appeals: only own finished incorrect answers; accepting as alias makes the input match and survives reseeding", async () => {
     const appeals = await import("@/lib/server/appeals");
