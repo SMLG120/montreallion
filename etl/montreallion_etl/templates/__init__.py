@@ -510,4 +510,6 @@ from .wikilists import wikilist_templates  # noqa: E402
 from .events import event_templates  # noqa: E402
 from .food import food_templates  # noqa: E402
 
-ALL = ALL + ALL_EXPANSION + [wikilist_templates, food_templates, event_templates]
+from .phaseh import PHASE_H  # noqa: E402
+
+ALL = ALL + ALL_EXPANSION + [wikilist_templates, food_templates, event_templates] + PHASE_H

@@ -462,6 +462,33 @@ Claude read all 207 in-review questions at Samuel's request. For each one it che
 - **Deploy (050a1f9, merge of PR #3):** CI green. Prod verified: health ok (problems []), `smoke` and `smoke:map` pass. On desktop and Pixel 7 the lobby loads, the scene runs in 3D, Start serves a question, and there are no page errors. No DB migration was needed.
 - **Open:** phone fps still unmeasured: open `/play/unlimited?fps=1` on a phone and play 2–3 stops. The local E2E suite flakes under 5 workers on software GL (baseline had 3 failures too; every failing test passes alone). three's console notes a `THREE.Clock` deprecation from R3F 9.8 (harmless).
 
+## Phase H: question bank rebalancing (2026-11-25, not yet seeded or deployed)
+
+- **230 vs 228 on the homepage:** the 230 total includes Universities (1) and Winter (1); `src/app/page.tsx` hides categories below `MIN_CATEGORY_QUESTIONS`, so the listed categories sum to 228. Counts already come from the live DB bank; nothing was wrong with the data.
+- **Difficulty (easy / medium / hard), editorial and independent of rarity:** `etl/montreallion_etl/difficulty.py` (rules by question family; templates may set their own), `difficulty` on the ETL Candidate (not part of the content hash, so existing approvals survive), hand-set on the 15 seed questions, zod `questionSchema.difficulty`, migration `20261126000001_question_difficulty.sql` (additive, idempotent: nullable column + check constraint + index), written by `scripts/db.ts`. Validation rejects a candidate without one.
+- **New verified templates** (`etl/montreallion_etl/templates/phaseh.py`), all from factual relationships:
+  - Wikidata (CC0), 31 queries → 29 questions: Canadiens / Expos / Alouettes / CF Montréal / Maroons / Wanderers / Royals / Manic players, Hall of Fame members, Montréal-born athletes and people by occupation, mayors (P39), burials at Notre-Dame-des-Neiges and Mount Royal cemeteries, newspapers (P291), companies founded (P740), twin cities (P190), teams based in Montréal. Each answer keeps its QID, EN/FR labels, name variants that share a word with the label, and a sitelink signal; namesake French labels are dropped. The query URL is the cited source.
+  - City open data (CC BY 4.0): borough/municipality neighbours from the official limits polygons (shared boundary ≥ 200 m; areas with < 3 neighbours skipped), areas each métro line serves (GTFS stations in polygons), streets per borough (Géobase), 2025 electoral districts per borough.
+  - Answer cap raised for these large sets only (Wikidata relations 1000, streets 700; others stay 400).
+- **Audit** (`npm run etl:audit` → `docs/QUESTION_AUDIT.md`), approved before → now / in review / approved + in review / target:
+
+  | Category | Approved | In review | Approved + in review | Target |
+  |---|---|---|---|---|
+  | transit | 29 → 29 | 6 | 35 | 75 |
+  | boroughs | 3 → 3 | 71 | 74 | 65 |
+  | parks | 34 → 34 | 0 | 34 | 75 |
+  | food | 97 → 97 | 10 | 107 | 100 |
+  | history | 22 → 22 | 16 | 38 | 70 |
+  | festivals | 39 → 39 | 4 | 43 | 70 |
+  | sports | 4 → 4 | 20 | 24 | 45 |
+  | total (incl. universities 1, winter 1) | 230 → 230 | 127 | 357 | 500 |
+
+  Difficulty of approved + in review: easy 11%, medium 52%, hard 37% (target 40/40/20; too few easy questions). Duplicates: 0 identical prompts, 0 near-duplicate answer sets. Validation failures: 0 of 355 candidates. Rejected in human review: 13 (earlier reviews).
+- **Playable count is unchanged (230):** all 94 new questions are `in_review` until a human approves them in `etl/review/decisions.json`. Spot-check flags for review: "companies founded in Montréal" includes Suncor, Siemens Canada and Tommy Hilfiger B.V.; twin cities include "Honolulu County"; the newspaper list is mostly obscure titles.
+- **Remaining gaps** even if all in-review questions are approved: transit −40, parks −41, history −32, festivals −27, sports −21; total −143. No verified source has been found yet for the parks and transit shortfall; easy questions are the biggest difficulty gap.
+- **Tests:** ETL 43/43 (new `etl/tests/test_phase_h.py`: difficulty rules, name variants, answer caps, adjacency on synthetic shapes; existing tests updated for the difficulty step). Vitest: new `tests/unit/phase-h-content.test.ts` + Phase C content + bank suites, 537 passed. `TEST_DATABASE_URL=postgres://localhost:5432/montreallion_test npm run test:db` 21/21; the test DB then holds 357 questions, all with a difficulty (230 approved). Typecheck and lint clean. Note: `test:db` silently skips every test without `TEST_DATABASE_URL`.
+- **Not done:** Neon not seeded, nothing committed or deployed (Phase L). The ETL build takes ~40 min cold (Wikidata rate limit, ~1 query/min); cached rebuilds take ~1 min.
+
 ## Blockers
-- Content: 230 playable questions after review #2; 33 generated ones are held in review with fixes listed in "Content review #2".
+- Content: 230 playable questions; 127 held in review (33 from review #2, 94 new from Phase H). Reaching 500 needs human review plus new verified sources (see Phase H gaps).
 - Repo: own git repo, remote https://github.com/SMLG120/montreallion (public, `main`). The Vercel project is Git-connected: pushes to `main` deploy to production, other branches get preview URLs.

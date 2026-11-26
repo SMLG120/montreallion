@@ -12,14 +12,16 @@ from .model import Answer, Candidate
 from .normalize import normalize_answer, slugify
 from .review import apply_decisions, load_decisions
 from .sources import gtfs, montreal, wikidata
+from .difficulty import assign_difficulty
 from .templates import ALL, Context
+from .templates.phaseh import LARGE_SET_TEMPLATES
 
 MAX_ANSWERS = 400
 # Phase C templates: open-ended questions must keep at least 5 valid answers after deduplication.
 MIN5_TEMPLATES = {
     "heritage-in-area", "heritage-kind", "community-garden-in-area", "museum-list", "national-historic-site", "exo-line", "exo-island",
     "stm-bus-network", "park-kind", "neighbourhood-in-borough", "metro-opened", "wikipedia-list", "wiki-restaurant-open",
-    "food-open-place", "wikipedia-event",
+    "food-open-place", "wikipedia-event", "wikidata-relation", "street-in-borough",
 }
 LICENCE_ALLOW = ("CC BY 4.0", "Creative Commons Attribution 4.0", "CC0", "CC BY-SA 4.0 (facts only reused)", "ODbL 1.0 (© OpenStreetMap contributors)")
 
@@ -135,8 +137,11 @@ def validate(c: Candidate) -> None:
         c.issues.append(f"only {len(c.answers)} answers (phase C templates need 5+)")
     if len(c.answers) < 3:
         c.issues.append(f"only {len(c.answers)} answers (min 3)")
-    if len(c.answers) > MAX_ANSWERS:
-        c.issues.append(f"{len(c.answers)} answers (max {MAX_ANSWERS})")
+    cap = LARGE_SET_TEMPLATES.get(c.template, MAX_ANSWERS)
+    if len(c.answers) > cap:
+        c.issues.append(f"{len(c.answers)} answers (max {cap})")
+    if c.difficulty not in ("easy", "medium", "hard"):
+        c.issues.append(f"difficulty missing or invalid: {c.difficulty!r}")
 
     # Conservative alias hygiene: a key that could mean two answers is removed from both and
     # recorded as ambiguous, so the game asks the player to be more specific instead of guessing.
@@ -217,6 +222,7 @@ def build(refresh: bool = False, log=print) -> dict:
     log(f"templates: {len(cands)} raw candidates")
     for c in cands:
         dedupe(c)
+        assign_difficulty(c)
         validate(c)
         assign_est(c)
     cands, seed_report = verify_seed(cands)

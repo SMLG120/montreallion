@@ -11,6 +11,8 @@ export const questionSchema = z.object({
   eligibility: localized,
   verification: z.enum(["source-checked", "editor-curated"]),
   reviewStatus: z.enum(["draft", "in_review", "approved", "rejected"]),
+  /** Editorial difficulty of the knowledge asked for; independent of answer rarity. */
+  difficulty: z.enum(["easy", "medium", "hard"]).optional(),
   sources: z.array(z.object({ title: z.string(), url: z.url(), license: z.string(), retrieved: z.string() })).min(1),
   ambiguous: z.array(z.string()).optional(),
   /** How `est` was derived (e.g. "wikidata-sitelinks"); absent for hand-entered seed questions. */

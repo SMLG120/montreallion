@@ -1,6 +1,7 @@
 """CLI.
 
   python3 -m montreallion_etl build [--refresh]          fetch → … → publish data/generated/questions.generated.json
+  python3 -m montreallion_etl audit [--before REF]         docs/QUESTION_AUDIT.md (counts, difficulty, duplicates, gaps)
   python3 -m montreallion_etl map                         public/map/*.geojson layers (phase D)
   python3 -m montreallion_etl review list [--status S] [--template T]
   python3 -m montreallion_etl review show ID
@@ -30,6 +31,8 @@ def main(argv: list[str] | None = None) -> None:
     b = sub.add_parser("build")
     b.add_argument("--refresh", action="store_true", help="re-download all sources (ignores cache)")
     sub.add_parser("map")
+    au = sub.add_parser("audit")
+    au.add_argument("--before", default="HEAD", help="git ref for the 'before' counts")
     r = sub.add_parser("review")
     r.add_argument("action", choices=["list", "show", "approve", "reject"])
     r.add_argument("ids", nargs="*")
@@ -44,6 +47,12 @@ def main(argv: list[str] | None = None) -> None:
 
         stats = build(refresh=a.refresh)
         print(json.dumps({k: v for k, v in stats.items() if k != "seed_report"}))
+        return
+
+    if a.cmd == "audit":
+        from .audit import audit
+
+        print(audit(a.before))
         return
 
     if a.cmd == "map":

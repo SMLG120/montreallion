@@ -22,6 +22,7 @@
     "test:db": "vitest run --config vitest.db.config.mts",
     "etl:build": "cd etl && python3 -m montreallion_etl build",
     "etl:review": "cd etl && python3 -m montreallion_etl review",
+    "etl:audit": "cd etl && python3 -m montreallion_etl audit",
     "etl:test": "cd etl && python3 -m unittest discover -s tests",
     "db:export-reviews": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/db.ts export-reviews",
     "smoke": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/smoke.ts",

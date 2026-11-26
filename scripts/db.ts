@@ -72,16 +72,16 @@ async function seedFile(sql: Sql, file: string, log: (m: string) => void) {
     }
     for (const q of bank.questions) {
       const hash = questionContentHash(q);
-      await tx`insert into questions (id, category_id, scope, prompt_en, prompt_fr, eligibility_en, eligibility_fr, verification, review_status, ambiguous_keys, bank_version, est_basis, generator, content_hash)
+      await tx`insert into questions (id, category_id, scope, prompt_en, prompt_fr, eligibility_en, eligibility_fr, verification, review_status, ambiguous_keys, bank_version, est_basis, generator, content_hash, difficulty)
                values (${q.id}, ${q.category}, ${q.scope}, ${q.prompt.en}, ${q.prompt.fr}, ${q.eligibility.en}, ${q.eligibility.fr},
                        ${q.verification}, ${q.reviewStatus}, ${q.ambiguous ?? []}, ${bank.version}, ${q.estBasis ?? "editor-estimate"},
-                       ${q.generator ? tx.json(q.generator) : null}, ${hash})
+                       ${q.generator ? tx.json(q.generator) : null}, ${hash}, ${q.difficulty ?? null})
                on conflict (id) do update set category_id = excluded.category_id, scope = excluded.scope,
                  prompt_en = excluded.prompt_en, prompt_fr = excluded.prompt_fr, eligibility_en = excluded.eligibility_en,
                  eligibility_fr = excluded.eligibility_fr, verification = excluded.verification, review_status = excluded.review_status,
                  ambiguous_keys = excluded.ambiguous_keys, bank_version = excluded.bank_version,
                  est_basis = excluded.est_basis, generator = excluded.generator, content_hash = excluded.content_hash,
-                 version = questions.version + 1, updated_at = now()`;
+                 difficulty = excluded.difficulty, version = questions.version + 1, updated_at = now()`;
 
       await tx`delete from question_sources where question_id = ${q.id}`;
       for (const s of q.sources) {

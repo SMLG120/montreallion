@@ -8,6 +8,7 @@ import unittest
 from montreallion_etl import CACHE_DIR, PROJECT_ROOT, geo
 from montreallion_etl.model import Answer, Candidate
 from montreallion_etl.normalize import normalize_answer, slugify
+from montreallion_etl.difficulty import assign_difficulty
 from montreallion_etl.pipeline import assign_est, dedupe, validate, verify_seed
 from montreallion_etl.review import apply_decisions
 from montreallion_etl.templates import de
@@ -21,6 +22,7 @@ def cand(answers: list[Answer], **kw) -> Candidate:
         template="test",
         concept="test",
         category="parks",
+        difficulty="medium",
         scope="city",
         prompt={"en": "Name a test thing.", "fr": "Nommez une chose test."},
         eligibility={"en": "Things.", "fr": "Choses."},
@@ -162,6 +164,7 @@ class CachedData(unittest.TestCase):
         cls.cands = [c for t in ALL for c in t(cls.ctx)]
         for c in cls.cands:
             dedupe(c)
+            assign_difficulty(c)
             validate(c)
             assign_est(c)
 

@@ -46,6 +46,9 @@ class Candidate:
     issues: list[str] = field(default_factory=list)  # validation errors (block publishing)
     warnings: list[str] = field(default_factory=list)
     review_status: str = "in_review"
+    # Editorial difficulty of the knowledge asked for (easy / medium / hard), independent of answer rarity.
+    # Templates may set it; otherwise difficulty.py assigns it by question family. Not part of the content hash.
+    difficulty: str | None = None
 
     def content_hash(self) -> str:
         """Changes whenever the playable content changes, invalidating earlier review decisions."""
@@ -66,6 +69,7 @@ class Candidate:
             "eligibility": self.eligibility,
             "verification": "source-checked",
             "reviewStatus": self.review_status,
+            **({"difficulty": self.difficulty} if self.difficulty else {}),
             "sources": self.sources,
             **({"ambiguous": sorted(self.ambiguous)} if self.ambiguous else {}),
             "estBasis": self.est_basis,

@@ -11,6 +11,7 @@
       "eligibility": { "en": "Any of the 31 stations on Line 2 (Orange).", "fr": "N'importe laquelle des 31 stations de la ligne 2 (orange)." },
       "verification": "source-checked",
       "reviewStatus": "approved",
+      "difficulty": "easy",
       "sources": [
         { "title": "List of Montreal Metro stations (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_Montreal_Metro_stations", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" },
         { "title": "STM network map", "url": "https://www.stm.info/en/info/networks/metro", "license": "Reference only", "retrieved": "2026-11-21" }
@@ -57,6 +58,7 @@
       "eligibility": { "en": "Any of the 27 stations on Line 1 (Green).", "fr": "N'importe laquelle des 27 stations de la ligne 1 (verte)." },
       "verification": "source-checked",
       "reviewStatus": "approved",
+      "difficulty": "easy",
       "sources": [
         { "title": "List of Montreal Metro stations (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_Montreal_Metro_stations", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
       ],
@@ -98,6 +100,7 @@
       "eligibility": { "en": "Any of the 12 stations on Line 5 (Blue).", "fr": "N'importe laquelle des 12 stations de la ligne 5 (bleue)." },
       "verification": "source-checked",
       "reviewStatus": "approved",
+      "difficulty": "easy",
       "sources": [
         { "title": "List of Montreal Metro stations (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_Montreal_Metro_stations", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
       ],
@@ -124,6 +127,7 @@
       "eligibility": { "en": "Stations served by two or more STM métro lines.", "fr": "Stations desservies par au moins deux lignes de métro de la STM." },
       "verification": "source-checked",
       "reviewStatus": "approved",
+      "difficulty": "easy",
       "sources": [
         { "title": "List of Montreal Metro stations (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_Montreal_Metro_stations", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
       ],
@@ -142,6 +146,7 @@
       "eligibility": { "en": "Green (1), Orange (2), Yellow (4) or Blue (5).", "fr": "Verte (1), orange (2), jaune (4) ou bleue (5)." },
       "verification": "source-checked",
       "reviewStatus": "approved",
+      "difficulty": "easy",
       "sources": [
         { "title": "List of Montreal Metro stations (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_Montreal_Metro_stations", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
       ],
@@ -160,6 +165,7 @@
       "eligibility": { "en": "Official boroughs (arrondissements) of the City of Montréal only — not demerged municipalities like Westmount.", "fr": "Arrondissements officiels de la Ville de Montréal seulement — pas les villes reconstituées comme Westmount." },
       "verification": "source-checked",
       "reviewStatus": "approved",
+      "difficulty": "easy",
       "sources": [
         { "title": "Boroughs of Montreal (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Boroughs_of_Montreal", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" },
         { "title": "Ville de Montréal — arrondissements", "url": "https://montreal.ca/en/boroughs", "license": "Reference only", "retrieved": "2026-11-21" }
@@ -194,6 +200,7 @@
       "eligibility": { "en": "The 15 reconstituted (demerged) municipalities of the Montréal agglomeration.", "fr": "Les 15 municipalités reconstituées (défusionnées) de l'agglomération de Montréal." },
       "verification": "source-checked",
       "reviewStatus": "approved",
+      "difficulty": "medium",
       "sources": [
         { "title": "Urban agglomeration of Montreal (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Urban_agglomeration_of_Montreal", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
       ],
@@ -223,6 +230,7 @@
       "eligibility": { "en": "Colline de la Croix, Colline d'Outremont or Westmount Summit.", "fr": "Colline de la Croix, colline d'Outremont ou sommet Westmount." },
       "verification": "source-checked",
       "reviewStatus": "approved",
+      "difficulty": "hard",
       "sources": [
         { "title": "Mount Royal (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Mount_Royal", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
       ],
@@ -240,6 +248,7 @@
       "eligibility": { "en": "Road crossings of the St. Lawrence between the island and the South Shore (rail and métro excluded).", "fr": "Traversées routières du Saint-Laurent entre l'île et la Rive-Sud (ferroviaire et métro exclus)." },
       "verification": "source-checked",
       "reviewStatus": "approved",
+      "difficulty": "easy",
       "sources": [
         { "title": "List of crossings of the St. Lawrence River and the Great Lakes (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_crossings_of_the_St._Lawrence_River_and_the_Great_Lakes", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
       ],
@@ -259,6 +268,7 @@
       "eligibility": { "en": "The 18 players honoured across the Canadiens' 15 retired numbers.", "fr": "Les 18 joueurs honorés par les 15 numéros retirés des Canadiens." },
       "verification": "source-checked",
       "reviewStatus": "approved",
+      "difficulty": "medium",
       "ambiguous": ["Richard"],
       "sources": [
         { "title": "Montreal Canadiens — retired numbers (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Montreal_Canadiens", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
@@ -292,6 +302,7 @@
       "eligibility": { "en": "Mayors whose term overlapped 1960–2020, from Jean Drapeau to Valérie Plante (Sarto Fournier's term ended in 1960 and is excluded).", "fr": "Mairesses et maires en poste entre 1960 et 2020, de Jean Drapeau à Valérie Plante (le mandat de Sarto Fournier, terminé en 1960, est exclu)." },
       "verification": "source-checked",
       "reviewStatus": "approved",
+      "difficulty": "medium",
       "sources": [
         { "title": "List of mayors of Montreal (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_mayors_of_Montreal", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
       ],
@@ -314,6 +325,7 @@
       "eligibility": { "en": "Degree-granting university institutions with a Montréal campus. Curated list — appeal if yours is missing.", "fr": "Établissements universitaires décernant des grades et ayant un campus à Montréal. Liste éditoriale — faites appel s'il en manque un." },
       "verification": "editor-curated",
       "reviewStatus": "approved",
+      "difficulty": "easy",
       "sources": [
         { "title": "Bureau de coopération interuniversitaire — member institutions", "url": "https://www.bci-qc.ca/", "license": "Reference only", "retrieved": "2026-11-21" }
       ],
@@ -337,6 +349,7 @@
       "eligibility": { "en": "Recurring, multi-day public festivals held in Montréal. Curated list — appeal if yours is missing.", "fr": "Festivals publics récurrents de plusieurs jours tenus à Montréal. Liste éditoriale — faites appel s'il en manque un." },
       "verification": "editor-curated",
       "reviewStatus": "approved",
+      "difficulty": "easy",
       "sources": [
         { "title": "Tourisme Montréal — festivals and events", "url": "https://www.mtl.org/en/what-to-do/festivals-and-events", "license": "Reference only", "retrieved": "2026-11-21" }
       ],
@@ -370,6 +383,7 @@
       "eligibility": { "en": "Recurring outdoor winter festivals or events in Montréal. Curated list — appeal if yours is missing.", "fr": "Festivals ou événements hivernaux extérieurs récurrents à Montréal. Liste éditoriale — faites appel s'il en manque un." },
       "verification": "editor-curated",
       "reviewStatus": "approved",
+      "difficulty": "easy",
       "sources": [
         { "title": "Tourisme Montréal — winter in Montréal", "url": "https://www.mtl.org/en/what-to-do/winter", "license": "Reference only", "retrieved": "2026-11-21" }
       ],
@@ -388,6 +402,7 @@
       "eligibility": { "en": "Dishes widely recognised as traditional Québécois cuisine. Curated list — appeal if yours is missing.", "fr": "Plats largement reconnus comme faisant partie de la cuisine traditionnelle québécoise. Liste éditoriale — faites appel s'il en manque un." },
       "verification": "editor-curated",
       "reviewStatus": "approved",
+      "difficulty": "easy",
       "sources": [
         { "title": "Quebec cuisine (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Quebec_cuisine", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
       ],
