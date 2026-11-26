@@ -440,4 +440,20 @@ describe.skipIf(!URL)("Postgres store (integration)", () => {
     const role = await sql`select rolcanlogin, rolbypassrls, rolsuper from pg_roles where rolname = 'montreallion_account'`;
     expect(role).toEqual([{ rolcanlogin: false, rolbypassrls: false, rolsuper: false }]);
   });
+
+  it("migrations are safe to re-run: re-applying them and migrate() again keep every question, difficulty and answer type", async () => {
+    const snap = () => sql`select id, review_status, difficulty, answer_type from questions order by id`;
+    const before = await snap();
+    const answers = (await sql`select count(*)::int as n from answers`)[0].n;
+    const { readdirSync, readFileSync } = await import("node:fs");
+    const dir = `${import.meta.dirname}/../../supabase/migrations`;
+    for (const f of readdirSync(dir).filter((f) => f >= "20261126" && f.endsWith(".sql")).sort()) await sql.unsafe(readFileSync(`${dir}/${f}`, "utf8"));
+    const db = await import("../../scripts/db.ts");
+    const logs: string[] = [];
+    await db.migrate(sql, (l) => logs.push(l));
+    expect(logs).toEqual([]);
+    expect(await snap()).toEqual(before);
+    expect((await sql`select count(*)::int as n from answers`)[0].n).toBe(answers);
+    expect(before.filter((q) => q.review_status === "approved" && !q.difficulty)).toEqual([]);
+  });
 });

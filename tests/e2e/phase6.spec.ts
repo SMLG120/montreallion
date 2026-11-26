@@ -40,6 +40,19 @@ test("Unlimited can be limited to one category line", async ({ page }) => {
   expect(second).not.toBe(first);
 });
 
+test("homepage counts match the reviewed bank: total, each listed category, small ones hidden", async ({ page }) => {
+  const approved = (bankQuestions as { category: string; reviewStatus?: string }[]).filter((q) => q.reviewStatus === "approved");
+  await page.goto("/");
+  await expect(page.getByText(`${approved.length} reviewed questions in service`)).toBeVisible();
+  const byCat = new Map<string, number>();
+  for (const q of approved) byCat.set(q.category, (byCat.get(q.category) ?? 0) + 1);
+  for (const [cat, n] of byCat) {
+    const chip = page.getByTestId(`category-${cat}`);
+    if (n >= 3 /* MIN_CATEGORY_QUESTIONS */) await expect(chip, cat).toContainText(String(n));
+    else await expect(chip, cat).toHaveCount(0);
+  }
+});
+
 test("Unlimited can be limited to one difficulty, counted from the stored difficulty", async ({ page }) => {
   // Only approved questions are playable (the oracle also lists in-review ones).
   const hard = (bankQuestions as { difficulty?: string; reviewStatus?: string; prompt: { en: string } }[]).filter(
