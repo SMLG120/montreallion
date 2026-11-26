@@ -1,7 +1,7 @@
 import "server-only";
 import { randomUUID } from "node:crypto";
 import { getBank, toPublic, type Bank } from "./bank";
-import { dailyQuestions, dateKey, pickQuestions, QUESTIONS_PER_GAME } from "./daily";
+import { dailyQuestions, dateKey, type Difficulty, pickQuestions, QUESTIONS_PER_GAME } from "./daily";
 import { checkAnswer, matchAnswer } from "./match";
 import { normalizeAnswer } from "./normalize";
 import { rarityTable, tierFor, type Rarity, type RarityBasis } from "./scoring";
@@ -177,9 +177,10 @@ export function createEngine(deps: Partial<Deps> = {}) {
     if (s.playerId !== playerId) throw new GameError("forbidden");
   }
 
-  async function pickUnlimited(st: SessionStore, bank: Bank, playerId: string, category?: CategoryId): Promise<string[]> {
-    const pool = category ? bank.questions.filter((q) => q.category === category) : bank.questions;
-    if (pool.length < (category ? MIN_CATEGORY_QUESTIONS : 1)) throw new GameError("unavailable");
+  async function pickUnlimited(st: SessionStore, bank: Bank, playerId: string, category?: CategoryId, difficulty?: Difficulty): Promise<string[]> {
+    // Filters use the stored difficulty; a question without one never matches a difficulty filter.
+    const pool = bank.questions.filter((q) => (!category || q.category === category) && (!difficulty || q.difficulty === difficulty));
+    if (pool.length < (category || difficulty ? MIN_CATEGORY_QUESTIONS : 1)) throw new GameError("unavailable");
     const count = Math.min(QUESTIONS_PER_GAME, pool.length);
     const recent = new Set(await st.recentQuestionIds(playerId, RECENT_SESSIONS));
     const fresh = pool.filter((q) => !recent.has(q.id));
@@ -196,7 +197,7 @@ export function createEngine(deps: Partial<Deps> = {}) {
      * Creates (or resumes) a ride. Never serves a question: the clock starts on the first `serve`.
      * `requestId` (client-generated UUID) makes Start idempotent: retries and double clicks return the same ride.
      */
-    async start(playerId: string, mode: Mode, opts: { category?: CategoryId; requestId?: string } = {}): Promise<Session> {
+    async start(playerId: string, mode: Mode, opts: { category?: CategoryId; difficulty?: Difficulty; requestId?: string } = {}): Promise<Session> {
       const [st, bank] = await Promise.all([store(), loadBank()]);
       const key = dateKey(new Date(now()));
       await st.ensurePlayer(playerId);
@@ -221,7 +222,7 @@ export function createEngine(deps: Partial<Deps> = {}) {
           return { dateKey: key, questionIds: ids, rarityModel: bank.rarityModel, bankVersion: bank.version, scores: freezeScores(bank, ids) };
         });
       }
-      const questionIds = daily ? daily.questionIds : await pickUnlimited(st, bank, playerId, opts.category);
+      const questionIds = daily ? daily.questionIds : await pickUnlimited(st, bank, playerId, opts.category, opts.difficulty);
       const created = await st.createSession({
         id: reqId ?? randomUUID(),
         playerId,

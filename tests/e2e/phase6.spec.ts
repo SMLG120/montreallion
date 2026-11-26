@@ -40,6 +40,24 @@ test("Unlimited can be limited to one category line", async ({ page }) => {
   expect(second).not.toBe(first);
 });
 
+test("Unlimited can be limited to one difficulty, counted from the stored difficulty", async ({ page }) => {
+  // Only approved questions are playable (the oracle also lists in-review ones).
+  const hard = (bankQuestions as { difficulty?: string; reviewStatus?: string; prompt: { en: string } }[]).filter(
+    (q) => q.difficulty === "hard" && q.reviewStatus === "approved",
+  );
+  const hardPrompts = new Set(hard.map((q) => q.prompt.en));
+  await page.goto("/");
+  await expect(page.getByTestId("difficulty-hard")).toContainText(String(hard.length));
+  await page.getByTestId("difficulty-hard").click();
+  await expect(page).toHaveURL(/difficulty=hard/);
+  await expect(page.getByTestId("lobby-difficulty")).toContainText("Hard");
+  await startGame(page);
+  const first = await answer(page, true);
+  expect(hardPrompts.has(first)).toBe(true);
+  const second = await answer(page, true);
+  expect(hardPrompts.has(second)).toBe(true);
+});
+
 test.describe("admin console (Postgres only)", () => {
   test.skip(!process.env.DATABASE_URL, "needs DATABASE_URL");
   test.beforeEach(({}, info) => test.skip(info.project.name !== "desktop", "shared DB state: desktop only"));

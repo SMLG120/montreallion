@@ -10,6 +10,7 @@ import { MountainBackdrop } from "@/components/mountain-backdrop";
 import { readStreak } from "@/lib/client/fx";
 import { CATEGORY_LABELS } from "@/lib/i18n/dict";
 import type { CategoryId } from "@/lib/game/types";
+import type { Difficulty } from "@/lib/game/daily";
 
 const LINES = ["var(--line-green)", "var(--line-orange)", "var(--line-yellow)", "var(--line-blue)"];
 
@@ -17,10 +18,12 @@ export function HomeView({
   questionCount,
   today,
   categories,
+  difficulties = [],
 }: {
   questionCount: number;
   today: string;
   categories: { id: CategoryId; count: number }[];
+  difficulties?: { id: Difficulty; count: number }[];
 }) {
   const { t, locale } = useApp();
   const [streak, setStreak] = useState(0);
@@ -78,6 +81,28 @@ export function HomeView({
                   <span className="size-2.5 rounded-full" style={{ background: LINES[i % LINES.length] }} aria-hidden />
                   {CATEGORY_LABELS[c.id][locale]}
                   <span className="font-normal text-muted-foreground">{c.count}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {difficulties.length > 0 && (
+        <section className="space-y-2" aria-labelledby="difficulty-title">
+          <p id="difficulty-title" className="text-sm font-bold text-muted-foreground">
+            {t.home.pickDifficulty}
+          </p>
+          <ul className="flex flex-wrap gap-2">
+            {difficulties.map((d) => (
+              <li key={d.id}>
+                <Link
+                  href={`/play/unlimited?difficulty=${d.id}`}
+                  className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-sm font-bold hover:bg-muted"
+                  data-testid={`difficulty-${d.id}`}
+                >
+                  {t.difficulty[d.id]}
+                  <span className="font-normal text-muted-foreground">{d.count}</span>
                 </Link>
               </li>
             ))}

@@ -3,12 +3,14 @@ import type { CategoryId, GeoScope, Locale, Tier } from "@/lib/game/types";
 const en = {
   tagline: "The Montréal rarity quiz. Seven stops. Rare answers score big.",
   nav: { home: "Home", daily: "Daily", unlimited: "Unlimited", leaderboard: "Leaderboard", how: "How to play", admin: "Admin", party: "Party", map: "Map", account: "Account" },
+  difficulty: { easy: "Easy", medium: "Medium", hard: "Hard" },
   home: {
     dailyTitle: "Today's line",
     dailyBody: "Seven shared questions. Same for everyone in Montréal until midnight.",
     unlimitedTitle: "Unlimited",
     unlimitedBody: "Random approved questions. Practise as much as you like.",
     pickLine: "Or ride one line:",
+    pickDifficulty: "Or pick a difficulty:",
     play: "Start ride",
     streak: (n: number) => (n === 1 ? "1-day streak" : `${n}-day streak`),
     seed: (n: number) => `${n} reviewed questions in service`,
@@ -424,12 +426,14 @@ type Dict = typeof en;
 const fr: Dict = {
   tagline: "Le quiz montréalais de la rareté. Sept stations. Les réponses rares rapportent gros.",
   nav: { home: "Accueil", daily: "Quotidien", unlimited: "Illimité", leaderboard: "Classement", how: "Comment jouer", admin: "Admin", party: "Entre amis", map: "Carte", account: "Compte" },
+  difficulty: { easy: "Facile", medium: "Moyen", hard: "Difficile" },
   home: {
     dailyTitle: "La ligne du jour",
     dailyBody: "Sept questions partagées. Les mêmes pour tout Montréal jusqu'à minuit.",
     unlimitedTitle: "Illimité",
     unlimitedBody: "Des questions approuvées au hasard. Pratiquez autant que vous voulez.",
     pickLine: "Ou prenez une seule ligne :",
+    pickDifficulty: "Ou choisissez une difficulté :",
     play: "Embarquer",
     streak: (n: number) => (n === 1 ? "Série de 1 jour" : `Série de ${n} jours`),
     seed: (n: number) => `${n} questions révisées en service`,

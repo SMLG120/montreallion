@@ -12,6 +12,7 @@ import { ClimbBackdrop, ClimbHud, LeaveButton, SceneSettings, useGfx } from "./t
 import { CATEGORY_LABELS, SCOPE_LABELS, TIER_LABELS } from "@/lib/i18n/dict";
 import { chime, recordDailyStreak, TIER_COLOR } from "@/lib/client/fx";
 import type { CategoryId, Localized, PublicQuestion, Tier } from "@/lib/game/types";
+import type { Difficulty } from "@/lib/game/daily";
 
 type Mode = "daily" | "unlimited";
 type RevealEntry = Localized & { score: number };
@@ -93,7 +94,7 @@ async function post<T>(url: string, body?: unknown): Promise<{ ok: boolean; stat
   }
 }
 
-export function GameClient({ mode, category }: { mode: Mode; category?: CategoryId }) {
+export function GameClient({ mode, category, difficulty }: { mode: Mode; category?: CategoryId; difficulty?: Difficulty }) {
   const { t, locale, sound } = useApp();
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>({ kind: "loading" });
@@ -116,7 +117,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
   const pendingId = useRef<string | null>(null);
   const [starting, setStarting] = useState(false);
   const [startError, setStartError] = useState<string | null>(null);
-  const rideKey = `ml_ride:${mode}:${category ?? ""}`;
+  const rideKey = `ml_ride:${mode}:${category ?? ""}${difficulty ? `:${difficulty}` : ""}`;
   const gfx = useGfx();
   const [resetKey, setResetKey] = useState(0);
   /** The stop answered live in this tab (animated in 3D); restored history just stands still. */
@@ -256,6 +257,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
     const r = await post<{ sessionId: string; total: number; dateKey: string | null; index: number; finished: boolean }>("/api/game", {
       mode,
       category,
+      ...(difficulty ? { difficulty } : {}),
       ...(requestId ? { requestId } : {}),
     });
     if (!r.ok) {
@@ -271,7 +273,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
     await loadNext(s);
     startingRef.current = false;
     setStarting(false);
-  }, [phase, mode, category, rideKey, loadNext, finish, failMsg, t.game.unavailable]);
+  }, [phase, mode, category, difficulty, rideKey, loadNext, finish, failMsg, t.game.unavailable]);
 
   /** Unlimited only: drop the unfinished practice ride and offer a fresh one. */
   const newRide = useCallback(() => {
@@ -392,6 +394,7 @@ export function GameClient({ mode, category }: { mode: Mode; category?: Category
           <h1 id="lobby-title" className="font-heading text-3xl font-extrabold">
             {mode === "daily" ? t.lobby.dailyTitle : t.lobby.unlimitedTitle}
             {category && <span className="ml-2 align-middle text-base font-bold text-muted-foreground">· {CATEGORY_LABELS[category][locale]}</span>}
+            {difficulty && <span className="ml-2 align-middle text-base font-bold text-muted-foreground" data-testid="lobby-difficulty">· {t.difficulty[difficulty]}</span>}
           </h1>
           <p className="mt-1 text-muted-foreground">{mode === "daily" ? t.lobby.dailyIntro : t.lobby.unlimitedIntro}</p>
         </div>
