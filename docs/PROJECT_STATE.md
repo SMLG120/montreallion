@@ -526,6 +526,13 @@ Most of the spec already existed from Expansion B: the double-check (preview nev
 - **Optimization:** none needed for these phases. Matching and selection run in memory on the 5-minute cached bank, and response times above are unchanged; no new dependencies.
 - **Still open:** 127 questions await human review; 143 short of 500 even if all are approved (see Phase H). Phase L adds tests and docs only, so pushing it changes no runtime code.
 
+## Content review #3 (2026-11-26, reviewer: "Samuel (via Claude)")
+
+- **Approved 115** of the 127 in-review questions (89 of the 94 Phase H questions and 26 of the 33 held from review #2), recorded in `etl/review/decisions.json` pinned to each content hash and applied by a cached `etl:build` (only `reviewStatus` changed). Approved now 345 (was 230): transit 35, boroughs 74, parks 34, food 103, history 32, festivals 41, sports 24, universities 1, winter 1. Difficulty of approved: easy 35 (10%), medium 180 (52%), hard 130 (38%).
+- **Kept in review (12), to fix before approval:** festivals and film festivals in Montréal (yearly editions listed as separate answers); companies founded in Montréal (subsidiaries/holding companies, Suncor, Siemens Canada, Tommy Hilfiger B.V.); twin cities ("Honolulu County", formal twinnings mixed with cooperation agreements); protected churches (typo "Cathédrale Chris Church"); seafood, chicken, hot-dog and bagel spots (answers in the wrong category, e.g. 3 Brasseurs, B12 Burger Acadie, Café Dépôt); newspapers (mostly obscure titles); actors and singers born in Montréal (labelled easy despite long, obscure answer lists).
+- **Tests:** unit 858 passed (bank-dependent suites re-checked on the larger bank, including the Daily mix on ≥ 95% of days).
+- **Not yet live:** needs a commit and `db:seed` on Neon.
+
 ## Blockers
-- Content: 230 playable questions; 127 held in review (33 from review #2, 94 new from Phase H). Reaching 500 needs human review plus new verified sources (see Phase H gaps).
+- Content: 345 approved in the bank files (230 on Neon until the next `db:seed`); 12 held in review with known defects (see Content review #3). Reaching 500 needs 143 more from new verified sources (see Phase H gaps).
 - Repo: own git repo, remote https://github.com/SMLG120/montreallion (public, `main`). The Vercel project is Git-connected: pushes to `main` deploy to production, other branches get preview URLs.

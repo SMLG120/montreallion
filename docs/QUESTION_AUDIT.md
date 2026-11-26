@@ -6,16 +6,16 @@ Before = bank files at `HEAD`; after = working tree. Only **approved** questions
 
 | Category | Approved before | Approved now | In review (new + held) | Approved + in review | Target | Gap if all in-review were approved |
 |---|---|---|---|---|---|---|
-| transit | 29 | 29 | 6 | 35 | 75 | 40 |
-| boroughs | 3 | 3 | 71 | 74 | 65 | met |
+| transit | 29 | 35 | 0 | 35 | 75 | 40 |
+| boroughs | 3 | 74 | 0 | 74 | 65 | met |
 | parks | 34 | 34 | 0 | 34 | 75 | 41 |
-| food | 97 | 97 | 10 | 107 | 100 | met |
-| history | 22 | 22 | 16 | 38 | 70 | 32 |
-| festivals | 39 | 39 | 4 | 43 | 70 | 27 |
-| sports | 4 | 4 | 20 | 24 | 45 | 21 |
+| food | 97 | 103 | 4 | 107 | 100 | met |
+| history | 22 | 32 | 6 | 38 | 70 | 32 |
+| festivals | 39 | 41 | 2 | 43 | 70 | 27 |
+| sports | 4 | 24 | 0 | 24 | 45 | 21 |
 | universities | 1 | 1 | 0 | 1 | — |  |
 | winter | 1 | 1 | 0 | 1 | — |  |
-| **total** | **230** | **230** | **127** | **357** | **500** | **143** |
+| **total** | **230** | **345** | **12** | **357** | **500** | **143** |
 
 Approved questions in categories without a target (not listed on the homepage while under the minimum per category): universities 1, winter 1. This explains a homepage total that is larger than the sum of the listed categories.
 
@@ -23,7 +23,7 @@ Approved questions in categories without a target (not listed on the homepage wh
 
 Target mix: 40% easy / 40% medium / 20% hard. Difficulty is editorial (see `etl/montreallion_etl/difficulty.py`) and independent of answer rarity.
 
-- Approved now: easy 34 (15%), medium 110 (48%), hard 86 (37%)
+- Approved now: easy 35 (10%), medium 180 (52%), hard 130 (38%)
 - Approved + in review: easy 39 (11%), medium 186 (52%), hard 132 (37%)
 
 | Category | Easy | Medium | Hard |

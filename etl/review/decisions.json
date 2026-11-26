@@ -1,4 +1,172 @@
 {
+  "gen-borders-ahuntsic-cartierville": {
+    "contentHash": "3346e7c1f81f4728",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-anjou": {
+    "contentHash": "a6dd74b2d02ede0f",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-beaconsfield": {
+    "contentHash": "f01813c958cff125",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "6af3953de107942b",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-cote-saint-luc": {
+    "contentHash": "0452849e294d260b",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-dollard-des-ormeaux": {
+    "contentHash": "dfb9de091b806670",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-dorval": {
+    "contentHash": "b90f5085d1361af2",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-kirkland": {
+    "contentHash": "b8a82b5d1a72215f",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-lachine": {
+    "contentHash": "b79964c8cb115b7c",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-lasalle": {
+    "contentHash": "d42a59e2028b6a18",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-le-plateau-mont-royal": {
+    "contentHash": "f6265cbc97f98da9",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-le-sud-ouest": {
+    "contentHash": "c2bd5e5edbacd396",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-mercier-hochelaga-maisonneuve": {
+    "contentHash": "e4fcb69d4dd93158",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-mont-royal": {
+    "contentHash": "d38501f11d64c63a",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-montreal-est": {
+    "contentHash": "8dcc9735021d9b6d",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-montreal-nord": {
+    "contentHash": "746de5d783438d84",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-montreal-ouest": {
+    "contentHash": "8dc6bf75bc633257",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-outremont": {
+    "contentHash": "c4f588897b104eb1",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-pierrefonds-roxboro": {
+    "contentHash": "9107bb2ee2879c3d",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-pointe-claire": {
+    "contentHash": "65d9908affe50851",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-riviere-des-prairies-pointe-aux-trembles": {
+    "contentHash": "2fd9001a28661bf1",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-rosemont-la-petite-patrie": {
+    "contentHash": "fc42aa5fc36f7944",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-saint-laurent": {
+    "contentHash": "441cab96255bfe17",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-saint-leonard": {
+    "contentHash": "b110b6e462e4cf48",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-sainte-anne-de-bellevue": {
+    "contentHash": "182654bac3deec04",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-ville-marie": {
+    "contentHash": "0d8861967e8d060f",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-villeray-saint-michel-parc-extension": {
+    "contentHash": "6aac2a4428eae3b1",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-borders-westmount": {
+    "contentHash": "3ef6a83fb9d8be6e",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
   "gen-culture-espace-pour-la-vie": {
     "contentHash": "7794bba79361d18b",
     "date": "2026-11-23",
@@ -24,6 +192,78 @@
     "reviewer": "Samuel",
     "status": "rejected"
   },
+  "gen-district-in-ahuntsic-cartierville": {
+    "contentHash": "811b09b5e0087d84",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-district-in-anjou": {
+    "contentHash": "10cee43fd9a7cea3",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-district-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "203477ffe25de872",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-district-in-l-ile-bizard-sainte-genevieve": {
+    "contentHash": "b0b8c1495606aa7f",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-district-in-lachine": {
+    "contentHash": "801d16953b62faa8",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-district-in-le-plateau-mont-royal": {
+    "contentHash": "33d48bd5f554b423",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-district-in-mercier-hochelaga-maisonneuve": {
+    "contentHash": "d7cfd4fd0c346b5b",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-district-in-outremont": {
+    "contentHash": "2b7bf10fdd0fdf8a",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-district-in-riviere-des-prairies-pointe-aux-trembles": {
+    "contentHash": "90cc8b0103aaad92",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-district-in-rosemont-la-petite-patrie": {
+    "contentHash": "de131ebf0149ce44",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-district-in-ville-marie": {
+    "contentHash": "7943909a9e6a9a50",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-district-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "8749b7bbac557daa",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
   "gen-ev-expo67-national": {
     "contentHash": "860d2e62ab9fbe0d",
     "date": "2026-11-24",
@@ -35,6 +275,18 @@
     "contentHash": "7690c913bc98e78d",
     "date": "2026-11-24",
     "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-f1-driver-mtl": {
+    "contentHash": "cd4a34b99ea0bb96",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-f1-team-mtl": {
+    "contentHash": "71b7bf0f98e96060",
+    "date": "2026-11-26",
     "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
@@ -63,6 +315,12 @@
     "contentHash": "c02affd95fcdf6e1",
     "date": "2026-11-24",
     "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-ffm-gp-film": {
+    "contentHash": "dacc6da8f6e6edd3",
+    "date": "2026-11-26",
     "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
@@ -161,6 +419,12 @@
     "contentHash": "3641f5e26a6c4bf3",
     "date": "2026-11-24",
     "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-ev-qc-film-festival": {
+    "contentHash": "c70d5eccb98150df",
+    "date": "2026-11-26",
     "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
@@ -392,6 +656,12 @@
     "contentHash": "c648443e8357f3a2",
     "date": "2026-11-24",
     "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-bubble-tea": {
+    "contentHash": "2e77655cc8bf9e3a",
+    "date": "2026-11-26",
     "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
@@ -717,6 +987,12 @@
     "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
+  "gen-food-korean": {
+    "contentHash": "47cb0a77ba465721",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
   "gen-food-lebanese": {
     "contentHash": "15e516da6ab5ac7d",
     "date": "2026-11-24",
@@ -745,6 +1021,12 @@
     "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
+  "gen-food-portuguese": {
+    "contentHash": "d0441363f0838194",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
   "gen-food-poutine": {
     "contentHash": "6ac69897b8d39e67",
     "date": "2026-11-24",
@@ -756,6 +1038,12 @@
     "contentHash": "3b43202e70ebea71",
     "date": "2026-11-24",
     "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-ramen": {
+    "contentHash": "77bc9f58e484f804",
+    "date": "2026-11-26",
     "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
@@ -805,6 +1093,12 @@
     "contentHash": "5e43944289641c33",
     "date": "2026-11-24",
     "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-restaurant-in-le-plateau-mont-royal": {
+    "contentHash": "7fc8ceb71115cee4",
+    "date": "2026-11-26",
     "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
@@ -903,6 +1197,12 @@
     "contentHash": "de25c6d649748161",
     "date": "2026-11-24",
     "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-food-vegan": {
+    "contentHash": "33b9ab3959b51c1f",
+    "date": "2026-11-26",
     "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
@@ -1060,6 +1360,60 @@
     "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
+  "gen-hood-in-ahuntsic-cartierville": {
+    "contentHash": "be8360fc83d5b032",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-hood-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "7e0754940498ae04",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-hood-in-le-plateau-mont-royal": {
+    "contentHash": "70c4f4b26eb411cd",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-hood-in-le-sud-ouest": {
+    "contentHash": "055175f89fb9a1cc",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-hood-in-mercier-hochelaga-maisonneuve": {
+    "contentHash": "9950452ea399c38a",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-hood-in-rosemont-la-petite-patrie": {
+    "contentHash": "986727bf9278c62f",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-hood-in-saint-laurent": {
+    "contentHash": "4ec9e0e52ca9b022",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-hood-in-ville-marie": {
+    "contentHash": "db4d037905754d5d",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-hood-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "0b6d7f661f2b4096",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
   "gen-library-in-ahuntsic-cartierville": {
     "contentHash": "1af22fda84541725",
     "date": "2026-11-21",
@@ -1102,6 +1456,30 @@
     "reviewer": "Samuel",
     "status": "approved"
   },
+  "gen-line-areas-blue": {
+    "contentHash": "645c8210f3c0893a",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-line-areas-green": {
+    "contentHash": "7d82e1e6f0ea1c8d",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-line-areas-orange": {
+    "contentHash": "c913f0df0e41ab86",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-metro-in-ahuntsic-cartierville": {
+    "contentHash": "31ec4daecf54a8be",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
   "gen-metro-in-cote-des-neiges-notre-dame-de-grace": {
     "contentHash": "7cfb6ebd788d9c40",
     "date": "2026-11-21",
@@ -1126,6 +1504,12 @@
     "reviewer": "Samuel",
     "status": "approved"
   },
+  "gen-metro-in-rosemont-la-petite-patrie": {
+    "contentHash": "52b1e6827eabea20",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
   "gen-metro-in-verdun": {
     "contentHash": "acb9785d5508ca75",
     "date": "2026-11-21",
@@ -1138,10 +1522,34 @@
     "reviewer": "Samuel",
     "status": "approved"
   },
+  "gen-metro-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "dc9124ed761a3a83",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
   "gen-metro-line-yellow": {
     "contentHash": "d52ce440519a4f6a",
     "date": "2026-11-23",
     "reviewer": "Samuel",
+    "status": "approved"
+  },
+  "gen-metro-opened-1966": {
+    "contentHash": "e275c2d6a4bbf777",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-metro-opened-1976-1978": {
+    "contentHash": "192d4c0f322acae1",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-metro-opened-1980s": {
+    "contentHash": "967ebb1cb57fdbb0",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
   "gen-metro-terminus": {
@@ -1266,6 +1674,12 @@
     "contentHash": "bcb039be32dc89a7",
     "date": "2026-11-24",
     "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-nhs-in-le-sud-ouest": {
+    "contentHash": "d35cd1698f30c65b",
+    "date": "2026-11-26",
     "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
@@ -1467,6 +1881,282 @@
     "contentHash": "b3b65196c604b422",
     "date": "2026-11-24",
     "note": "Phase C review 2026-11-24: answer list read for coherence (category fit, junk, missing obvious answers); requested by Samuel",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-ahuntsic-cartierville": {
+    "contentHash": "4859d32b5ab24428",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-anjou": {
+    "contentHash": "8079de4edf5afa33",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-cote-des-neiges-notre-dame-de-grace": {
+    "contentHash": "e2e738c10e822088",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-l-ile-bizard-sainte-genevieve": {
+    "contentHash": "c22082541e01006e",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-lachine": {
+    "contentHash": "3affea766d275310",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-lasalle": {
+    "contentHash": "9c4fb32810cc6690",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-le-plateau-mont-royal": {
+    "contentHash": "1dddf254f25b78b1",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-le-sud-ouest": {
+    "contentHash": "fa67c2fc2ab37b9c",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-mercier-hochelaga-maisonneuve": {
+    "contentHash": "b81e905dd411cb33",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-montreal-nord": {
+    "contentHash": "6c89b4455586d257",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-outremont": {
+    "contentHash": "3a974a78375620d5",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-pierrefonds-roxboro": {
+    "contentHash": "cfcc357273eecb00",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-riviere-des-prairies-pointe-aux-trembles": {
+    "contentHash": "78237860f8c8afbb",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-rosemont-la-petite-patrie": {
+    "contentHash": "be7c927d65e0f04d",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-saint-laurent": {
+    "contentHash": "966afb0f9ae9fae8",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-saint-leonard": {
+    "contentHash": "8f53d28b9a4cba84",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-verdun": {
+    "contentHash": "3d2e0b64076a5969",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-ville-marie": {
+    "contentHash": "47ee70370eb576af",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-street-in-villeray-saint-michel-parc-extension": {
+    "contentHash": "bf02c5974ecb3952",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-alouettes-cfhof": {
+    "contentHash": "c46e118bfe1e7b89",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-alouettes-player": {
+    "contentHash": "d9427d82ca7fddda",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-architect": {
+    "contentHash": "6efef019bec24df8",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-boxer": {
+    "contentHash": "7116a665042cb55c",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-comedian": {
+    "contentHash": "dccc317102782a11",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-figure-skater": {
+    "contentHash": "05085802aa32059a",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-film-director": {
+    "contentHash": "f305198e3abe1b9b",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-hhof": {
+    "contentHash": "2915c41ba14da6bd",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-hockey": {
+    "contentHash": "aa9a7a0ceaf69fd7",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-painter": {
+    "contentHash": "69555ac1f2665255",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-politician": {
+    "contentHash": "0b0e18e3d206da3d",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-soccer": {
+    "contentHash": "d8d15eb749fc4138",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-swimmer": {
+    "contentHash": "f0d5d62e59f01373",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-tennis": {
+    "contentHash": "eb8e902c3d769ca1",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-born-writer": {
+    "contentHash": "e1210430d1911391",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-buried-mount-royal": {
+    "contentHash": "358b902363f82ed4",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-buried-nddn": {
+    "contentHash": "dd6c3cb8b45e8461",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-cfmtl-player": {
+    "contentHash": "6699a80278a4956e",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-expos-player": {
+    "contentHash": "d8dfaf2e9406fee4",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-habs-hhof": {
+    "contentHash": "4762bc67d47857d7",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-habs-player": {
+    "contentHash": "d19eef21e2240258",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-manic-player": {
+    "contentHash": "bb9bb3996057786c",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-maroons-player": {
+    "contentHash": "fb1132c59b8fe4ac",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-mayor-all": {
+    "contentHash": "c0d9d9cda2136e47",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-royals-baseball-player": {
+    "contentHash": "5105a7f928bc51db",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-teams-based": {
+    "contentHash": "19d02c7f5ee4f468",
+    "date": "2026-11-26",
+    "reviewer": "Samuel (via Claude)",
+    "status": "approved"
+  },
+  "gen-wd-wanderers-player": {
+    "contentHash": "41db0c402a69e7b9",
+    "date": "2026-11-26",
     "reviewer": "Samuel (via Claude)",
     "status": "approved"
   },
