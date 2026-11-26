@@ -502,6 +502,14 @@ Most of the spec already existed from Expansion B: the double-check (preview nev
 - **Not done, deliberately:** pg_trgm / full-text search. Matching runs in memory on the cached bank (≤ 1000 answers per question), so per-check database search would add latency without changing results.
 - **Tests:** new `tests/unit/smart-match.test.ts` (11: unique and shared surnames, initials, accents, too-many → vague, no typo/substring on surnames, full name beats surname, non-people questions unaffected, real seed questions, abbreviations). `npm run check` 725 unit tests, typecheck, lint clean. Parity 46/46 + ETL 43/43. `test:db` 21/21 (36 people questions in the test DB). E2E play + polish (desktop + mobile): 28 passed, 2 skipped on the second run; the first combined run had 5 desktop failures in `play.spec` that did not reproduce (6/6 alone, then 28/28 combined); errors not captured.
 
+## Phase J: map popup readability (2026-11-25, not yet deployed)
+
+- **Cause:** popups had no styling of their own. maplibre-gl.css paints them white, and they inherited the app's light text, so names were light-on-white.
+- **Fix:** semantic tokens `--map-pop-bg/-heading/-text/-muted/-accent/-border` (the spec's palette) and popup rules in `src/app/globals.css`, unlayered and scoped to `.maplibregl-popup.ml-popup` so the MapLibre defaults can't win. Measured WCAG contrast on `#17212F`: heading 15.5:1, body 10.9:1, secondary 6.3:1, accent links 11.0:1 (AA is 4.5:1). Popup markup (`map-view.tsx`) uses `ml-pop-title / -sub / -meta` classes instead of utility opacity; the tip follows the border colour on every anchor; long names wrap (`overflow-wrap: anywhere`); width `min(18rem, 100vw − 2rem)`; 36 px close button with hover and focus-visible states, labelled in the current language ("Close" / "Fermer").
+- **Unchanged:** the layer panel and search results already pass AA (dimmed text 6.5:1 or higher), so they weren't touched. Map data, layers and interactions are unchanged.
+- **Tests:** `tests/e2e/map-render.spec.ts` adds two tests (desktop and a 412 px phone viewport, both run in the desktop and mobile projects): computed popup background, title/meta contrast ≥ 4.5:1, popup inside the viewport, no horizontal overflow, close button ≥ 32 px with its label, and closing works. 6/6 pass. Screenshots checked on desktop and Pixel 7. Typecheck and lint clean.
+- **Gotcha:** the first test run served a stale build without the new CSS (popup still white); a clean `npm run build` fixed it. If a CSS change doesn't show up in E2E, rebuild first.
+
 ## Blockers
 - Content: 230 playable questions; 127 held in review (33 from review #2, 94 new from Phase H). Reaching 500 needs human review plus new verified sources (see Phase H gaps).
 - Repo: own git repo, remote https://github.com/SMLG120/montreallion (public, `main`). The Vercel project is Git-connected: pushes to `main` deploy to production, other branches get preview URLs.

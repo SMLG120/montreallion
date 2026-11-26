@@ -133,3 +133,91 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------------------------------------------------------------- map popups (Phase J)
+   maplibre-gl.css is unlayered and paints popups white with inherited (light) text; these unlayered rules,
+   scoped one class deeper, replace it with a dark surface that reads on any basemap. Contrast on --map-pop-bg:
+   heading 15.5:1, body 10.9:1, secondary 6.3:1, accent 11.0:1 (WCAG AA needs 4.5:1). */
+:root {
+  --map-pop-bg: #17212f;
+  --map-pop-heading: #f8fafc;
+  --map-pop-text: #cbd5e1;
+  --map-pop-muted: #94a3b8;
+  --map-pop-accent: #5eead4;
+  --map-pop-border: #334155;
+}
+.maplibregl-popup.ml-popup {
+  max-width: min(18rem, calc(100vw - 2rem)) !important; /* MapLibre sets max-width inline */
+}
+.maplibregl-popup.ml-popup .maplibregl-popup-content {
+  background: var(--map-pop-bg);
+  color: var(--map-pop-text);
+  border: 1px solid var(--map-pop-border);
+  border-radius: 0.75rem;
+  padding: 0.75rem 2.75rem 0.75rem 0.875rem;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.45);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.maplibregl-popup.ml-popup.maplibregl-popup-anchor-top .maplibregl-popup-tip,
+.maplibregl-popup.ml-popup.maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
+.maplibregl-popup.ml-popup.maplibregl-popup-anchor-top-right .maplibregl-popup-tip {
+  border-bottom-color: var(--map-pop-border);
+}
+.maplibregl-popup.ml-popup.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.maplibregl-popup.ml-popup.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
+.maplibregl-popup.ml-popup.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
+  border-top-color: var(--map-pop-border);
+}
+.maplibregl-popup.ml-popup.maplibregl-popup-anchor-left .maplibregl-popup-tip {
+  border-right-color: var(--map-pop-border);
+}
+.maplibregl-popup.ml-popup.maplibregl-popup-anchor-right .maplibregl-popup-tip {
+  border-left-color: var(--map-pop-border);
+}
+.maplibregl-popup.ml-popup .maplibregl-popup-close-button {
+  top: 0.25rem;
+  right: 0.25rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  color: var(--map-pop-muted);
+  font-size: 1.375rem;
+  line-height: 1;
+}
+.maplibregl-popup.ml-popup .maplibregl-popup-close-button:hover {
+  background: var(--map-pop-border);
+  color: var(--map-pop-heading);
+}
+.maplibregl-popup.ml-popup .maplibregl-popup-close-button:focus-visible {
+  outline: 2px solid var(--map-pop-accent);
+  outline-offset: 1px;
+}
+.ml-pop-title {
+  margin: 0;
+  color: var(--map-pop-heading);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.ml-pop-sub {
+  margin: 0.125rem 0 0;
+  color: var(--map-pop-text);
+}
+.ml-pop-meta {
+  margin: 0.25rem 0 0;
+  color: var(--map-pop-muted);
+  font-size: 0.8125rem;
+}
+.ml-pop a {
+  color: var(--map-pop-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ml-pop a:focus-visible {
+  outline: 2px solid var(--map-pop-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}

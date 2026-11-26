@@ -76,16 +76,23 @@ export function MapView({ game }: { game: string | null }) {
       const kind = tm.kind[kindKey] ?? tm.layer[layer];
       const name = layer === "roads" ? `${p.ref ?? ""}` : String(p.name ?? "");
       const alt = locale === "en" && p.name_en ? String(p.name_en) : null;
+      // Colours come from the --map-pop-* tokens (globals.css), not utility opacity, so contrast is fixed and checked.
       const lines = [
-        `<strong>${esc(alt ?? name)}</strong>`,
-        alt && alt !== name ? `<span class="opacity-70">${esc(name)}</span>` : "",
-        layer === "roads" && p.name ? esc(p.name) : "",
-        `<span class="opacity-70">${esc(kind)}${p.area ? ` · ${esc(p.area)}` : ""}${typeof p.ha === "number" && p.ha > 0 ? ` · ${esc(tm.hectares(p.ha as number))}` : ""}</span>`,
+        `<p class="ml-pop-title">${esc(alt ?? name)}</p>`,
+        alt && alt !== name ? `<p class="ml-pop-sub">${esc(name)}</p>` : "",
+        layer === "roads" && p.name ? `<p class="ml-pop-sub">${esc(p.name)}</p>` : "",
+        `<p class="ml-pop-meta">${esc(kind)}${p.area ? ` · ${esc(p.area)}` : ""}${typeof p.ha === "number" && p.ha > 0 ? ` · ${esc(tm.hectares(p.ha as number))}` : ""}</p>`,
       ];
-      return `<div class="ml-pop">${lines.filter(Boolean).join("<br/>")}</div>`;
+      return `<div class="ml-pop">${lines.filter(Boolean).join("")}</div>`;
     },
     [locale, tm],
   );
+
+  /** MapLibre labels the close button "Close popup" in English; use the current language. */
+  const labelClose = useCallback((p: Popup) => {
+    p.getElement()?.querySelector(".maplibregl-popup-close-button")?.setAttribute("aria-label", tm.closePopup);
+    return p;
+  }, [tm.closePopup]);
 
   // ---------------------------------------------------------------- init
   useEffect(() => {
@@ -229,7 +236,7 @@ export function MapView({ game }: { game: string | null }) {
         const f = e.features?.[0] as MapGeoJSONFeature | undefined;
         if (!f || !libRef.current) return;
         popupRef.current?.remove();
-        popupRef.current = new libRef.current.Popup({ closeButton: true, maxWidth: "260px" }).setLngLat(e.lngLat).setHTML(popupHtml(id, f.properties)).addTo(map);
+        popupRef.current = labelClose(new libRef.current.Popup({ closeButton: true, maxWidth: "18rem", className: "ml-popup" }).setLngLat(e.lngLat).setHTML(popupHtml(id, f.properties)).addTo(map));
       });
       if (clustered) {
         map.on("click", `${id}-cluster`, async (e) => {
@@ -244,7 +251,7 @@ export function MapView({ game }: { game: string | null }) {
         map.on("mouseleave", l, () => (map.getCanvas().style.cursor = ""));
       }
     },
-    [index, load, popupHtml],
+    [index, load, popupHtml, labelClose],
   );
 
   const layerIds = useCallback((id: LayerId) => {
@@ -327,7 +334,7 @@ export function MapView({ game }: { game: string | null }) {
     map.flyTo({ center: [h.lon, h.lat], zoom: Math.max(map.getZoom(), 15) });
     if (layer && props) {
       popupRef.current?.remove();
-      popupRef.current = new libRef.current.Popup({ maxWidth: "260px" }).setLngLat([h.lon, h.lat]).setHTML(popupHtml(layer, props)).addTo(map);
+      popupRef.current = labelClose(new libRef.current.Popup({ maxWidth: "18rem", className: "ml-popup" }).setLngLat([h.lon, h.lat]).setHTML(popupHtml(layer, props)).addTo(map));
     }
     setPanel(false);
   };
