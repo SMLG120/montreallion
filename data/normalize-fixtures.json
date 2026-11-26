@@ -150,5 +150,37 @@
  {
   "input": "Parc parc",
   "key": "parc"
+ },
+ {
+  "input": "Av. du Parc",
+  "key": "avenueduparc"
+ },
+ {
+  "input": "avenue du Parc",
+  "key": "avenueduparc"
+ },
+ {
+  "input": "boul. St-Laurent",
+  "key": "boulevardstlaurent"
+ },
+ {
+  "input": "Boulevard Saint-Laurent",
+  "key": "boulevardstlaurent"
+ },
+ {
+  "input": "Blvd René-Lévesque",
+  "key": "boulevardrenelevesque"
+ },
+ {
+  "input": "Mt Royal",
+  "key": "montroyal"
+ },
+ {
+  "input": "Heavy MTL",
+  "key": "heavymontreal"
+ },
+ {
+  "input": "Heavy Montréal",
+  "key": "heavymontreal"
  }
 ]

@@ -269,6 +269,7 @@
       "verification": "source-checked",
       "reviewStatus": "approved",
       "difficulty": "medium",
+      "answerType": "person",
       "ambiguous": ["Richard"],
       "sources": [
         { "title": "Montreal Canadiens — retired numbers (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Montreal_Canadiens", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
@@ -303,6 +304,7 @@
       "verification": "source-checked",
       "reviewStatus": "approved",
       "difficulty": "medium",
+      "answerType": "person",
       "sources": [
         { "title": "List of mayors of Montreal (Wikipedia)", "url": "https://en.wikipedia.org/wiki/List_of_mayors_of_Montreal", "license": "CC BY-SA 4.0 (facts only reused)", "retrieved": "2026-11-21" }
       ],

@@ -72,6 +72,10 @@ RULES: list[tuple[str, str]] = [
     (r"^food:", "medium"),
 ]
 
+# Families whose answers are all individual people (not bands, duos or acts), for surname matching.
+PERSON_CONCEPTS = re.compile(r"^(public-art-artist|ev:ffm-gp-director|ev:f1-driver-mtl|ev:gp-cycliste|ev:marathon)")
+
+
 def for_concept(concept: str) -> str | None:
     for pattern, level in RULES:
         if re.search(pattern, concept):
@@ -82,3 +86,5 @@ def for_concept(concept: str) -> str | None:
 def assign_difficulty(c: Candidate) -> None:
     if c.difficulty is None:
         c.difficulty = for_concept(c.concept)
+    if c.answer_type is None and PERSON_CONCEPTS.match(c.concept):
+        c.answer_type = "person"

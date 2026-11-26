@@ -6,8 +6,34 @@ export type MatchResult =
   | { kind: "ambiguous" }
   | { kind: "none" };
 
-type Index = { keys: Map<string, Set<string>>; ambiguous: Set<string> };
+type Index = {
+  keys: Map<string, Set<string>>;
+  ambiguous: Set<string>;
+  /** People questions only: surname-only and initial + surname keys ("Lafleur", "G. Lafleur"). Never fuzzy-matched. */
+  surnames: Map<string, Set<string>>;
+};
 const cache = new WeakMap<QuestionDef, Index>();
+
+const NAME_PARTICLES = new Set(["de", "du", "des", "da", "di", "del", "della", "van", "von", "der", "den", "mac", "mc"]);
+const NAME_SUFFIX = /^(jr|sr|ii|iii|iv)$/;
+const MIN_SURNAME_KEY = 3;
+
+/**
+ * Keys a player may use for a person instead of the full name: the surname ("Van Avermaet", and "Avermaet"
+ * after a particle) and first initial + surname ("G. Lafleur"). Hyphenated surnames stay whole
+ * ("Robillard-Millette"). Duos, groups and single-word names get none.
+ */
+export function surnameKeys(name: string): string[] {
+  if (/[&+/(]|\s(and|et)\s/i.test(name)) return [];
+  const words = name.trim().split(/\s+/).filter((w) => !NAME_SUFFIX.test(normalizeAnswer(w)));
+  if (words.length < 2) return [];
+  let start = words.length - 1;
+  while (start > 1 && NAME_PARTICLES.has(normalizeAnswer(words[start - 1]))) start--;
+  const surname = words.slice(start).join(" ");
+  const forms = [surname, words[words.length - 1], `${words[0][0]} ${surname}`];
+  const keys = forms.map(normalizeAnswer).filter((k) => k.length >= MIN_SURNAME_KEY);
+  return [...new Set(keys)];
+}
 
 export function answerKeys(a: QuestionDef["answers"][number]): string[] {
   const forms = [a.en, a.fr, ...a.aliases].filter((x): x is string => !!x);
@@ -24,7 +50,19 @@ function indexFor(q: QuestionDef): Index {
       keys.get(k)!.add(a.id);
     }
   }
-  idx = { keys, ambiguous: new Set((q.ambiguous ?? []).map(normalizeAnswer)) };
+  const surnames = new Map<string, Set<string>>();
+  if (q.answerType === "person") {
+    for (const a of q.answers) {
+      for (const form of [a.en, a.fr].filter((x): x is string => !!x)) {
+        for (const k of surnameKeys(form)) {
+          if (keys.has(k)) continue; // a full name or listed alias always wins
+          if (!surnames.has(k)) surnames.set(k, new Set());
+          surnames.get(k)!.add(a.id);
+        }
+      }
+    }
+  }
+  idx = { keys, ambiguous: new Set((q.ambiguous ?? []).map(normalizeAnswer)), surnames };
   cache.set(q, idx);
   return idx;
 }
@@ -45,6 +83,9 @@ export function matchAnswer(q: QuestionDef, raw: string): MatchResult {
   if (exact) {
     return exact.size === 1 ? { kind: "match", answerId: [...exact][0], by: "exact" } : { kind: "ambiguous" };
   }
+  // A surname counts only if exactly one eligible person has it; a shared surname is never accepted.
+  const sur = idx.surnames.get(input);
+  if (sur) return sur.size === 1 ? { kind: "match", answerId: [...sur][0], by: "exact" } : { kind: "ambiguous" };
 
   const budget = typoBudget(input.length);
   if (budget === 0) return { kind: "none" };
@@ -69,7 +110,7 @@ export function matchAnswer(q: QuestionDef, raw: string): MatchResult {
 }
 
 /** Most candidates a pre-check will ever show; more than this is "too vague" and shows none. */
-export const MAX_CANDIDATES = 4;
+export const MAX_CANDIDATES = 3;
 
 export type CheckResult =
   /** One entity, exact key (label or alias). */
@@ -112,6 +153,9 @@ export function checkAnswer(q: QuestionDef, raw: string): CheckResult {
 
   const exact = idx.keys.get(input);
   if (exact) return exact.size === 1 ? { kind: "match", answerIds: [[...exact][0]], by: "exact" } : bounded(exact, "exact");
+  // Surname only: one eligible person ⇒ match (shown with the full name to confirm); several ⇒ the player picks.
+  const sur = idx.surnames.get(input);
+  if (sur) return sur.size === 1 ? { kind: "match", answerIds: [[...sur][0]], by: "exact" } : bounded(sur, "exact");
 
   const budget = typoBudget(input.length);
   if (budget === 0) return { kind: "none" };

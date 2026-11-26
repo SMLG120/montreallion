@@ -13,6 +13,8 @@ export const questionSchema = z.object({
   reviewStatus: z.enum(["draft", "in_review", "approved", "rejected"]),
   /** Editorial difficulty of the knowledge asked for; independent of answer rarity. */
   difficulty: z.enum(["easy", "medium", "hard"]).optional(),
+  /** "person": answers are people, so a unique surname is accepted (Phase I). */
+  answerType: z.enum(["person"]).optional(),
   sources: z.array(z.object({ title: z.string(), url: z.url(), license: z.string(), retrieved: z.string() })).min(1),
   ambiguous: z.array(z.string()).optional(),
   /** How `est` was derived (e.g. "wikidata-sitelinks"); absent for hand-entered seed questions. */

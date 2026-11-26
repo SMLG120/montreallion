@@ -14876,6 +14876,7 @@
    "verification": "source-checked",
    "reviewStatus": "approved",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Art public - Information sur les oeuvres de la collection municipale (Ville de Montréal)",
@@ -70893,6 +70894,7 @@
    "verification": "source-checked",
    "reviewStatus": "approved",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikipedia (fr): Festival des films du monde de Montréal",
@@ -71326,6 +71328,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "medium",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikipedia (fr): Grand Prix automobile du Canada",
@@ -71718,6 +71721,7 @@
    "verification": "source-checked",
    "reviewStatus": "approved",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikipedia (fr): Grand Prix cycliste de Montréal",
@@ -71870,6 +71874,7 @@
    "verification": "source-checked",
    "reviewStatus": "approved",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikipedia (fr): Grand Prix cycliste de Montréal",
@@ -72194,6 +72199,7 @@
    "verification": "source-checked",
    "reviewStatus": "approved",
    "difficulty": "medium",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikipedia (fr): Marathon de Montréal",
@@ -82051,6 +82057,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "easy",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as members",
@@ -91204,6 +91211,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "medium",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as members of the Montréal Canadiens",
@@ -91840,6 +91848,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "medium",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as members",
@@ -98586,6 +98595,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "medium",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as members",
@@ -100819,6 +100829,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as members of the Montréal Alouettes",
@@ -101013,6 +101024,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "medium",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as members",
@@ -103734,6 +103746,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as members",
@@ -104724,6 +104737,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as members",
@@ -104963,6 +104977,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as members",
@@ -110556,6 +110571,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as members",
@@ -110904,6 +110920,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "medium",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -116333,6 +116350,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -116806,6 +116824,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -117750,6 +117769,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -118102,6 +118122,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -118340,6 +118361,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -118627,6 +118649,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -119455,6 +119478,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "medium",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as having held the position Mayor of Montréal",
@@ -119933,6 +119957,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "medium",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -126685,6 +126710,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "easy",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -129319,6 +129345,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "easy",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -136789,6 +136816,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -141114,6 +141142,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "medium",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -144320,6 +144349,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -145409,6 +145439,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "medium",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -152846,6 +152877,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "medium",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata as born in Montréal",
@@ -153250,6 +153282,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata with Notre-Dame-des-Neiges Cemetery as place of burial",
@@ -158691,6 +158724,7 @@
    "verification": "source-checked",
    "reviewStatus": "in_review",
    "difficulty": "hard",
+   "answerType": "person",
    "sources": [
     {
      "title": "Wikidata query: People recorded in Wikidata with Mount Royal Cemetery as place of burial",

@@ -28,6 +28,8 @@ export type QuestionDef = {
   reviewStatus: "draft" | "in_review" | "approved" | "rejected";
   /** Editorial difficulty (Phase H); independent of answer rarity. */
   difficulty?: "easy" | "medium" | "hard";
+  /** "person": answers are people, so a unique surname is accepted. */
+  answerType?: "person";
   sources: { title: string; url: string; license: string; retrieved: string }[];
   /** Inputs that could refer to several answers; the player is asked to be more specific. */
   ambiguous?: string[];

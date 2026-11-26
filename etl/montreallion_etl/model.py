@@ -49,6 +49,8 @@ class Candidate:
     # Editorial difficulty of the knowledge asked for (easy / medium / hard), independent of answer rarity.
     # Templates may set it; otherwise difficulty.py assigns it by question family. Not part of the content hash.
     difficulty: str | None = None
+    # "person" when every answer is a person, so the game accepts a unique surname. Not part of the content hash.
+    answer_type: str | None = None
 
     def content_hash(self) -> str:
         """Changes whenever the playable content changes, invalidating earlier review decisions."""
@@ -70,6 +72,7 @@ class Candidate:
             "verification": "source-checked",
             "reviewStatus": self.review_status,
             **({"difficulty": self.difficulty} if self.difficulty else {}),
+            **({"answerType": self.answer_type} if self.answer_type else {}),
             "sources": self.sources,
             **({"ambiguous": sorted(self.ambiguous)} if self.ambiguous else {}),
             "estBasis": self.est_basis,

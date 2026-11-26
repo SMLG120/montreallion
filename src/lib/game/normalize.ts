@@ -23,6 +23,8 @@ export function normalizeWords(raw: string): string {
     .trim();
 
   s = s.replace(/\bsainte\b/g, "ste").replace(/\bsaint\b/g, "st").replace(/\bmount\b/g, "mont");
+  // Common abbreviations: "av. du Parc", "boul. St-Laurent", "Mt Royal", "Mtl".
+  s = s.replace(/\b(av|ave)\b/g, "avenue").replace(/\b(boul|blvd|bd)\b/g, "boulevard").replace(/\bmt\b/g, "mont").replace(/\bmtl\b/g, "montreal");
 
   for (let i = 0; i < 3; i++) {
     const before = s;

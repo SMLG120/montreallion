@@ -24,6 +24,10 @@ def normalize_answer(raw: str) -> str:
     s = re.sub(r"\bsainte\b", "ste", s)
     s = re.sub(r"\bsaint\b", "st", s)
     s = re.sub(r"\bmount\b", "mont", s)
+    s = re.sub(r"\b(av|ave)\b", "avenue", s)
+    s = re.sub(r"\b(boul|blvd|bd)\b", "boulevard", s)
+    s = re.sub(r"\bmt\b", "mont", s)
+    s = re.sub(r"\bmtl\b", "montreal", s)
     for _ in range(3):
         before = s
         s = _FILLER_SUFFIX.sub("", _FILLER_PREFIX.sub("", s, count=1), count=1)

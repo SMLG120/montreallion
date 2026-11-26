@@ -661,10 +661,19 @@ function CheckPanel({
   const { t, locale } = useApp();
   const { view, selected, input } = state;
   const tone = CHECK_TONE[view.status];
-  const title =
-    view.status === "match" ? t.game.matchFound : view.status === "possible" || view.status === "vague" ? t.game.possibleMatch : view.status === "limit" ? t.game.checksLeft(0) : t.game.notRecognized;
   const sameAsTyped = (c: Localized) => c.en.localeCompare(input.trim(), undefined, { sensitivity: "base" }) === 0 || c.fr.localeCompare(input.trim(), undefined, { sensitivity: "base" }) === 0;
   const one = view.candidates.length === 1 ? view.candidates[0] : null;
+  // "Exact match" only when the canonical name is what was typed; an alias or surname shows "Match found" + "Did you mean …?".
+  const title =
+    view.status === "match"
+      ? one && sameAsTyped(one)
+        ? t.game.exactMatch
+        : t.game.matchFound
+      : view.status === "possible" || view.status === "vague"
+        ? t.game.possibleMatch
+        : view.status === "limit"
+          ? t.game.checksLeft(0)
+          : t.game.notRecognized;
   return (
     <motion.div
       initial={{ opacity: 0, y: -4 }}

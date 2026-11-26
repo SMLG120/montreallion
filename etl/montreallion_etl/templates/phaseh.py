@@ -295,6 +295,7 @@ def wikidata_relation_templates(ctx: Context) -> list[Candidate]:
                 answers=answers,
                 est_basis="wikidata-sitelinks",
                 difficulty=spec.difficulty,
+                answer_type="person" if spec.human else None,
             )
         )
     return out

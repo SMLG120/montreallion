@@ -62,7 +62,9 @@ export async function getBank(): Promise<Bank> {
   if (g.__mlBank && Date.now() - g.__mlBank.at < CACHE_MS) return g.__mlBank.bank;
 
   const [qs, ans, aliases, srcs, stats] = await Promise.all([
-    sql`select id, category_id, scope, prompt_en, prompt_fr, eligibility_en, eligibility_fr, verification, review_status, ambiguous_keys, bank_version, est_basis
+    sql`select id, category_id, scope, prompt_en, prompt_fr, eligibility_en, eligibility_fr, verification, review_status, ambiguous_keys, bank_version, est_basis,
+               -- Read via to_jsonb so a deploy before db:migrate (columns not there yet) still works: they're just null.
+               to_jsonb(questions) ->> 'difficulty' as difficulty, to_jsonb(questions) ->> 'answer_type' as answer_type
         from questions where review_status = 'approved' order by id`,
     sql`select a.id, a.question_id, a.slug, a.label_en, a.label_fr, a.est_weight, a.refs
         from answers a join questions q on q.id = a.question_id where q.review_status = 'approved' order by a.id`,
@@ -105,6 +107,8 @@ export async function getBank(): Promise<Bank> {
     ambiguous: q.ambiguous_keys,
     answers: answersByQ.get(q.id) ?? [],
     estBasis: q.est_basis,
+    ...(q.difficulty ? { difficulty: q.difficulty } : {}),
+    ...(q.answer_type ? { answerType: q.answer_type } : {}),
   }));
   if (questions.length === 0) throw new Error("Question bank is empty — run `npm run db:seed`.");
 
